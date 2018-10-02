@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户注册</title>
+    <script src="userinfo_vue.min.js"></script>
+</head>
+
+<style>
+    .modal-backdrop {
+        display: none;
+    }
+</style>
+<section id="user-userinfo" class="ky-bodys ky-ne-one ky-modle">
+    <div class="ky-body-box ky-btn-sty">
+        <div class="mask"></div>
+        <div class="ky-sw-line"></div>
+        <div class="ky-ne-line"></div>
+        <div class="ky-center-line"></div>
+        <div class="ky-button-nav">
+            <a class="btn btn-xs btn-primary" data-toggle="modal" data-target="#increaseModal_user"
+               v-on:click="getOrganizationList_user()"><i class="fa fa-plus"></i> 新增</a>
+            <a  v-show="displaybtn"  class="btn btn-xs btn-primary" data-toggle="modal" data-target="#increaseModal_user"
+               v-on:click="findOne()" href="#"><i class="fa fa-plus"></i> 修改</a>
+            <a class="btn btn-xs btn-success" href="#" v-on:click="del()"><i class="fa fa-edit"></i> 删除</a>
+           <!-- <a class="btn btn-xs btn-danger" href="#"><i class="fa fa-times"></i> 刷新</a>-->
+            <a  v-show="displaybtn"  class="btn btn-xs btn-danger" data-toggle="modal" data-target="#roleModal" v-on:click="checkTable()"><i
+                    class="fa fa-times"></i>
+                分配角色</a>
+            <!--<a class="btn btn-xs btn-danger" href="#"><i class="fa fa-times"></i> 导入</a>-->
+            <!--<a class="btn btn-xs btn-danger" href="#"><i class="fa fa-times"></i> 导出</a>-->
+        </div>
+        <section class="ky-body-left">
+            <div class="ky-pannel-header"><h4><i class="fa fa-list"></i> 快速查询</h4></div>
+            <div class="ky-body-left-content">
+                <form class="searsch-list">
+                    <div class="form-group ">
+                        <label>组织机构：</label>
+                        <select class="form-control" v-model="queryDto.organizationId">
+                            <option v-for="item in organizationList" v-bind:value="item.id">
+                                {{ item.name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>用户信息：</label>
+                        <input type="text" class="form-control"  v-model="queryDto.userInfo"/>
+                    </div>
+                    <div class="form-group form-btn">
+                        <div class="col-sm-6">
+                            <button type="button" class="btn btn-primary btn-search" v-on:click="flushTable()">查询</button>
+                        </div>
+                        <div class="col-sm-6">
+                            <button type="reset" class="btn btn-primary btn-reset" v-on:click="cleanQueryInfo()">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <section class="ky-body-right-top">
+            <div class="ky-pannel-header">
+                <h4><i class="fa fa-home"></i> 用户管理</h4>
+            </div>
+            <div class="ky-body-right-top-content">
+                <div class="col-sm-12">
+                    <span class="pull-right">
+                        <span>当前第{{queryDto.page + 1}}页，共{{totalPages}}页 &nbsp;&nbsp;每页<input v-on:keyup.13="clickInformationPage(1)" style="width:3em;" v-model="queryDto.size" />条，共{{totalElements}}条</span>
+                        <a class="btn-circle btn btn-sm btn-primary" href="#" v-on:click="page('first')"><i class="fa fa-fw fa-angle-double-left"></i></a>
+                        <a class="btn-circle btn btn-sm btn-primary" href="#" v-on:click="page('left')"><i class="fa fa-fw fa-angle-left"></i></a>
+                        <a class="btn-circle btn btn-sm btn-primary" href="#" v-on:click="page('right')"><i class="fa fa-fw fa-angle-right"></i></a>
+                        <a class="btn-circle btn btn-sm btn-primary" href="#" v-on:click="page('last')"><i class="fa fa-fw fa-angle-double-right"></i></a>
+                    </span>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered ky-table-style ">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>用户编码</th>
+                                    <th>用户名</th>
+                                    <th>组织机构</th>
+                                    <th>科室</th>
+                                    <th>类别</th>
+                                    <th>角色</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(item,index) in userTable">
+                                    <td><input type="checkbox" v-model="item.checked" v-on:change="checkselect(item)"></td>
+                                    <td>{{item.code}}</td>
+                                    <td>{{item.username}}</td>
+                                    <td>{{item.organizationName}}</td>
+                                    <td>{{item.departmentIdName}}</td>
+                                    <td>{{item.userTypeName}}</td>
+                                    <td>{{item.roleName}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="ky-body-right-bottom">
+            <div class="ky-body-right-bottom-content">
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal -->
+    <!-- 新增 -->
+    <div class="modal fade" id="increaseModal_user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="addModalLabel">{{addOrUpdateTitle}}</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="userInfoForm">
+                        <div class="form-group">
+                        <ul class="rolelist">
+                            <li>
+                                <div class="col-sm-6">
+                                    <label class="control-label">用户管理编码：</label>
+                                    <div class="controls"><input name="userCode" type="text" class="form-control"
+                                     v-model="userInfo.code" :disabled=userInfo.id required ></div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="control-label">用户名：</label>
+                                    <div class="controls"><input name="username" maxlength="100" type="text" class="form-control"
+                                      v-on:blur="changeParameter()" v-model="userInfo.username" :disabled=userInfo.id required></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="col-sm-6">
+                                    <label class="control-label">用户描述：</label>
+                                    <div class="controls"><input name="userDescription" maxlength="200" type="text" class="form-control"
+                                                                 v-model="userInfo.description"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="col-sm-6">
+                                    <label class="control-label">用户密码：</label>
+                                    <div class="controls"><input id="password" name="password" type="password" class="form-control"
+                                                                 v-model="userInfo.password" :required="passwordRequired"></div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="control-label">确认密码：</label>
+                                    <div class="controls"><input name="repeatPassword" type="password" class="form-control"
+                                                                 v-model="userInfo.repeatPassword" :required="passwordRequired"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="col-sm-6">
+                                    <label class="control-label">组织机构：</label>
+                                    <div class="controls">
+                                        <select name="organization" class="form-control" v-model="userInfo.organizationId"
+                                                v-on:change="getDepartmentList()" :disabled=userInfo.id>
+                                            <option v-for="item in organizationList" v-bind:value="item.id" required>
+                                                {{ item.name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="control-label">部门：</label>
+                                    <div class="controls">
+                                        <select name="userInfoDepartment" class="form-control" v-model="userInfo.departmentId"
+                                                v-on:change="getstaffList()">
+                                            <option v-for="item in departmentList" v-bind:value="item.id" required>
+                                                {{ item.name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="col-sm-6">
+                                    <label class="control-label">职工：</label>
+                                    <div class="controls">
+                                        <select name="userInfoStaff" class="form-control" v-model="userInfo.staffId" required>
+                                            <option  v-for="item in staffList"  :value="item.id" >
+                                                {{item.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="col-sm-6">
+                                    <label class="control-label">类别：</label>
+                                    <div class="controls">
+                                        <select name="userType" class="form-control" v-model="userInfo.userType" required>
+                                            <option value="Administrator">管理员</option>
+                                            <option value="User">普通用户</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="control-label">是否停用：</label>
+                                    <div class="controls">
+                                        <input type="checkbox" v-model="userInfo.disable">
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                            </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="border-top: none;">
+                    <button id="cancelNBtn" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" v-on:click="save()">保存</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <!-- 分配角色 -->
+    <div class="modal fade" id="roleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="countModalLabel">分配角色</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered ky-table-style ">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>角色编码</th>
+                                <th>角色名称</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="(item,index) in roleList">
+                                <td><input type="checkbox" v-model="item.checked"/></td>
+                                <td>{{item.code}}</td>
+                                <td>{{item.chineseName}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="closeABtn" type="button" class="btn btn-default" data-dismiss="modal" >取消</button>
+                    <button type="button" class="btn btn-primary" v-on:click="assignedRole()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript" th:src="@{userinfo.js}"></script>

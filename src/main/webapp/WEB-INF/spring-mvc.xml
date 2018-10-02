@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+    <!-- 自动扫描 @Controller -->
+    <context:component-scan base-package="com.cfcp.incc.controller"
+                            use-default-filters="false">
+        <context:include-filter type="annotation"
+                                expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation"
+                                expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
+    <context:property-placeholder ignore-unresolvable="true"  location="classpath*:/application.properties"  />
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+
+            <bean
+                    class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+                <property name="marshaller" ref="jaxb2Marshaller"></property>
+                <property name="unmarshaller" ref="jaxb2Marshaller"></property>
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/xml;charset=UTF-8</value>
+                        <value>text/plain;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+            <!-- 将StringHttpMessageConverter的默认编码设为UTF-8 -->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- 文件上传支持 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 指定最大文件尺寸(字节) -->
+        <property name="maxUploadSize" value="5242880"/>
+    </bean>
+
+    <!-- 容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL -->
+    <mvc:default-servlet-handler/>
+
+    <!-- 将Controller抛出的异常转到特定View -->
+    <!--<bean-->
+            <!--class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">-->
+        <!--<property name="exceptionMappings">-->
+            <!--<props>-->
+                <!--<prop key="java.lang.Throwable">error/500</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--<mvc:view-resolvers>-->
+        <!--<mvc:content-negotiation>-->
+            <!--<mvc:default-views>-->
+                <!--<bean class="org.springframework.web.servlet.view.xml.MarshallingView">-->
+                    <!--<property name="marshaller" ref="jaxb2Marshaller"></property>-->
+                <!--</bean>-->
+                <!--<bean-->
+                        <!--class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>-->
+
+            <!--</mvc:default-views>-->
+        <!--</mvc:content-negotiation>-->
+        <!--<mvc:jsp/>-->
+    <!--</mvc:view-resolvers>-->
+
+
+    <bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="classesToBeBound">
+            <list>
+                <value>com.cfcp.incc.entity.DemoEntity</value>
+            </list>
+        </property>
+        <property name="marshallerProperties">
+            <map>
+                <entry key="jaxb.formatted.output">
+                    <value type="java.lang.Boolean">true</value>
+                </entry>
+                <entry key="jaxb.encoding" value="UTF-8"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="viewResolver" class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+        <property name="order" value="1" />
+        <property name="characterEncoding" value="UTF-8" />
+        <property name="templateEngine" ref="templateEngine" />
+    </bean>
+    <!-- SpringResourceTemplateResolver automatically integrates with Spring's own -->
+    <!-- resource resolution infrastructure, which is highly recommended.          -->
+    <bean id="templateResolver"
+          class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/WEB-INF/templates/" />
+        <property name="suffix" value=".html" />
+        <!-- HTML is the default value, added here for the sake of clarity.          -->
+        <property name="templateMode" value="HTML" />
+        <property name="characterEncoding" value="UTF-8"/>
+        <!-- Template cache is true by default. Set to false if you want             -->
+        <!-- templates to be automatically updated when modified.                    -->
+        <property name="cacheable" value="true" />
+    </bean>
+
+    <!-- SpringTemplateEngine automatically applies SpringStandardDialect and      -->
+    <!-- enables Spring's own MessageSource message resolution mechanisms.         -->
+    <bean id="templateEngine"
+          class="org.thymeleaf.spring4.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver" />
+        <!-- Enabling the SpringEL compiler with Spring 4.2.4 or newer can speed up  -->
+        <!-- execution in most scenarios, but might be incompatible with specific    -->
+        <!-- cases when expressions in one template are reused across different data -->
+        <!-- ypes, so this flag is "false" by default for safer backwards            -->
+        <!-- compatibility.                                                          -->
+        <property name="enableSpringELCompiler" value="true" />
+    </bean>
+</beans>

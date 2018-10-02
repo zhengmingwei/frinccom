@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cfcp.incc.dao.PrecautionaryDao">
+  <resultMap id="BaseResultMap" type="com.cfcp.incc.entity.Precautionary">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="COMPANY_NAME" jdbcType="VARCHAR" property="companyName" />
+    <result column="COMMODITY_NAME" jdbcType="VARCHAR" property="commodityName" />
+    <result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+    <result column="BEGIN_DATE" jdbcType="DATE" property="beginDate" />
+    <result column="EXPIRE_DATE" jdbcType="DATE" property="expireDate" />
+  </resultMap>
+
+  <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT c.ID, c.NAME COMMODITY_NAME, co.NAME COMPANY_NAME, co.ID_CODE ORG_CODE, a.BEGIN_DATE, a.EXPIRE_DATE FROM AUDIT a
+    LEFT JOIN  COMMODITY c ON c.ID = a.COMMODITY_ID
+    LEFT JOIN COMPANY co ON co.ID = c.COMPANY_ID
+    WHERE STEP = 5 AND a.STATUS=1
+    <if test="companyName !=null and companyName != ''">
+      AND co.NAME LIKE CONCAT('%',#{companyName},'%')
+    </if>
+    <if test="commodityName !=null and commodityName != ''">
+      AND c.NAME LIKE CONCAT('%',#{commodityName},'%')
+    </if>
+    <if test="orgCode !=null and orgCode != ''">
+      AND co.ID_CODE LIKE CONCAT('%',#{orgCode},'%')
+    </if>
+    <if test="beginAuditDate !=null and beginAuditDate != ''">
+      AND a.AUDIT_DATE > beginAuditDate
+    </if>
+    <if test="endAuditDate !=null and endAuditDate != ''">
+      <![CDATA[ AND a.AUDIT_DATE < endAuditDate ]]>
+    </if>
+    <if test="status != null and status == 1">
+      AND date_add(now(), interval 1 month)> a.EXPIRE_DATE AND  a.EXPIRE_DATE > now()
+    </if>
+    <if test="status != null and status == 2">
+      AND now()> a.EXPIRE_DATE
+    </if>
+    <if test="distributorId != null">
+      AND c.DISTRIBUTOR_ID = #{distributorId}
+    </if>
+  </select>
+
+</mapper>

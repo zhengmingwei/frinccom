@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cfcp.incc.dao.CommodityDao">
+
+  <resultMap id="BaseResultMap" type="com.cfcp.incc.entity.Commodity">
+    <id column="ID" property="id" />
+    <result column="NAME" property="name" />
+    <result column="CATEGORY" property="category" />
+    <result column="INDUSTRY" property="industry" />
+    <result column="PIC" property="pic" />
+    <result column="DISTRIBUTOR_ID" property="distributorId" />
+    <result column="COMPANY_ID" property="companyId" />
+    <result column="FACTORY_ID" property="factoryId" />
+    <result column="BRAND_ID" property="brandId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR" property="creator" />
+    <result column="STATUS" property="status" />
+    <association property="company" column="COMPANY_ID"  javaType="com.cfcp.incc.entity.Company">
+      <id column="C_ID" jdbcType="VARCHAR" property="id" />
+      <result column="C_NAME" jdbcType="VARCHAR" property="name" />
+      <result column="C_ID_TYPE" property="idType" />
+      <result column="C_ID_CODE" jdbcType="VARCHAR" property="idCode" />
+      <result column="C_COMPANY_TYPE" property="companyType" />
+      <result column="C_LEGAL_PERSON" jdbcType="VARCHAR" property="legalPerson" />
+      <result column="C_REG_ADDR" jdbcType="VARCHAR" property="regAddr" />
+      <result column="C_BUSINESS_ADDR" jdbcType="VARCHAR" property="businessAddr" />
+      <result column="C_ADDR" jdbcType="VARCHAR" property="addr" />
+      <result column="C_BUSINESS_BEGIN" jdbcType="DATE" property="businessBegin" />
+      <result column="C_BUSINESS_END" jdbcType="DATE" property="businessEnd" />
+      <result column="C_CONTACTER" jdbcType="VARCHAR" property="contacter" />
+      <result column="C_PHONE" jdbcType="VARCHAR" property="phone" />
+      <result column="C_MAIL" jdbcType="VARCHAR" property="mail" />
+      <result column="C_MPHONE" jdbcType="VARCHAR" property="mphone" />
+      <result column="C_BUSINESS_SCOPE" jdbcType="VARCHAR" property="businessScope" />
+      <result column="C_BUSINESS_LICENSE" jdbcType="VARCHAR" property="businessLicense" />
+      <result column="C_QESE" jdbcType="VARCHAR" property="qese" />
+      <result column="C_QESE_CODE" jdbcType="VARCHAR" property="qeseCode" />
+      <result column="C_QESE_FILE" jdbcType="VARCHAR" property="qeseFile" />
+      <result column="C_DESCRIMINATOR" jdbcType="INTEGER" property="descriminator" />
+      <result column="C_CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="C_CREATOR" jdbcType="VARCHAR" property="creator" />
+      <result column="C_STATUS" jdbcType="INTEGER" property="status" />
+    </association>
+    <association property="factory" column="FACTORY_ID"  javaType="com.cfcp.incc.entity.Company">
+      <id column="F_ID" jdbcType="VARCHAR" property="id" />
+      <result column="F_NAME" jdbcType="VARCHAR" property="name" />
+      <result column="F_ID_TYPE" property="idType" />
+      <result column="F_ID_CODE" jdbcType="VARCHAR" property="idCode" />
+      <result column="F_COMPANY_TYPE" property="companyType" />
+      <result column="F_LEGAL_PERSON" jdbcType="VARCHAR" property="legalPerson" />
+      <result column="F_REG_ADDR" jdbcType="VARCHAR" property="regAddr" />
+      <result column="F_BUSINESS_ADDR" jdbcType="VARCHAR" property="businessAddr" />
+      <result column="F_ADDR" jdbcType="VARCHAR" property="addr" />
+      <result column="F_BUSINESS_BEGIN" jdbcType="DATE" property="businessBegin" />
+      <result column="F_BUSINESS_END" jdbcType="DATE" property="businessEnd" />
+      <result column="F_CONTACTER" jdbcType="VARCHAR" property="contacter" />
+      <result column="F_PHONE" jdbcType="VARCHAR" property="phone" />
+      <result column="F_MAIL" jdbcType="VARCHAR" property="mail" />
+      <result column="F_MPHONE" jdbcType="VARCHAR" property="mphone" />
+      <result column="F_BUSINESS_SCOPE" jdbcType="VARCHAR" property="businessScope" />
+      <result column="F_BUSINESS_LICENSE" jdbcType="VARCHAR" property="businessLicense" />
+      <result column="F_QESE" jdbcType="VARCHAR" property="qese" />
+      <result column="F_QESE_CODE" jdbcType="VARCHAR" property="qeseCode" />
+      <result column="F_QESE_FILE" jdbcType="VARCHAR" property="qeseFile" />
+      <result column="F_DESCRIMINATOR" jdbcType="INTEGER" property="descriminator" />
+      <result column="F_CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="F_CREATOR" jdbcType="VARCHAR" property="creator" />
+      <result column="F_STATUS" jdbcType="INTEGER" property="status" />
+    </association>
+    <association property="brand" column="BRAND_ID" javaType="com.cfcp.incc.entity.Brand">
+      <id column="B_ID" jdbcType="VARCHAR" property="id" />
+      <result column="B_NAME" jdbcType="VARCHAR" property="name" />
+      <result column="B_OWNER" jdbcType="VARCHAR" property="owner" />
+      <result column="B_CODE" jdbcType="VARCHAR" property="code" />
+      <result column="B_BRAND_STATUS" property="brandStatus" />
+      <result column="B_REGISTRATION_CERTIFICATE" jdbcType="VARCHAR" property="registrationCertificate" />
+      <result column="B_NOTIFICATION" jdbcType="VARCHAR" property="notification" />
+      <result column="B_AUTHORIZATION" jdbcType="VARCHAR" property="authorization" />
+      <result column="B_DISTRIBUTOR_ID" jdbcType="VARCHAR" property="distributorId" />
+      <result column="B_CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="B_CREATOR" jdbcType="VARCHAR" property="creator" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, CATEGORY, INDUSTRY, PIC, DISTRIBUTOR_ID, COMPANY_ID, FACTORY_ID, BRAND_ID, 
+    CREATE_TIME, CREATOR
+  </sql>
+  <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+      t.*, c.ID As C_ID,
+      c.NAME As C_NAME,
+      c.ID_TYPE As C_ID_TYPE,
+      c.ID_CODE As C_ID_CODE,
+      c.COMPANY_TYPE As C_COMPANY_TYPE,
+      c.LEGAL_PERSON As C_LEGAL_PERSON,
+      c.REG_ADDR As C_REG_ADDR,
+      c.BUSINESS_ADDR As C_BUSINESS_ADDR,
+      c.ADDR As C_ADDR,
+      c.BUSINESS_BEGIN As C_BUSINESS_BEGIN,
+      c.BUSINESS_END As C_BUSINESS_END,
+      c.CONTACTER As C_CONTACTER,
+      c.PHONE As C_PHONE,
+      c.MAIL As C_MAIL,
+      c.MPHONE As C_MPHONE,
+      c.BUSINESS_SCOPE As C_BUSINESS_SCOPE,
+      c.BUSINESS_LICENSE As C_BUSINESS_LICENSE,
+      c.QESE As C_QESE,
+      c.QESE_CODE As C_QESE_CODE,
+      c.QESE_FILE As C_QESE_FILE,
+      c.DESCRIMINATOR As C_DESCRIMINATOR,
+      c.CREATE_TIME As C_CREATE_TIME,
+      c.CREATOR As C_CREATOR,
+      c.STATUS As C_STATUS,
+
+
+      f.ID As F_ID,
+      f.NAME As F_NAME,
+      f.ID_TYPE As F_ID_TYPE,
+      f.ID_CODE As F_ID_CODE,
+      f.COMPANY_TYPE As F_COMPANY_TYPE,
+      f.LEGAL_PERSON As F_LEGAL_PERSON,
+      f.REG_ADDR As F_REG_ADDR,
+      f.BUSINESS_ADDR As F_BUSINESS_ADDR,
+      f.ADDR As F_ADDR,
+      f.BUSINESS_BEGIN As F_BUSINESS_BEGIN,
+      f.BUSINESS_END As F_BUSINESS_END,
+      f.CONTACTER As F_CONTACTER,
+      f.PHONE As F_PHONE,
+      f.MAIL As F_MAIL,
+      f.MPHONE As F_MPHONE,
+      f.BUSINESS_SCOPE As F_BUSINESS_SCOPE,
+      f.BUSINESS_LICENSE As F_BUSINESS_LICENSE,
+      f.QESE As F_QESE,
+      f.QESE_CODE As F_QESE_CODE,
+      f.QESE_FILE As F_QESE_FILE,
+      f.DESCRIMINATOR As F_DESCRIMINATOR,
+      f.CREATE_TIME As F_CREATE_TIME,
+      f.CREATOR As F_CREATOR,
+      f.STATUS As F_STATUS,
+
+      b.ID As B_ID,
+      b.NAME As B_NAME,
+      b.OWNER As B_OWNER,
+      b.CODE As B_CODE,
+      b.BRAND_STATUS As B_BRAND_STATUS,
+      b.REGISTRATION_CERTIFICATE As B_REGISTRATION_CERTIFICATE,
+      b.NOTIFICATION As B_NOTIFICATION,
+      b.AUTHORIZATION As B_AUTHORIZATION,
+      b.DISTRIBUTOR_ID As B_DISTRIBUTOR_ID,
+      b.CREATE_TIME As B_CREATE_TIME,
+      b.CREATOR As B_CREATOR
+    from COMMODITY t
+    LEFT JOIN BRAND b ON t.BRAND_ID = b.ID
+    LEFT JOIN COMPANY c ON t.COMPANY_ID = c.ID
+    LEFT JOIN COMPANY f ON t.FACTORY_ID = f.ID
+    where t.ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+      t.*, c.ID As C_ID,
+      c.NAME As C_NAME,
+      c.ID_TYPE As C_ID_TYPE,
+      c.ID_CODE As C_ID_CODE,
+      c.COMPANY_TYPE As C_COMPANY_TYPE,
+      c.LEGAL_PERSON As C_LEGAL_PERSON,
+      c.REG_ADDR As C_REG_ADDR,
+      c.BUSINESS_ADDR As C_BUSINESS_ADDR,
+      c.ADDR As C_ADDR,
+      c.BUSINESS_BEGIN As C_BUSINESS_BEGIN,
+      c.BUSINESS_END As C_BUSINESS_END,
+      c.CONTACTER As C_CONTACTER,
+      c.PHONE As C_PHONE,
+      c.MAIL As C_MAIL,
+      c.MPHONE As C_MPHONE,
+      c.BUSINESS_SCOPE As C_BUSINESS_SCOPE,
+      c.BUSINESS_LICENSE As C_BUSINESS_LICENSE,
+      c.QESE As C_QESE,
+      c.QESE_CODE As C_QESE_CODE,
+      c.QESE_FILE As C_QESE_FILE,
+      c.DESCRIMINATOR As C_DESCRIMINATOR,
+      c.CREATE_TIME As C_CREATE_TIME,
+      c.CREATOR As C_CREATOR,
+      c.STATUS As C_STATUS
+    from COMMODITY t LEFT JOIN COMPANY c
+    ON  t.COMPANY_ID = c.ID
+    <trim prefix="WHERE" suffixOverrides="AND|OR">
+      <if test="name !=null and name != ''">
+        t.NAME LIKE CONCAT('%',#{name},'%') AND
+      </if>
+      <if test="cname !=null and cname != ''">
+        c.NAME LIKE CONCAT('%',#{cname},'%') AND
+      </if>
+      <if test="code !=null and code != ''">
+        c.ID_CODE LIKE CONCAT('%',#{code},'%') AND
+      </if>
+      <if test="distributorId !=null and distributorId != '' ">
+        t.DISTRIBUTOR_ID = #{distributorId} AND
+      </if>
+      <choose>
+        <when test='status !=null and status == "1"'>
+          t.STATUS != 0
+        </when>
+        <when test='status !=null and (status == "2" or status == "12")'>
+          t.STATUS = 1
+        </when>
+        <when test='status !=null and status == "3"'>
+          <![CDATA[ 1 < t.STATUS and t.STATUS < 5 ]]>
+        </when>
+        <when test='status !=null and (status == "4" or status == "14")'>
+          t.STATUS = 5
+        </when>
+        <when test='status !=null and status == "5"'>
+          <![CDATA[ t.STATUS < 0 ]]>
+        </when>
+        <when test='status !=null and status == "6"'>
+          t.STATUS = 2
+        </when>
+        <when test='status !=null and status == "7"'>
+          t.STATUS = -2
+        </when>
+        <when test='status !=null and status == "8"'>
+          t.STATUS = 3
+        </when>
+        <when test='status !=null and (status == "9" or status == "13")'>
+          t.STATUS = 4
+        </when>
+        <when test='status !=null and status == "10"'>
+          t.STATUS = -4
+        </when>
+        <when test='status !=null and status == "11"'>
+          t.STATUS = -5
+        </when>
+        <otherwise>
+          t.STATUs = #{status}
+        </otherwise>
+      </choose>
+    </trim>
+    order by t.create_time desc
+  </select>
+  <select id="allMap" resultType="java.util.Map">
+    <![CDATA[SELECT ID, NAME FROM COMMODITY WHERE STATUS > 1 AND STATUS < 4 ]]>
+  </select>
+  <select id="allAudited" resultMap="BaseResultMap">
+    select
+    t.*, c.ID As C_ID,
+    c.NAME As C_NAME,
+    c.ID_TYPE As C_ID_TYPE,
+    c.ID_CODE As C_ID_CODE,
+    c.COMPANY_TYPE As C_COMPANY_TYPE,
+    c.LEGAL_PERSON As C_LEGAL_PERSON,
+    c.REG_ADDR As C_REG_ADDR,
+    c.BUSINESS_ADDR As C_BUSINESS_ADDR,
+    c.ADDR As C_ADDR,
+    c.BUSINESS_BEGIN As C_BUSINESS_BEGIN,
+    c.BUSINESS_END As C_BUSINESS_END,
+    c.CONTACTER As C_CONTACTER,
+    c.PHONE As C_PHONE,
+    c.MAIL As C_MAIL,
+    c.MPHONE As C_MPHONE,
+    c.BUSINESS_SCOPE As C_BUSINESS_SCOPE,
+    c.BUSINESS_LICENSE As C_BUSINESS_LICENSE,
+    c.QESE As C_QESE,
+    c.QESE_CODE As C_QESE_CODE,
+    c.QESE_FILE As C_QESE_FILE,
+    c.DESCRIMINATOR As C_DESCRIMINATOR,
+    c.CREATE_TIME As C_CREATE_TIME,
+    c.CREATOR As C_CREATOR,
+    c.STATUS As C_STATUS,
+
+
+    f.ID As F_ID,
+    f.NAME As F_NAME,
+    f.ID_TYPE As F_ID_TYPE,
+    f.ID_CODE As F_ID_CODE,
+    f.COMPANY_TYPE As F_COMPANY_TYPE,
+    f.LEGAL_PERSON As F_LEGAL_PERSON,
+    f.REG_ADDR As F_REG_ADDR,
+    f.BUSINESS_ADDR As F_BUSINESS_ADDR,
+    f.ADDR As F_ADDR,
+    f.BUSINESS_BEGIN As F_BUSINESS_BEGIN,
+    f.BUSINESS_END As F_BUSINESS_END,
+    f.CONTACTER As F_CONTACTER,
+    f.PHONE As F_PHONE,
+    f.MAIL As F_MAIL,
+    f.MPHONE As F_MPHONE,
+    f.BUSINESS_SCOPE As F_BUSINESS_SCOPE,
+    f.BUSINESS_LICENSE As F_BUSINESS_LICENSE,
+    f.QESE As F_QESE,
+    f.QESE_CODE As F_QESE_CODE,
+    f.QESE_FILE As F_QESE_FILE,
+    f.DESCRIMINATOR As F_DESCRIMINATOR,
+    f.CREATE_TIME As F_CREATE_TIME,
+    f.CREATOR As F_CREATOR,
+    f.STATUS As F_STATUS,
+
+    b.ID As B_ID,
+    b.NAME As B_NAME,
+    b.OWNER As B_OWNER,
+    b.CODE As B_CODE,
+    b.BRAND_STATUS As B_BRAND_STATUS,
+    b.REGISTRATION_CERTIFICATE As B_REGISTRATION_CERTIFICATE,
+    b.NOTIFICATION As B_NOTIFICATION,
+    b.AUTHORIZATION As B_AUTHORIZATION,
+    b.DISTRIBUTOR_ID As B_DISTRIBUTOR_ID,
+    b.CREATE_TIME As B_CREATE_TIME,
+    b.CREATOR As B_CREATOR
+    from COMMODITY t
+    LEFT JOIN BRAND b ON t.BRAND_ID = b.ID
+    LEFT JOIN COMPANY c ON t.COMPANY_ID = c.ID
+    LEFT JOIN COMPANY f ON t.FACTORY_ID = f.ID
+    WHERE t.STATUS = 5
+  </select>
+  <update id="delete" parameterType="java.lang.String">
+    UPDATE COMMODITY
+    SET STATUS = 0
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <insert id="insert" parameterType="com.cfcp.incc.entity.Commodity">
+    insert into COMMODITY (ID, NAME, CATEGORY, 
+      INDUSTRY, PIC, DISTRIBUTOR_ID, 
+      COMPANY_ID, FACTORY_ID, BRAND_ID, 
+      CREATE_TIME, CREATOR, STATUS
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, 
+      #{industry,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, #{distributorId,jdbcType=VARCHAR}, 
+      #{companyId,jdbcType=VARCHAR}, #{factoryId,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 1
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cfcp.incc.entity.Commodity">
+    insert into COMMODITY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="category != null">
+        CATEGORY,
+      </if>
+      <if test="industry != null">
+        INDUSTRY,
+      </if>
+      <if test="pic != null">
+        PIC,
+      </if>
+      <if test="distributorId != null">
+        DISTRIBUTOR_ID,
+      </if>
+      <if test="companyId != null">
+        COMPANY_ID,
+      </if>
+      <if test="factoryId != null">
+        FACTORY_ID,
+      </if>
+      <if test="brandId != null">
+        BRAND_ID,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null">
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null">
+        #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorId != null">
+        #{distributorId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryId != null">
+        #{factoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null">
+        #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+
+    </trim>
+  </insert>
+  <update id="updateSelective" parameterType="com.cfcp.incc.entity.Commodity">
+    update COMMODITY
+    <set>
+      <trim suffixOverrides=",">
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null">
+        CATEGORY = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        INDUSTRY = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null">
+        PIC = #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorId != null">
+        DISTRIBUTOR_ID = #{distributorId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryId != null">
+        FACTORY_ID = #{factoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null">
+        BRAND_ID = #{brandId,jdbcType=VARCHAR},
+      </if>
+      </trim>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="update" parameterType="com.cfcp.incc.entity.Commodity">
+    update COMMODITY
+    set NAME = #{name,jdbcType=VARCHAR},
+      CATEGORY = #{category,jdbcType=VARCHAR},
+      INDUSTRY = #{industry,jdbcType=VARCHAR},
+      PIC = #{pic,jdbcType=VARCHAR},
+      DISTRIBUTOR_ID = #{distributorId,jdbcType=VARCHAR},
+      COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+      FACTORY_ID = #{factoryId,jdbcType=VARCHAR},
+      BRAND_ID = #{brandId,jdbcType=VARCHAR}
+      <if test="status !=5">
+        ,STATUS = 1
+      </if>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateStatus" >
+    update COMMODITY
+    set STATUS = #{status}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

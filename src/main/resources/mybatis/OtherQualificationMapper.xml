@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cfcp.incc.dao.OtherQualificationDao">
+  <resultMap id="BaseResultMap" type="com.cfcp.incc.entity.OtherQualification">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="REPORT_TYPE" jdbcType="INTEGER" property="reportType" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="EXPIRY_DATE" jdbcType="DATE" property="expiryDate" />
+    <result column="DETECTION_ORG" jdbcType="VARCHAR" property="detectionOrg" />
+    <result column="REPORT" jdbcType="VARCHAR" property="report" />
+    <result column="COMMODITY_ID" jdbcType="VARCHAR" property="commodityId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, REPORT_TYPE, NAME, EXPIRY_DATE, DETECTION_ORG, REPORT, COMMODITY_ID, CREATE_TIME, CREATOR
+  </sql>
+  <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from OTHER_QUALIFICATION
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="getByCommodityId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM OTHER_QUALIFICATION
+    WHERE COMMODITY_ID = #{commodityId,jdbcType=VARCHAR} AND STATUS = 1 ORDER BY CREATE_TIME
+  </select>
+
+  <update id="delete" parameterType="java.lang.String">
+    update OTHER_QUALIFICATION set status=0
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <insert id="insert" parameterType="com.cfcp.incc.entity.OtherQualification">
+    insert into OTHER_QUALIFICATION (ID, REPORT_TYPE, NAME, 
+      EXPIRY_DATE, DETECTION_ORG, REPORT, 
+      COMMODITY_ID,CREATE_TIME, CREATOR, STATUS)
+    values (#{id,jdbcType=VARCHAR}, #{reportType,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{expiryDate,jdbcType=DATE}, #{detectionOrg,jdbcType=VARCHAR}, #{report,jdbcType=VARCHAR}, 
+      #{commodityId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 1)
+  </insert>
+  <insert id="insertSelective" parameterType="com.cfcp.incc.entity.OtherQualification">
+    insert into OTHER_QUALIFICATION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="reportType != null">
+        REPORT_TYPE,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="expiryDate != null">
+        EXPIRY_DATE,
+      </if>
+      <if test="detectionOrg != null">
+        DETECTION_ORG,
+      </if>
+      <if test="report != null">
+        REPORT,
+      </if>
+      <if test="commodityId != null">
+        COMMODITY_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="reportType != null">
+        #{reportType,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="expiryDate != null">
+        #{expiryDate,jdbcType=DATE},
+      </if>
+      <if test="detectionOrg != null">
+        #{detectionOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="report != null">
+        #{report,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityId != null">
+        #{commodityId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateCommodityId" parameterType="com.cfcp.incc.entity.OtherQualification">
+    update OTHER_QUALIFICATION
+    set COMMODITY_ID = #{commodityId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateSelective" parameterType="com.cfcp.incc.entity.OtherQualification">
+    update OTHER_QUALIFICATION
+    <set>
+      <if test="reportType != null">
+        REPORT_TYPE = #{reportType,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="expiryDate != null">
+        EXPIRY_DATE = #{expiryDate,jdbcType=DATE},
+      </if>
+      <if test="detectionOrg != null">
+        DETECTION_ORG = #{detectionOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="report != null">
+        REPORT = #{report,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityId != null">
+        COMMODITY_ID = #{commodityId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="update" parameterType="com.cfcp.incc.entity.OtherQualification">
+    update OTHER_QUALIFICATION
+    set REPORT_TYPE = #{reportType,jdbcType=INTEGER},
+      NAME = #{name,jdbcType=VARCHAR},
+      EXPIRY_DATE = #{expiryDate,jdbcType=DATE},
+      DETECTION_ORG = #{detectionOrg,jdbcType=VARCHAR},
+      REPORT = #{report,jdbcType=VARCHAR},
+      COMMODITY_ID = #{commodityId,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

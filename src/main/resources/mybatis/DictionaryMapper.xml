@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cfcp.incc.dao.DictionaryDao">
+  <resultMap id="BaseResultMap" type="com.cfcp.incc.entity.Dictionary">
+      <id column="ID" property="id" />
+      <result column="TYPE" property="type" />
+      <result column="VALUE" property="value"/>
+	  <result column="WEIGHT" property="weight" />
+	  <result column="STATUS" property="status" />
+	  <result column="PARENT_ID" property="parentId" />
+	  <result column="CREATE_TIME" property="createTime" />
+  </resultMap>
+
+	<insert id="insert" parameterType="com.cfcp.incc.entity.Dictionary" useGeneratedKeys="true" keyProperty="id">
+		insert into DICTIONARY ( PARENT_ID, TYPE, VALUE,WEIGHT,STATUS,CREATE_TIME)
+		values ( #{parentId}, #{type}, #{value}, #{weight}, #{status}, #{createTime})
+	</insert>
+
+	<update id="update" parameterType="com.cfcp.incc.entity.Dictionary">
+		update DICTIONARY
+		set TYPE = #{type},
+		value = #{value},
+		WEIGHT = #{weight},
+		PARENT_ID = #{parentId}
+		where ID = #{id}
+	</update>
+
+	<select id="queryDictionaryById" resultMap="BaseResultMap">
+		SELECT d.* FROM DICTIONARY d
+		WHERE d.ID= #{id}
+	</select>
+	<select id="queryDictionariesByIds" resultMap="BaseResultMap" parameterType="java.util.Arrays">
+		select d.* from DICTIONARY d
+		where d.ID in
+		<foreach collection="ids" item="id"  open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</select>
+
+	<select id="queryAllDictionaries" resultMap="BaseResultMap">
+		select d.* from DICTIONARY d WHERE STATUS = 1
+	</select>
+	<select id="queryDictionariesByType" resultMap="BaseResultMap">
+		select d.* from DICTIONARY d
+		where d.TYPE = #{type}
+	</select>
+	<select id="findList" resultMap="BaseResultMap">
+		select * from DICTIONARY
+		where
+		<if test="status!=null">
+			STATUS = #{status}
+		</if>
+		<if test="status==null">
+			STATUS = 1
+		</if>
+		<if test="type!=null and type!=''">
+			AND TYPE = #{type}
+		</if>
+		<if test="type==null">
+			AND TYPE in('INDUSTRY','CATEGORY','REPORT_TYPE')
+		</if>
+		<if test="value!=null and value!=''">
+			AND VALUE LIKE CONCAT('%',#{value},'%')
+		</if>
+		order by TYPE , WEIGHT
+	</select>
+
+
+	<update id="updateStatusById" parameterType="com.cfcp.incc.entity.Dictionary">
+		update DICTIONARY
+		set
+		STATUS = #{status}
+		where ID = #{id}
+	</update>
+
+	<update id="updateWeight" parameterType="com.cfcp.incc.entity.Dictionary">
+		update DICTIONARY
+		set
+		WEIGHT = #{weight}
+		where ID = #{id}
+	</update>
+</mapper>

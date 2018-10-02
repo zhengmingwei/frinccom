@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cfcp.incc.dao.CompanyDao">
+  <resultMap id="BaseResultMap" type="com.cfcp.incc.entity.Company">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="ID_TYPE" property="idType" />
+    <result column="ID_CODE" jdbcType="VARCHAR" property="idCode" />
+    <result column="COMPANY_TYPE" property="companyType" />
+    <result column="LEGAL_PERSON" jdbcType="VARCHAR" property="legalPerson" />
+    <result column="REG_ADDR" jdbcType="VARCHAR" property="regAddr" />
+    <result column="BUSINESS_ADDR" jdbcType="VARCHAR" property="businessAddr" />
+    <result column="ADDR" jdbcType="VARCHAR" property="addr" />
+    <result column="BUSINESS_BEGIN" jdbcType="DATE" property="businessBegin" />
+    <result column="BUSINESS_END" jdbcType="DATE" property="businessEnd" />
+    <result column="CONTACTER" jdbcType="VARCHAR" property="contacter" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="MAIL" jdbcType="VARCHAR" property="mail" />
+    <result column="MPHONE" jdbcType="VARCHAR" property="mphone" />
+    <result column="BUSINESS_SCOPE" jdbcType="VARCHAR" property="businessScope" />
+    <result column="BUSINESS_LICENSE" jdbcType="VARCHAR" property="businessLicense" />
+    <result column="QESE" jdbcType="VARCHAR" property="qese" />
+    <result column="QESE_CODE" jdbcType="VARCHAR" property="qeseCode" />
+    <result column="QESE_FILE" jdbcType="VARCHAR" property="qeseFile" />
+    <result column="DESCRIMINATOR" jdbcType="INTEGER" property="descriminator" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, ID_TYPE, ID_CODE, COMPANY_TYPE, LEGAL_PERSON, REG_ADDR, BUSINESS_ADDR,
+    BUSINESS_BEGIN, BUSINESS_END, CONTACTER, PHONE, MAIL, MPHONE, BUSINESS_SCOPE, BUSINESS_LICENSE, 
+    QESE, QESE_CODE, QESE_FILE, DESCRIMINATOR, CREATE_TIME, CREATOR, STATUS
+  </sql>
+  <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from COMPANY
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="delete" parameterType="java.lang.String">
+    delete from COMPANY
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cfcp.incc.entity.Company">
+    insert into COMPANY (ID, NAME, ID_TYPE, 
+      ID_CODE, COMPANY_TYPE, LEGAL_PERSON,
+      REG_ADDR, BUSINESS_ADDR, ADDR, BUSINESS_BEGIN,
+      BUSINESS_END, CONTACTER, PHONE, 
+      MAIL, MPHONE, BUSINESS_SCOPE, 
+      BUSINESS_LICENSE, QESE, QESE_CODE, QESE_FILE,
+      DESCRIMINATOR, CREATE_TIME, CREATOR, 
+      STATUS)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{idType,jdbcType=INTEGER}, 
+      #{idCode,jdbcType=VARCHAR}, #{companyType,jdbcType=INTEGER}, #{legalPerson,jdbcType=VARCHAR}, 
+      #{regAddr,jdbcType=VARCHAR}, #{businessAddr,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, #{businessBegin,jdbcType=DATE},
+      #{businessEnd,jdbcType=DATE}, #{contacter,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{mail,jdbcType=VARCHAR}, #{mphone,jdbcType=VARCHAR}, #{businessScope,jdbcType=VARCHAR}, 
+      #{businessLicense,jdbcType=VARCHAR}, #{qese,jdbcType=VARCHAR}, #{qeseCode}, #{qeseFile,jdbcType=VARCHAR},
+      #{descriminator,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cfcp.incc.entity.Company">
+    insert into COMPANY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="idType != null">
+        ID_TYPE,
+      </if>
+      <if test="idCode != null">
+        ID_CODE,
+      </if>
+      <if test="companyType != null">
+        COMPANY_TYPE,
+      </if>
+      <if test="legalPerson != null">
+        LEGAL_PERSON,
+      </if>
+      <if test="regAddr != null">
+        REG_ADDR,
+      </if>
+      <if test="businessAddr != null">
+        BUSINESS_ADDR,
+      </if>
+      <if test="businessBegin != null">
+        BUSINESS_BEGIN,
+      </if>
+      <if test="businessEnd != null">
+        BUSINESS_END,
+      </if>
+      <if test="contacter != null">
+        CONTACTER,
+      </if>
+      <if test="phone != null">
+        PHONE,
+      </if>
+      <if test="mail != null">
+        MAIL,
+      </if>
+      <if test="mphone != null">
+        MPHONE,
+      </if>
+      <if test="businessScope != null">
+        BUSINESS_SCOPE,
+      </if>
+      <if test="businessLicense != null">
+        BUSINESS_LICENSE,
+      </if>
+      <if test="qese != null">
+        QESE,
+      </if>
+      <if test="qeseCode != null">
+        QESE_CODE,
+      </if>
+      <if test="qeseFile != null">
+        QESE_FILE,
+      </if>
+      <if test="descriminator != null">
+        DESCRIMINATOR,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null">
+        #{idType,jdbcType=INTEGER},
+      </if>
+      <if test="idCode != null">
+        #{idCode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyType != null">
+        #{companyType,jdbcType=INTEGER},
+      </if>
+      <if test="legalPerson != null">
+        #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="regAddr != null">
+        #{regAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="businessAddr != null">
+        #{businessAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="businessBegin != null">
+        #{businessBegin,jdbcType=DATE},
+      </if>
+      <if test="businessEnd != null">
+        #{businessEnd,jdbcType=DATE},
+      </if>
+      <if test="contacter != null">
+        #{contacter,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="mail != null">
+        #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="mphone != null">
+        #{mphone,jdbcType=VARCHAR},
+      </if>
+      <if test="businessScope != null">
+        #{businessScope,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicense != null">
+        #{businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="qese != null">
+        #{qese,jdbcType=VARCHAR},
+      </if>
+      <if test="qeseCode != null">
+        #{qeseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="qeseFile != null">
+        #{qeseFile,jdbcType=VARCHAR},
+      </if>
+      <if test="descriminator != null">
+        #{descriminator,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateSelective" parameterType="com.cfcp.incc.entity.Company">
+    update COMPANY
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null">
+        ID_TYPE = #{idType,jdbcType=INTEGER},
+      </if>
+      <if test="idCode != null">
+        ID_CODE = #{idCode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyType != null">
+        COMPANY_TYPE = #{companyType,jdbcType=INTEGER},
+      </if>
+      <if test="legalPerson != null">
+        LEGAL_PERSON = #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="regAddr != null">
+        REG_ADDR = #{regAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="businessAddr != null">
+        BUSINESS_ADDR = #{businessAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="businessBegin != null">
+        BUSINESS_BEGIN = #{businessBegin,jdbcType=DATE},
+      </if>
+      <if test="businessEnd != null">
+        BUSINESS_END = #{businessEnd,jdbcType=DATE},
+      </if>
+      <if test="contacter != null">
+        CONTACTER = #{contacter,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="mail != null">
+        MAIL = #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="mphone != null">
+        MPHONE = #{mphone,jdbcType=VARCHAR},
+      </if>
+      <if test="businessScope != null">
+        BUSINESS_SCOPE = #{businessScope,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicense != null">
+        BUSINESS_LICENSE = #{businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="qese != null">
+        QESE = #{qese,jdbcType=VARCHAR},
+      </if>
+      <if test="qeseCode != null">
+        QESE_CODE = #{qeseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="qeseFile != null">
+        QESE_FILE = #{qeseFile,jdbcType=VARCHAR},
+      </if>
+      <if test="descriminator != null">
+        DESCRIMINATOR = #{descriminator,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="update" parameterType="com.cfcp.incc.entity.Company">
+    update COMPANY
+    set NAME = #{name,jdbcType=VARCHAR},
+      ID_TYPE = #{idType,jdbcType=INTEGER},
+      ID_CODE = #{idCode,jdbcType=VARCHAR},
+      COMPANY_TYPE = #{companyType,jdbcType=INTEGER},
+      LEGAL_PERSON = #{legalPerson,jdbcType=VARCHAR},
+      REG_ADDR = #{regAddr,jdbcType=VARCHAR},
+      BUSINESS_ADDR = #{businessAddr,jdbcType=VARCHAR},
+      ADDR = #{addr,jdbcType=VARCHAR},
+      BUSINESS_BEGIN = #{businessBegin,jdbcType=DATE},
+      BUSINESS_END = #{businessEnd,jdbcType=DATE},
+      CONTACTER = #{contacter,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      MAIL = #{mail,jdbcType=VARCHAR},
+      MPHONE = #{mphone,jdbcType=VARCHAR},
+      BUSINESS_SCOPE = #{businessScope,jdbcType=VARCHAR},
+      BUSINESS_LICENSE = #{businessLicense,jdbcType=VARCHAR},
+      QESE = #{qese,jdbcType=VARCHAR},
+      QESE_CODE = #{qeseCode,jdbcType=VARCHAR},
+      QESE_FILE = #{qeseFile,jdbcType=VARCHAR},
+      DESCRIMINATOR = #{descriminator,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

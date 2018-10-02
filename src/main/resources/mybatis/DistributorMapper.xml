@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cfcp.incc.dao.DistributorDao">
+  <resultMap id="BaseResultMap" type="com.cfcp.incc.entity.Distributor">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+    <result column="LEGAL_PERSON" jdbcType="VARCHAR" property="legalPerson" />
+    <result column="CONTACT" jdbcType="VARCHAR" property="contact" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="FAX" jdbcType="VARCHAR" property="fax" />
+    <result column="MAIL" jdbcType="VARCHAR" property="mail" />
+    <result column="PROVINCE" jdbcType="VARCHAR" property="province" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="BUSINESS_LICENSE" jdbcType="CHAR" property="businessLicense" />
+    <result column="ORG_CODE_CERTIFICATION" jdbcType="CHAR" property="orgCodeCertification" />
+    <result column="TAX_CERTIFICATE" jdbcType="CHAR" property="taxCertificate" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, ORG_CODE, LEGAL_PERSON, CONTACT, PHONE, FAX, MAIL, PROVINCE, ADDRESS, BUSINESS_LICENSE, 
+    ORG_CODE_CERTIFICATION, TAX_CERTIFICATE, CREATE_TIME, CREATOR, STATUS
+  </sql>
+  <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DISTRIBUTOR
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <update id="delete" parameterType="java.lang.String">
+    UPDATE DISTRIBUTOR SET STATUS = 0
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="allMap" resultType="java.util.Map">
+    SELECT ID, NAME FROM DISTRIBUTOR WHERE STATUS = 1
+  </select>
+  <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+      <include refid="Base_Column_List" />
+    from DISTRIBUTOR
+    WHERE
+      <if test="name !=null and name != ''">
+        NAME LIKE CONCAT('%',#{name},'%') AND
+      </if>
+      <if test="phone !=null and phone != ''">
+        PHONE LIKE CONCAT('%',#{phone},'%') AND
+      </if>
+      <if test="orgCode !=null and orgCode != ''">
+        ORG_CODE LIKE CONCAT('%',#{orgCode},'%') AND
+      </if>
+      <if test="contact !=null and contact != ''">
+        CONTACT = #{contact} AND
+      </if>
+      STATUS = 1
+      order by create_time desc
+  </select>
+  <insert id="insert" parameterType="com.cfcp.incc.entity.Distributor">
+    insert into DISTRIBUTOR (ID, NAME, ORG_CODE, 
+      LEGAL_PERSON, CONTACT, PHONE, 
+      FAX, MAIL, PROVINCE, 
+      ADDRESS, BUSINESS_LICENSE, ORG_CODE_CERTIFICATION, 
+      TAX_CERTIFICATE, CREATE_TIME, CREATOR, 
+      STATUS)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{orgCode,jdbcType=VARCHAR}, 
+      #{legalPerson,jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{fax,jdbcType=VARCHAR}, #{mail,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{businessLicense,jdbcType=CHAR}, #{orgCodeCertification,jdbcType=CHAR}, 
+      #{taxCertificate,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cfcp.incc.entity.Distributor">
+    insert into DISTRIBUTOR
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="orgCode != null">
+        ORG_CODE,
+      </if>
+      <if test="legalPerson != null">
+        LEGAL_PERSON,
+      </if>
+      <if test="contact != null">
+        CONTACT,
+      </if>
+      <if test="phone != null">
+        PHONE,
+      </if>
+      <if test="fax != null">
+        FAX,
+      </if>
+      <if test="mail != null">
+        MAIL,
+      </if>
+      <if test="province != null">
+        PROVINCE,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+      <if test="businessLicense != null">
+        BUSINESS_LICENSE,
+      </if>
+      <if test="orgCodeCertification != null">
+        ORG_CODE_CERTIFICATION,
+      </if>
+      <if test="taxCertificate != null">
+        TAX_CERTIFICATE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null">
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPerson != null">
+        #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null">
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null">
+        #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="mail != null">
+        #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicense != null">
+        #{businessLicense,jdbcType=CHAR},
+      </if>
+      <if test="orgCodeCertification != null">
+        #{orgCodeCertification,jdbcType=CHAR},
+      </if>
+      <if test="taxCertificate != null">
+        #{taxCertificate,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateSelective" parameterType="com.cfcp.incc.entity.Distributor">
+    update DISTRIBUTOR
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null">
+        ORG_CODE = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPerson != null">
+        LEGAL_PERSON = #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null">
+        CONTACT = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null">
+        FAX = #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="mail != null">
+        MAIL = #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicense != null">
+        BUSINESS_LICENSE = #{businessLicense,jdbcType=CHAR},
+      </if>
+      <if test="orgCodeCertification != null">
+        ORG_CODE_CERTIFICATION = #{orgCodeCertification,jdbcType=CHAR},
+      </if>
+      <if test="taxCertificate != null">
+        TAX_CERTIFICATE = #{taxCertificate,jdbcType=CHAR},
+      </if>
+
+
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="update" parameterType="com.cfcp.incc.entity.Distributor">
+    update DISTRIBUTOR
+    set NAME = #{name,jdbcType=VARCHAR},
+      ORG_CODE = #{orgCode,jdbcType=VARCHAR},
+      LEGAL_PERSON = #{legalPerson,jdbcType=VARCHAR},
+      CONTACT = #{contact,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      FAX = #{fax,jdbcType=VARCHAR},
+      MAIL = #{mail,jdbcType=VARCHAR},
+      PROVINCE = #{province,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      BUSINESS_LICENSE = #{businessLicense,jdbcType=CHAR},
+      ORG_CODE_CERTIFICATION = #{orgCodeCertification,jdbcType=CHAR},
+      TAX_CERTIFICATE = #{taxCertificate,jdbcType=CHAR},
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
