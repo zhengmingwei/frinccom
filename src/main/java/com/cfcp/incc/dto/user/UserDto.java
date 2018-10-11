@@ -37,7 +37,10 @@ public class UserDto extends CommonDto{
         LOGIN_ERR("注册成功，登录失败", "206"),
         USER_ISNULL("用户为空", "207"),
         PASSWORD_ISNULL("密码为空", "208"),
-        CAPTCHA_ISNULL("验证码为空", "209");
+        CAPTCHA_ISNULL("验证码为空", "209"),
+        PHONE_ERR("联系电话验证失败", "212"),
+        MAIL_ERR("邮箱验证失败", "211"),
+        PASSWORD_ATYPISM("两次密码不一致", "210");
         protected String message;
         protected String code;
 

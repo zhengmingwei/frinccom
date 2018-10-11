@@ -1,151 +1,54 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<!-- saved from url=(0014)about:internet -->
 <html>
-<head>
-    <title>cfcpincc</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<head lang="zh-cn">
+    <title>CFCPINCC用户注册</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="max-age=7200" />
+    <!-- No Baidu Siteapp-->
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="alternate icon" type="image/png" href="i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="后台管理"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--<link href="../css/all.css" rel="stylesheet" type="text/css">-->
 
-    <link rel="stylesheet" href="../css/all-bg.css" type="text/css">
-    <link rel="stylesheet" href="../css/home.css" type="text/css">
-    <link rel="stylesheet" href="../css/list.css" type="text/css">
-    <script src="../js/jquery.min.js"></script>
-    <style type="text/css">
-        <!--
-        body {
-            background-color: #EFEFEF;
-        }
 
-        -->
-    </style>
 </head>
 <body>
-<table width="100%" height="88" border="0" align="center" cellpadding="0" cellspacing="0" class="top_box">
-    <tr>
-        <td align="center" bgcolor="#FFFFFF">
-            <table width="100%" height="88" border="0" align="center" cellpadding="0" cellspacing="0"
-                   background="../images/topbg.png">
-                <tr>
-                    <td width="524" align="left" class="nav_topfont"><a href="" class="A_blue"></a><img
-                            src="../images/logo-banner.png" height="59" border="0"></td>
-                    <td width="436" align="right" class="nav_topfont"><p>&nbsp;</p>
-                        <p>中国保护消费者基金会 &nbsp;&nbsp;</p></td>
-                </tr>
+<div id="entry"></div>
 
-            </table>
-        </td>
-    </tr>
-</table>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<table width="600" border="0" align="center" cellpadding="0" cellspacing="0">
-    <tr>
-        <td width="178" height="50" align="center" class="dh_title"><img src="../images/icon-002.png" width="32"
-                                                                         height="24" align="absmiddle">&nbsp;用户登录
-        </td>
-        <td width="422" class="dh_line_gray">&nbsp;</td>
-    </tr>
-</table>
-<table width="960" border="0" align="center" cellpadding="0" cellspacing="0">
-    <tr>
-        <td>&nbsp;</td>
-    </tr>
-</table>
-<form action="/incc/login" method="post" id="loginForm">
-    <table width="600" border="0" align="center" cellpadding="0" cellspacing="0" class="tybox">
-        <tr>
-            <td valign="top" bgcolor="#FFFFFF">
-                <table width="100%" height="120" border="0" cellpadding="0" cellspacing="0" bgcolor="#F3F3F3">
-                    <tr>
-                        <td align="center" valign="top" bgcolor="#f5f5f5"><p>&nbsp;</p>
-                            <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
+<!--
+//es5-shim + es5-sham + console-polyfill + json3 + html5Shiv + addEventListener-polyfill.js
+-->
 
-                                <tr>
-                                    <td height="60" class="login_font" align="center">用户名：</td>
-                                    <td height="60" class="songgraybold14" align="left"><input name="username"
-                                                                                               type="text"
-                                                                                               class="inputall"
-                                                                                               size="38"/></td>
-                                </tr>
-                                <tr>
-                                    <td width="32%" height="60" align="center" class="login_font">密　码：</td>
-                                    <td width="68%" height="60" align="left" class="songgraybold14"><input
-                                            name="password" type="password" class="inputall" size="38"/></td>
-                                </tr>
-                                <tr>
-                                    <td height="60" class="login_font" align="center">验证码：</td>
-                                    <td height="60" class="songgraybold14" align="left" styl="vertical-align:middle"><input name="PIC_CAPTCHA" id="captcha"
-                                                                                               type="text"
-                                                                                               class="inputall"
-                                                                                               size="22"/>
-                                        &nbsp;<img id="pic" src="" onclick="getPicCode()" style="vertical-align:middle"/></td>
-                                </tr>
-                                <tr>
-                                    <td height="70" class="main_title001" align="center">&nbsp;</td>
-                                    <td height="70" align="left" class="songhuibold12"><input name="button"
-                                                                                              type="button"
-                                                                                              class="button_login yuan"
-                                                                                              value="登录"
-                                                                                              style="width:120px"
-                                                                                              onClick="login()">
-                                        &nbsp;
-                                        <input name="button2" type="reset" class="button_login yuan" value="重写"
-                                               style="width:120px" onClick="reset()"><span id="loginErr"></span></td>
-                                </tr>
-                            </table>
-                            <p>&nbsp;</p></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-</form>
-<br>
-<p>&nbsp;</p>
-<table width="100%" height="40" border="0" cellpadding="0" cellspacing="0" class="lg_bottom">
-    <tr>
-        <td align="center" valign="top" class="songgray12">@2017 cfcp-incc.org版权所有 京ICP备17044281号-1</td>
-    </tr>
-</table>
+<!--
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="https://gist.githubusercontent.com/eirikbacker/2864711/raw/dcc32b15ea79f8f364ca1707f81ec74a15fa25db/addEventListener-polyfill.js"></script>
+-->
+
+<!--
+//最后一个addEventListener-polyfill.js是直接github Raw下来的，建议自己保存
+-->
+
+<!--
+<script src="../assets/polyfill.min.js"></script>-->
+<script src="../assets/index.bundle.register.js"></script>
+<!--<script src="../js/browsercheck.js"></script>
+<script type="text/javascript">
+    browsrcheck("index.bundle.js");
+</script>-->
 </body>
-<script>
-    var loginForm = document.getElementById("loginForm");
-    function login() {
-        loginForm.submit();
-    }
-    function reset() {
-        loginForm.reset();
-    }
-
-    function chackErr() {
-        var myErr = GetQueryString("err");
-        if (myErr != null  && myErr.toString().length > 0) {
-            //alert(myErr.toString());
-            if(myErr == "1"){
-                var errText = "<span style=\"color: red\">用户名或密码错误！</span>";
-            } else {
-                var errText = "<span style=\"color: red\">验证码错误！</span>";
-            }
-            document.getElementById("loginErr").innerHTML = errText;
-        }
-    }
-    function GetQueryString(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-        var r = window.location.search.substr(1).match(reg);
-        if (r != null)return unescape(r[2]);
-        return null;
-    }
-
-    $("#captcha").keydown(function (e) {
-        if (e.keyCode == 13) {
-            login();
-        }
-    });
-    chackErr();
-    function getPicCode() {
-        url = "picCheckCode?" + Math.random();
-        //alert(url);
-        $("#pic").attr("src", url);
-    }
-    getPicCode();
-</script>
+<link href="../css/main.css" rel="stylesheet" type="text/css"/>
+<link href="../css/myCustom.css" rel="stylesheet" type="text/css"/>
+<link href="../css/index.css" rel="stylesheet" type="text/css"/>
+<!--<link href="../css/all.css" rel="stylesheet" type="text/css">-->
+</html>
 </html>

@@ -1,6 +1,12 @@
 package com.cfcp.incc.controller.user;
 
+import com.cfcp.incc.Constants;
 import com.cfcp.incc.dao.UserDao;
+import com.cfcp.incc.dto.user.User1Dto;
+import com.cfcp.incc.entity.Distributor;
+import com.cfcp.incc.service.distributor.DistributorService;
+import com.cfcp.incc.utils.BeanUtil;
+import com.cfcp.incc.utils.CheckUtil;
 import com.cfcp.incc.utils.generator.UUIDGenerator;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
@@ -14,10 +20,13 @@ import com.cfcp.incc.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.tigerfacejs.commons.view.DataEvent;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
@@ -36,6 +45,9 @@ public class UserController extends BaseController{
 
     @Autowired
     LoginService loginService;
+
+    @Autowired
+    DistributorService distributorService;
 
 //    /**
 //     * 用户注册
@@ -115,6 +127,20 @@ public class UserController extends BaseController{
         return DataEvent.wrap("user", new CommonDto<User>(user));
     }
 
+    @RequestMapping(value = "/getUserByName",method = RequestMethod.POST)
+    public Object getUserByName(
+            HttpServletRequest request,
+            HttpServletResponse response) {
+        String name = (String) request.getParameter("name");
+        User user = userService.getUserByName(name);
+        if(user!=null){
+            return new CommonDto(CommonDto.CommonResult.FAILED);
+        }else{
+            return new CommonDto(CommonDto.CommonResult.SUCCESS);
+        }
+        //return DataEvent.wrap("user", new CommonDto<User>(user));
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public Object delete(@PathVariable String id){
         userService.delete(id);
@@ -184,6 +210,61 @@ public class UserController extends BaseController{
             return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.USER_EXISTED));
         }
         if ( userService.saveOrUpdate(user) > 0) {
+            //return DataEvent.wrap("user", "注册成功。");
+            //return "redirect:http://icon.cfcpincc.com/";
+            return DataEvent.wrap("user", new CommonDto<User>(user));
+        } else {
+            return DataEvent.wrap("user", "保存失败！");
+        }
+    }
+    //@RequestMapping(value = {"/saveUser_rigi","saveUser_rigi"}, method = RequestMethod.POST)
+    //@RequestMapping(value = "/saveUser_rigi", method = RequestMethod.POST,produces = "application/json")
+
+
+    @ResponseBody
+    @RequestMapping(value = "/saveUser_rici", method = RequestMethod.POST)
+    public Object addUser_rici(HttpServletResponse response,HttpServletRequest request, @RequestBody User1Dto usr) {
+        String yzm = usr.getYzm();
+        String genCaptcha = (String)request.getSession().getAttribute(Constants.PIC_CHECK_CODE);
+
+        if(usr.getPassword()!=null && usr.getPassword2()!=null && !usr.getPassword2().equals(usr.getPassword())){
+            return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.BAD_CAPTCHA));
+        }
+        if(!CheckUtil.checkEmail(usr.getMail())){
+            return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.MAIL_ERR));
+        }
+        if(!CheckUtil.checkMobileNumberzJ(usr.getPhone()) && !CheckUtil.checkMobileNumber(usr.getPhone())){
+            return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.PHONE_ERR));
+        }
+        if (yzm==null || "".equals(yzm) || !genCaptcha.equals(yzm)){
+            return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.PASSWORD_ATYPISM));
+        }
+        request.getSession().removeAttribute(Constants.PIC_CHECK_CODE);
+
+        if (usr.getName()!=null && userService.isUserExists1(usr.getName())){
+            return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.USER_EXISTED));
+        }
+        User user = null;
+
+        if (usr.getName()!=null && userService.isUserExists1(usr.getName())){
+            return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.USER_EXISTED));
+        }
+        user = new User();
+       //OrganizationListDto organizationListDto = new OrganizationListDto();
+        BeanUtil.copy(usr, user);
+        String si = usr.getBusinessLicense().replaceAll("\\\\", "");
+
+        user.setBusinessLicense(si.substring(1,si.length()-1));
+        if(!usr.getDistributorId().equals("")){
+            //Distributor distributor = distributorService.get(usr.getDistributorId());
+            //user.setDistributor(distributor);
+        }
+        user.setDistributorId(usr.getDistributorId());
+
+
+        if ( userService.saveOrUpdate(user) > 0) {
+
+
             //return DataEvent.wrap("user", "注册成功。");
             //return "redirect:http://icon.cfcpincc.com/";
             return DataEvent.wrap("user", new CommonDto<User>(user));

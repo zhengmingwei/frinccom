@@ -1,54 +1,370 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0014)about:internet -->
 <html>
-<head lang="zh-cn">
-    <title>CFCPINCC用户注册</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="Cache-Control" content="max-age=7200" />
-    <!-- No Baidu Siteapp-->
-    <meta http-equiv="Cache-Control" content="no-siteapp"/>
-    <link rel="alternate icon" type="image/png" href="i/favicon.png">
-    <link rel="apple-touch-icon-precomposed" href="i/app-icon72x72@2x.png">
-    <meta name="apple-mobile-web-app-title" content="后台管理"/>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <!--<link href="../css/all.css" rel="stylesheet" type="text/css">-->
+<head>
+    <title>中国合规商品资质验证管理平台注册</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
+    <link rel="stylesheet" href="../css/all-bg.css" type="text/css">
+    <link rel="stylesheet" href="../css/home.css" type="text/css">
+    <link rel="stylesheet" href="../css/list.css" type="text/css">
+    <link rel="stylesheet" href="../css/upload.css">
+    <link rel="stylesheet" href="../css/upload1.css">
+    <style>
+        .divcss5 img{ width:150px; height:150px}
+    </style>
+    <style>
+        div.file{display:inline-block;position:relative;}
+        div.file input.transparent{position:absolute;left:0;top:0;filter:alpha(opacity=0);opacity:0;width:100%}
+    </style>
+    <style type="text/css">
+        <!--
+        body {
+            background-color: #EFEFEF;
+        }
+
+        -->
+    </style>
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/upload.min.js"></script>
+    <script src="../js/rig.js"></script>
+
+    <script type="text/javascript">
+
+
+    </script>
 
 </head>
 <body>
-<div id="entry"></div>
+<table width="100%" height="58" border="0" align="center" cellpadding="0" cellspacing="0" class="top_box">
+    <tr>
+        <td align="center" bgcolor="#FFFFFF">
+            <table width="100%" height="58" border="0" align="center" cellpadding="0" cellspacing="0"
+                   background="../images/topbg.png">
+                <tr>
+                    <td width="524" align="left" class="nav_topfont"><a href="" class="A_blue"></a><img
+                            src="../images/logo-banner.png" height="58" border="0"></td>
+                    <td width="436" align="right" class="nav_topfont"><p>&nbsp;</p>
+                        <p>中国保护消费者基金会 &nbsp;&nbsp;</p>
 
-<!--
-//es5-shim + es5-sham + console-polyfill + json3 + html5Shiv + addEventListener-polyfill.js
--->
+                        <a href="http://www.cfcpincc.com"  target="_blank"><span style="font-size:12px;text-decoration:none;">网站首页&nbsp;&nbsp;</span></a>
+                        <a href="http://icon.cfcpincc.com"  target="_blank"><span style="font-size:12px;text-decoration:none;">后台登录&nbsp;&nbsp;&nbsp;&nbsp;</span></a>
+                    </td>
+                </tr>
 
-<!--
-<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://gist.githubusercontent.com/eirikbacker/2864711/raw/dcc32b15ea79f8f364ca1707f81ec74a15fa25db/addEventListener-polyfill.js"></script>
--->
+            </table>
+        </td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<!--<p>&nbsp;</p>-->
+<table width="1200" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+        <td width="178" height="30" align="center" class="dh_title"><img src="../images/icon-002.png" width="32"
+                                                                         height="24" align="absmiddle">&nbsp;用户注册
+        </td>
+        <td width="422" class="dh_line_gray">&nbsp;</td>
+    </tr>
+</table>
+<table width="960" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+</table>
+<form action="/incc/login" method="post" id="loginForm">
+    <table width="1200" border="0" align="center" cellpadding="0" cellspacing="0" class="tybox">
+        <tr>
+            <td valign="top" bgcolor="#FFFFFF">
+                <table width="100%" height="120" border="0" cellpadding="0" cellspacing="0" bgcolor="#F3F3F3">
+                    <tr>
+                        <td align="center" valign="top" bgcolor="#f5f5f5"><p>&nbsp;</p>
+                            <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
 
-<!--
-//最后一个addEventListener-polyfill.js是直接github Raw下来的，建议自己保存
--->
+                                <tr>
+                                    <td height="38" width="10%"  align="right"> <span style="color:red">*</span>用户名：</td>
+                                    <td height="38" width="40%" class="songgraybold14" align="left"><input name="name" id="name"
+                                                                                               type="text"
+                                                                                               class="inputall_rg"
+                                                                                               placeholder="请输入用户姓名"
+                                                                                                           onfocus="cloneName();"
+                                                                                                           onblur="checkName();"
+                                                                                               size="38" required/>
 
-<!--
-<script src="../assets/polyfill.min.js"></script>-->
-<script src="../assets/index.bundle.register.js"></script>
-<!--<script src="../js/browsercheck.js"></script>
-<script type="text/javascript">
-    browsrcheck("index.bundle.js");
-</script>-->
+                                        <span style="color:#F00"><div id="msgName"></div></span>
+                                    </td>
+
+                                    <td height="38" width="10%"  align="right"><span style="color:red">*</span>邮箱：</td>
+                                    <td height="38" width="40%" class="songgraybold14" align="left"><input name="mail" id="mail"
+                                                                                               type="text"
+                                                                                               class="inputall_rg"
+                                                                                               placeholder="请输入邮箱"
+                                                                                               onfocus="cloneEmail();"
+                                                                                               onblur="checkEmail();"
+                                                                                               size="38" required/>
+
+                                     <span style="color:#F00"><div id="msgEmail"></div></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="38" width="10%"  align="right">密码：</td>
+                                    <td height="38" width="40%" class="songgraybold14" align="left"><input id="password"
+                                            name="password" type="password" class="inputall_rg" size="38"
+                                                                                                           onfocus="clonePass();"
+                                                                                                           onblur="checkPass();"
+                                    /></td>
+
+                                    <td height="38" width="10%"  align="right">确认密码：</td>
+                                    <td height="38" width="40%" class="songgraybold14" align="left"><input id="password2"
+                                            name="password2" type="password" class="inputall_rg" size="38"
+                                                                                                           onfocus="clonePass();"
+                                                                                                           onblur="checkPass();"
+                                    />
+
+                                        <span style="color:#F00"><div id="msgPass"></div></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="38" width="10%"  align="right"><span style="color:red">*</span>身份证：</td>
+                                    <td height="38" width="40%" class="songgraybold14" align="left"><input name="idCard" id="idCard"
+                                                                                                           type="text"
+                                                                                                           class="inputall_rg"
+                                                                                                           placeholder="请输入身份证号码"
+                                                                                                           size="38"/></td>
+
+                                    <td height="38" width="10%"  align="right"><span style="color:red">*</span>所属分销商：</td>
+                                    <td height="38" width="40%" class="songgraybold14" align="left">
+                                      <select name="s1234"  id="s1234" style='width:290px;height: 30px'>
+
+                                      </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="38" width="10%"  align="right"><span style="color:red">*</span>企业名称：</td>
+                                    <td height="38" width="40%" class="songgraybold14" align="left"><input name="companyName" id="companyName"
+                                                                                                           type="text"
+                                                                                                           class="inputall_rg"
+                                                                                                           placeholder="请输入企业名称"
+                                                                                                           size="38"/></td>
+
+                                    <td height="38" width="10%"  align="right"><span style="color:red">*</span>联系电话：</td>
+                                    <td height="38" width="40%" class="songgraybold14" align="left"><input name="phone" id="phone"
+                                                                                                           type="text"
+                                                                                                           class="inputall_rg"
+                                                                                                           placeholder="请输入联系电话"
+                                                                                                           onfocus="cloneMobile();"
+                                                                                                           onblur="checkMobile();"
+                                                                                                           size="38"/>
+
+                                        <span style="color:#F00"><div id="msgPhone"></div></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="150" width="10%"  align="right"><span style="color:red">*</span>企业资质：</td>
+                                    <td height="150" width="40%" class="songgraybold14" align="left"> <div  class="divcss5">
+                                        <img id="upimg" src="../images/BG.png"，style="CURSOR: hand" onclick='doUpload1()'/>
+                                    </div>
+                                    <input type="file" id="imageFile" style="visibility:hidden" name="img" multiple="multiple"  onchange="doUpload();"/>
+                                    <input name="businessLicense" id="businessLicense" style="visibility:hidden" type="text" />
+                                   <!-- <input name="businessLicense1" id="businessLicense1" type="text" />-->
+                                    </td>
+
+                                    <td height="38" width="10%"  align="right" valign="top"><span style="color:red">*</span>验证码：</td>
+                                    <td height="38" width="40%" class="songgraybold14" align="left" valign="top"><input name="yzm" id="yzm"
+                                                                                                           type="text"
+                                                                                                           class="inputall_rg"
+                                                                                                           placeholder="请输入验证码"
+                                                                                                                        onfocus="clonePicCode();"
+                                                                                                           size="38"/>
+                                        &nbsp;<img id="pic" src="" onclick="getPicCode()" style="vertical-align:middle"/>
+
+                                        <span style="color:#F00"><div id="msgPicCode"></div></span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td height="38" width="10%" class="login_font" align="center"></td>
+                                    <td height="38" width="40%" class="songgraybold14" align="right"><input name="button"
+                                                                                                           type="button"
+                                                                                                           class="button_login yuan"
+                                                                                                           value="注册"
+                                                                                                           style="width:120px"
+                                                                                                           onClick="login()"></td>
+
+                                    <td height="38" width="10%" class="login_font" align="center"></td>
+                                    <td height="38" width="40%" class="songgraybold14" align="left">
+                                        <input name="button2" type="reset" class="button_login yuan" value="重写"
+                                                                                                           style="width:120px" onClick="reset()">
+                                        <span id="loginErr"></span></td>
+                                </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</form>
+<br>
+<p>&nbsp;</p>
+<table width="100%" height="40" border="0" cellpadding="0" cellspacing="0" class="lg_bottom">
+    <tr>
+        <td align="center" valign="top" class="songgray12">Copyright © 2017-2018 中国合规商品资质验证中心 版权所有 备案号：京ICP备18047684号-1 商验（北京）认证服务有限公司提供技术和运营服务</td>
+    </tr>
+</table>
 </body>
-<link href="../css/main.css" rel="stylesheet" type="text/css"/>
-<link href="../css/myCustom.css" rel="stylesheet" type="text/css"/>
-<link href="../css/index.css" rel="stylesheet" type="text/css"/>
-<!--<link href="../css/all.css" rel="stylesheet" type="text/css">-->
-</html>
+<script>
+    var loginForm = document.getElementById("loginForm");
+    function login() {
+        //loginForm.submit();
+        var distributor_text = $('#s1234 option:selected').text();//选中的文本
+        var distributor_val = $('#s1234 option:selected') .val();//选中的值
+
+
+        //"distributorId":$('#s1234 option:selected').val(),
+        //"businessLicense":$('#businessLicense').val(),
+        //"password": $('#password').val(),
+        //"mail":$('#mail').val(),
+        //"idCard":$('#idCard').val(),
+        //"distributor":null,
+        //"state":null,
+        //"phone":$('#phone').val(),
+        //"companyName":$('#companyName').val(),
+        // 这里传送的对象有多少属性，就要传送多少属性
+        // 所以一般都设计DTO
+
+        var data = {
+            name:$('#name').val(),
+            distributorId:$('#s1234 option:selected').val(),
+            password: $('#password').val(),
+            password2: $('#password2').val(),
+            mail:$('#mail').val(),
+            idCard:$('#idCard').val(),
+            companyName:$('#companyName').val(),
+            phone:$('#phone').val(),
+            businessLicense:JSON.stringify($('#businessLicense').val()),
+            yzm:$('#yzm').val()
+        }
+        //alert(JSON.stringify(data));
+        var location = (window.location+'').split('/');
+        var basePath = location[0]+'//'+location[2]+'/'+location[3];
+        var ff = basePath+"/manager/user/saveUser_rici";
+
+        $.ajax({
+            type:'POST',
+            url:ff ,
+            data:JSON.stringify(data),//必要
+            dataType:"json",
+            contentType:"application/json",
+            async:false,
+            cache:false,
+            success:function (data) {
+                if(data.returnCode=="203"){
+                    document.getElementById('msgPicCode').innerHTML='验证码错误';
+                }
+                if(data.returnCode=="203"){
+                    document.getElementById('msgName').innerHTML='用户已被使用';
+                }
+                if(data.returnCode=="210"){
+                    document.getElementById('msgPass').innerHTML='两次密码不一致';
+                }
+                if(data.returnCode=="211"){
+                    document.getElementById('msgEmail').innerHTML='邮箱验证失败';
+                }
+                if(data.returnCode=="212"){
+                    document.getElementById('msgPhone').innerHTML='联系电话验证失败';
+                }
+                if(data.returnCode=="200"){
+                    alert("注册成功，请根据新增用户授权流程说明申请权限");
+                }
+                if(data.status=="success"){
+                    console.debug('----------------插入数据库成功------------------');
+                }else{
+                    console.debug('----- ----------插入数据库失败------------------');
+                }
+
+            },
+            error:function (data) {
+
+            }
+        });
+
+    }
+    function reset() {
+        loginForm.reset();
+    }
+
+    function chackErr() {
+        var myErr = GetQueryString("err");
+        if (myErr != null  && myErr.toString().length > 0) {
+            //alert(myErr.toString());
+            if(myErr == "1"){
+                var errText = "<span style=\"color: red\">用户名或密码错误！</span>";
+            } else {
+                var errText = "<span style=\"color: red\">验证码错误！</span>";
+            }
+            document.getElementById("loginErr").innerHTML = errText;
+        }
+    }
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)return unescape(r[2]);
+        return null;
+    }
+
+    $("#captcha").keydown(function (e) {
+        if (e.keyCode == 13) {
+            login();
+        }
+    });
+    chackErr();
+
+    function getPicCode() {
+        var location = (window.location+'').split('/');
+        var basePath = location[0]+'//'+location[2]+'/'+location[3];
+        url = basePath+"/view/picCheckCode?" + Math.random();
+        document.getElementById("pic").src=url;
+    }
+    getPicCode();
+
+    window.onload = function() {
+        var location = (window.location+'').split('/');
+        var basePath = location[0]+'//'+location[2]+'/'+location[3];
+        var ff = basePath+"/manager/distributor/options_rg";
+
+        var fd = new FormData();
+        $.ajax({
+            //url: '<%=basePath%>UploadImage' ,  /*这是处理文件上传的servlet*/
+            url: ff ,  /*这是处理文件上传的servlet*/
+            type: 'POST',
+            data: fd,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (returndata) {
+                var arr = returndata;
+                var sel = document.getElementById("s1234");
+                for(var i=0;i<arr.length;i++){
+                    var dis = arr[i];
+
+                    //先创建好select里面的option元素
+                    var option = document.createElement("option");
+                    //转换DOM对象为JQ对象,好用JQ里面提供的方法 给option的value赋值
+                    $(option).val(arr[i].ID);
+                    //给option的text赋值,这就是你点开下拉框能够看到的东西
+                    $(option).text(arr[i].NAME);
+                    //获取select 下拉框对象,并将option添加进select
+                    $('#s1234').append(option);
+
+                }
+            },
+            error: function (returndata) {
+                document.getElementById('msgName').innerHTML="查询用户失败";
+                //alert(returndata);
+            }
+        });
+    };
+
+
+</script>
 </html>

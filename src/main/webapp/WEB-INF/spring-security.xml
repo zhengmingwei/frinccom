@@ -9,11 +9,16 @@
 		<intercept-url pattern="/view/picCheckCode/getString**" access="permitAll"/>
 		<intercept-url pattern="/view/picCheckCode/getString**" access="permitAll"/>
 		<intercept-url pattern="/manager/distributor/options**" access="permitAll"/>
+		<intercept-url pattern="/manager/distributor/options_rg**" access="permitAll"/>
 		<intercept-url pattern="/manager/user/saveUser_rig**" access="permitAll"/>
+		<intercept-url pattern="/manager/user/saveUser_rici**" access="permitAll"/>
 		<intercept-url pattern="/file/upload/1/1**" access="permitAll"/>
+		<intercept-url pattern="/file/upload_r/1/1**" access="permitAll"/>
+		<intercept-url pattern="/manager/user/getUserByName**" access="permitAll"/>
 
 
 		<intercept-url pattern="/register/cfcpincc_Register.html" access="permitAll"/>
+		<intercept-url pattern="/register/cfcpincc_Register_.html" access="permitAll"/>
 		<intercept-url pattern="/register/userinfo**" access="permitAll"/>
 
 		<!--<intercept-url pattern="/view/index.html" access="hasRole('ROLE_ADMIN')"/>-->

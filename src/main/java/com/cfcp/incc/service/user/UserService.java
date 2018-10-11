@@ -66,6 +66,16 @@ public class UserService extends BaseService implements UserDetailsService {
         }
         return true;
     }
+    public boolean isUserExists1(String name) {
+        if(name.equals(""))
+            return true;
+
+        User r = userDao.getByUserNameNoSTATUS(name.trim());
+        if(r!=null)
+            return true;
+         else
+            return false;
+    }
 //
 //    public int update(User user) {
 //        return userDao.update(user);
@@ -108,7 +118,11 @@ public class UserService extends BaseService implements UserDetailsService {
      */
     public int insert(User user) {
         user.setId(UUIDGenerator.getUuid());
-        user.setPassword(encodePassword(user.DEFAULT_PASSWORD));
+        if("".equals(user.getPassword()) || user.getPassword()==null){
+            user.setPassword(encodePassword(user.DEFAULT_PASSWORD));
+        }else{
+            user.setPassword(encodePassword(user.getPassword()));
+        }
         user.setStatus(Constants.USER_STATUS_ENABLE);
         user.setCreateTime(new Date());
         if(getCurrentUser()==null){
@@ -155,6 +169,10 @@ public class UserService extends BaseService implements UserDetailsService {
 
     public User get(String id) {
         return userDao.get(id);
+    }
+
+    public User getUserByName(String id) {
+        return userDao.getByUserNameNoSTATUS(id);
     }
 
     public int delete(String id) {

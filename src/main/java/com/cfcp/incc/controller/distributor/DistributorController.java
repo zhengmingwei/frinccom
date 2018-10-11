@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.tigerfacejs.commons.view.DataEvent;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 
@@ -40,6 +42,13 @@ public class DistributorController extends BaseController {
 
     @RequestMapping(value = "options")
     public Object allMap() {
+        return DataEvent.wrap("distributorOptions", distributorService.allMap());
+    }
+
+    @RequestMapping(value = "/options_rg",method = RequestMethod.POST )
+    public Object allMap_rg(
+            HttpServletRequest request,
+            HttpServletResponse response) {
         return DataEvent.wrap("distributorOptions", distributorService.allMap());
     }
 

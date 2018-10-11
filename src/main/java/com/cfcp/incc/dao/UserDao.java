@@ -43,6 +43,9 @@ public interface UserDao extends GenericDao {
 	public User getByUserName(String userName);
 
 
+	public User getByUserNameNoSTATUS(String userName);
+
+
 	/**
 	 * 用户查重
 	 * @param userName

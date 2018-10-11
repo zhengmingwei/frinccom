@@ -43,6 +43,13 @@
         from USER
         where NAME = #{userName} AND STATUS=1
     </select>
+
+    <select id="getByUserNameNoSTATUS" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from USER
+        where NAME = #{userName}
+    </select>
     <select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
         SELECT
         t.*, d.Id as D_ID, d.NAME as D_NAME, r.ROLE_ID, IFNULL(r.ROLE_NAME,concat('****** 新用户，注册时间：',date_format(t.CREATE_TIME, '%Y-%m-%d %H:%i:%s'))) as ROLE_NAME

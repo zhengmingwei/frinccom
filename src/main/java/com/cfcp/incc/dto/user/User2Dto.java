@@ -9,7 +9,7 @@ import org.springframework.beans.BeanUtils;
  * 用于返回用户信息
  * Created by zhyj on 2016/11/28.
  */
-public class User1Dto extends CommonDto{
+public class User2Dto extends CommonDto{
 
     private String idCard;
 
@@ -84,11 +84,11 @@ public class User1Dto extends CommonDto{
         this.state = state;
     }
 
-    public User1Dto(ResponseInfo state) {
+    public User2Dto(ResponseInfo state) {
         this.state = state;
     }
 
-    public User1Dto(ResponseInfo state, User user) {
+    public User2Dto(ResponseInfo state, User user) {
         this.state = state;
         BeanUtils.copyProperties(user, this);
 //        if( user.getUserinfoList() != null && user.getUserinfoList().size() > 0){
@@ -164,8 +164,8 @@ public class User1Dto extends CommonDto{
     }
 
     public static void main(String[] args){
-        System.out.println(new User1Dto(ResponseInfo.SUCCESS).getReturnCode());
-        System.out.println(new User1Dto(ResponseInfo.SUCCESS).getMessage());
+        System.out.println(new User2Dto(ResponseInfo.SUCCESS).getReturnCode());
+        System.out.println(new User2Dto(ResponseInfo.SUCCESS).getMessage());
 
     }
 }

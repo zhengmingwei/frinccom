@@ -25,6 +25,22 @@ border-radius: 3px;
 -moz-box-shadow: #999 0px 0px 0px;
 box-shadow: #999 0px 0px 0px;background: #ffffff;behavior: url(/PIE.htc);
 }
+.inputall_rg{
+	height: 22px;
+	color: #666666;
+	font-size: 14px;
+	padding-left: 8px;
+	border: 1px solid #CCCCCC;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding: 3px 10px;text-align: ;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: #999 0px 0px 0px;
+	-moz-box-shadow: #999 0px 0px 0px;
+	box-shadow: #999 0px 0px 0px;background: #ffffff;behavior: url(/PIE.htc);
+}
 .input_bgred{
 	height: 32px;
 	color: #FFFFFF;
