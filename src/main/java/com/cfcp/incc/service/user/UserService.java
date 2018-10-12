@@ -175,6 +175,11 @@ public class UserService extends BaseService implements UserDetailsService {
         return userDao.getByUserNameNoSTATUS(id);
     }
 
+    public int getUserByCompanyName(String company) {
+        return userDao.countUserByCompanyName(company);
+    }
+
+
     public int delete(String id) {
         return userDao.delete(id);
     }

@@ -2,11 +2,13 @@ package com.cfcp.incc.controller.user;
 
 import com.cfcp.incc.Constants;
 import com.cfcp.incc.dao.UserDao;
+import com.cfcp.incc.dto.StringDto;
 import com.cfcp.incc.dto.user.User1Dto;
 import com.cfcp.incc.entity.Distributor;
 import com.cfcp.incc.service.distributor.DistributorService;
 import com.cfcp.incc.utils.BeanUtil;
 import com.cfcp.incc.utils.CheckUtil;
+import com.cfcp.incc.utils.IdcardUtils;
 import com.cfcp.incc.utils.generator.UUIDGenerator;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
@@ -127,11 +129,24 @@ public class UserController extends BaseController{
         return DataEvent.wrap("user", new CommonDto<User>(user));
     }
 
+    @ResponseBody
     @RequestMapping(value = "/getUserByName",method = RequestMethod.POST)
-    public Object getUserByName(
-            HttpServletRequest request,
-            HttpServletResponse response) {
-        String name = (String) request.getParameter("name");
+    public Object getUserByName( HttpServletResponse response,HttpServletRequest request, @RequestBody StringDto usr) {
+
+        String name = (String) usr.getName();
+        String type = usr.getType();
+
+        if(type!=null && !type.equals("") && !type.equals("用户")){
+
+            int user = userService.getUserByCompanyName(name);
+            if(user>0){
+                return new CommonDto(CommonDto.CommonResult.COMPANY_NAME_ISUSED);
+            }else{
+                return new CommonDto(CommonDto.CommonResult.SUCCESS);
+            }
+        }
+
+
         User user = userService.getUserByName(name);
         if(user!=null){
             return new CommonDto(CommonDto.CommonResult.FAILED);
@@ -224,22 +239,56 @@ public class UserController extends BaseController{
     @ResponseBody
     @RequestMapping(value = "/saveUser_rici", method = RequestMethod.POST)
     public Object addUser_rici(HttpServletResponse response,HttpServletRequest request, @RequestBody User1Dto usr) {
+
+
         String yzm = usr.getYzm();
         String genCaptcha = (String)request.getSession().getAttribute(Constants.PIC_CHECK_CODE);
+        if (genCaptcha==null){
+            return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.BAD_CAPTCHA_ISNULL));
+        }
+
+        if (yzm==null || "".equals(yzm) || !genCaptcha.equals(yzm)){
+            return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.BAD_CAPTCHA));
+        }
+
+        //验证  用户名为空
+        if(usr.getName()==null || usr.getName().equals("")){
+            return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.USER_ISNULL));
+        }
+
 
         if(usr.getPassword()!=null && usr.getPassword2()!=null && !usr.getPassword2().equals(usr.getPassword())){
             return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.BAD_CAPTCHA));
         }
+        if(usr.getMail()==null || "".equals(usr.getMail())){
+            return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.MAIL_ISNULL));
+        }
+        if(usr.getIdCard()==null || "".equals(usr.getIdCard())){
+            return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.ICCARD_ISNULL));
+        }
+        if(!IdcardUtils.validateCard(usr.getIdCard())){
+            return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.ICCARD_ERR));
+        }
+
         if(!CheckUtil.checkEmail(usr.getMail())){
             return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.MAIL_ERR));
+        }
+        if(usr.getPhone()==null || "".equals(usr.getPhone())){
+            return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.PHONE_ISNULL));
         }
         if(!CheckUtil.checkMobileNumberzJ(usr.getPhone()) && !CheckUtil.checkMobileNumber(usr.getPhone())){
             return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.PHONE_ERR));
         }
-        if (yzm==null || "".equals(yzm) || !genCaptcha.equals(yzm)){
-            return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.PASSWORD_ATYPISM));
+        //验证  企业名称为空
+        if(usr.getCompanyName()==null || usr.getCompanyName().equals("")){
+                return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.COMPANYNAME_ISNULL));
         }
-        request.getSession().removeAttribute(Constants.PIC_CHECK_CODE);
+        //验证  企业名称已被其他用户注册使用
+        if(usr.getCompanyName()!=null && !usr.getCompanyName().equals("")){
+            if(userService.getUserByCompanyName(usr.getCompanyName())>0){
+                return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.COMPANYNAME_ISUSED));
+            }
+        }
 
         if (usr.getName()!=null && userService.isUserExists1(usr.getName())){
             return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.USER_EXISTED));
@@ -260,7 +309,7 @@ public class UserController extends BaseController{
             //user.setDistributor(distributor);
         }
         user.setDistributorId(usr.getDistributorId());
-
+        request.getSession().removeAttribute(Constants.PIC_CHECK_CODE); //验证码不能清空
 
         if ( userService.saveOrUpdate(user) > 0) {
 

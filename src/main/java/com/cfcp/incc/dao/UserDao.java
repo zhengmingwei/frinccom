@@ -46,6 +46,7 @@ public interface UserDao extends GenericDao {
 	public User getByUserNameNoSTATUS(String userName);
 
 
+	public int countUserByCompanyName(@Param("company") String company);
 	/**
 	 * 用户查重
 	 * @param userName

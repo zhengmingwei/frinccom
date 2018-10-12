@@ -1,12 +1,6 @@
 package com.cfcp.incc.dto.user;
 
 public class ImgDto {
-/*"uid":"e9a884e2d61f20c9893488b76820b28d025a8918",
-        "url":"http://icon.cfcpincc.com/incc/file/get/1/1/e9a884e2d61f20c9893488b76820b28d025a8918.png",
-        "ext":"png",
-        "name":"小米-绿色.png",
-        "status":"done"
-}*/
 
     private String uid;
     private String url;

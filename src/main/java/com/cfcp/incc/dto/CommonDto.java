@@ -13,6 +13,7 @@ public class CommonDto <T>{
 
     public enum CommonResult {
         SUCCESS("请求成功", "200"),
+        COMPANY_NAME_ISUSED("企业名称已被其他用户注册使用", "199"),
         FAILED("请求失败", "500");
         private String message;
         private String code;

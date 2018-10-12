@@ -97,6 +97,16 @@
     from USER
   </select>
 
+
+
+
+    <select id="countUserByCompanyName" resultType="int">
+        select
+        COUNT(*)
+        from USER
+        WHERE COMPANY_NAME=#{company} AND STATUS=1
+    </select>
+
     <select id="countByUserName" resultType="int">
     select
     COUNT(*)

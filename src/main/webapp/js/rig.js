@@ -216,3 +216,73 @@ function clonePicCode() {
 
 
 
+
+
+//cloneCompany //企业名称 验证码信息 清空
+//onfocus="cloneCompany();"
+//验证企业名称验证
+//onblur="checkCompany();"
+
+//验证用户
+function checkCompany(){
+
+    document.getElementById('msgCompany').innerHTML='';
+    var company =  document.getElementById("companyName").value;
+
+    //alert(name);
+    var location = (window.location+'').split('/');
+    var basePath = location[0]+'//'+location[2]+'/'+location[3];
+    var ff = basePath+"/manager/user/getUserByName";
+
+    var data = {
+        name:company,
+        type:"企业名称"
+    }
+
+    $.ajax({
+        type:'POST',
+        url:ff ,
+        data:JSON.stringify(data),//必要
+        dataType:"json",
+        contentType:"application/json",
+        async:false,
+        cache:false,
+        success: function (data) {
+            //alert(returndata.returnCode);
+            var code = data.returnCode;
+            if( data.returnCode=="199"){
+                document.getElementById('msgCompany').innerHTML="企业名称已被其他用户注册使用**";
+            }
+            //document.getElementById("upimg").src=returndata.result.url;
+            //document.getElementById("showpic").src="<%=basePath%>UploadImage?picture=showpic";/*这是预览图片用的，自己在文件上传表单外添加*/
+        },
+        error: function (data) {
+            document.getElementById('msgCompany').innerHTML="查询企业名称失败";
+            //alert(returndata);
+        }
+    });
+
+}
+
+//cloneEmail //用户 验证 清空
+function cloneCompany() {
+    document.getElementById('msgCompany').innerHTML='';
+}
+
+//cloneEmail //身份号码 验证 清空
+function cloneIdCard() {
+    document.getElementById('msgIdCard').innerHTML='';
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
