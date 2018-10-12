@@ -156,6 +156,7 @@
     update USER
     set ID_CARD = #{idCard,jdbcType=VARCHAR},
       NAME = #{name,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
       MAIL = #{mail,jdbcType=VARCHAR},
       PHONE = #{phone,jdbcType=VARCHAR},
       COMPANY_NAME = #{companyName,jdbcType=VARCHAR},

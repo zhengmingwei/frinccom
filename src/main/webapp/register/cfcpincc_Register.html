@@ -1,8 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!-- saved from url=(0014)about:internet -->
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>中国合规商品资质验证管理平台注册</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,255 +26,256 @@
         -->
     </style>
 
+    <!--
+      <script src="../js/jquery-1.8.3.min.js"></script>-->
+      <script src="jquery-1.12.4.min.js"></script>
+      <script src="../js/upload.min.js"></script>
+      <script src="../js/rig.js"></script>
 
-    <script src="../js/jquery-1.8.3.min.js"></script>
-    <script src="../js/upload.min.js"></script>
-    <script src="../js/rig.js"></script>
+      <script type="text/javascript">
 
-    <script type="text/javascript">
+          function doUpload() {
 
-        function doUpload() {
+              var location = (window.location+'').split('/');
+              var basePath = location[0]+'//'+location[2]+'/'+location[3];
+              var ff = basePath+"/file/upload_r/1/1";
 
-            var location = (window.location+'').split('/');
-            var basePath = location[0]+'//'+location[2]+'/'+location[3];
-            var ff = basePath+"/file/upload_r/1/1";
+              var files = $("#imageFile").get(0).files[0]; //获取file控件中的内容
 
-            var files = $("#imageFile").get(0).files[0]; //获取file控件中的内容
-
-            var fd = new FormData();
-            fd.append("errPic", files);
-
-
-            $.ajax({
-                //url: '<%=basePath%>UploadImage' ,  /*这是处理文件上传的servlet*/
-                url: ff ,  /*这是处理文件上传的servlet*/
-                type: 'POST',
-                data: fd,
-                async: false,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function (returndata) {
-                    //alert(returndata.result.url); businessLicense
-                    document.getElementById("businessLicense").value=JSON.stringify(returndata.result);
-                    //document.getElementById("businessLicense1").value=JSON.stringify(returndata.result);
-
-                    document.getElementById("upimg").src=returndata.result.url;
-                    //document.getElementById("showpic").src="<%=basePath%>UploadImage?picture=showpic";/*这是预览图片用的，自己在文件上传表单外添加*/
-                },
-                error: function (returndata) {
-                    alert(34);
-                    alert(returndata);
-                }
-            });
-        }
+              var fd = new FormData();
+              fd.append("errPic", files);
 
 
+              $.ajax({
+                  //url: '<%=basePath%>UploadImage' ,  /*这是处理文件上传的servlet*/
+                  url: ff ,  /*这是处理文件上传的servlet*/
+                  type: 'POST',
+                  data: fd,
+                  async: false,
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  success: function (returndata) {
+                      //alert(returndata.result.url); businessLicense
+                      document.getElementById("businessLicense").value=JSON.stringify(returndata.result);
+                      //document.getElementById("businessLicense1").value=JSON.stringify(returndata.result);
 
-        function doUpload1() {
-            document.getElementById("imageFile").click();
-        }
-
-        function getPicCode() {
-            var location = (window.location+'').split('/');
-            var basePath = location[0]+'//'+location[2]+'/'+location[3];
-            var url = basePath+"/view/picCheckCode?" + Math.random();
-            document.getElementById("pic").src=url;
-        }
-        getPicCode();
-
-        var loginForm = document.getElementById("loginForm");
-        function login() {
-            loginForm.submit();
-        }
-        function reset() {
-            loginForm.reset();
-        }
-
-        function chackErr() {
-            var myErr = GetQueryString("err");
-            if (myErr != null  && myErr.toString().length > 0) {
-                //alert(myErr.toString());
-                if(myErr == "1"){
-                    var errText = "<span style=\"color: red\">用户名或密码错误！</span>";
-                } else {
-                    var errText = "<span style=\"color: red\">验证码错误！</span>";
-                }
-                document.getElementById("loginErr").innerHTML = errText;
-            }
-        }
-        function GetQueryString(name) {
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if (r != null)return unescape(r[2]);
-            return null;
-        }
-
-        $("#captcha").keydown(function (e) {
-            if (e.keyCode == 13) {
-                login();
-            }
-        });
-        chackErr();
-        function getPicCode1234() {
-            url = "picCheckCode?" + Math.random();
-            //alert(url);
-            $("#pic").attr("src", url);
-        }
-
-        //邮箱 验证
-        function checkEmail() {
-            var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //正则表达式
-            var obj = document.getElementById("mail"); //要验证的对象
-
-            document.getElementById('msgEmail').innerHTML='';
-            if(obj.value === ""){ //输入不能为空
-                //alert("输入不能为空!");
-                return false;
-            }else if(!reg.test(obj.value)){ //正则验证不通过，格式不对
-                //alert("邮箱格式验证不通过!");
-                document.getElementById('msgEmail').innerHTML='邮箱格式验证不通过';
-                return false;
-            }else{
-                //alert("通过！");
-                return true;
-            }
-        }
-        //cloneEmail //邮箱 验证 清空
-        function cloneEmail() {
-            document.getElementById('msgEmail').innerHTML='';
-        }
-
-        //验证联系电话
-        function checkMobile(str) {
-            str =  document.getElementById("phone").value;
-            var rl = "";
-            if(str!=''){
-                var re = /^1\d{10}$/; //手机验证
-                if (re.test(str)) {
-                    //alert("手机正确");
-                } else {
-                    rl = '手机验证不通过';
-                }
-                if(rl.length>0){
-                    var rer = /^0\d{2,3}-?\d{7,8}$/;//座机验证
-                    if(rer.test(str)){
-                        //alert("座机正确");
-                        rl = "";
-                    }else{
-                        rl = '联系电话验证不通过';
-                    }
-                }
-                if(rl.length>0){
-                    document.getElementById('msgPhone').innerHTML=rl;
-                }
-            }
-        }
-
-        //cloneEmail //邮箱 验证 清空
-        function cloneMobile() {
-            document.getElementById('msgPhone').innerHTML='';
-        }
+                      document.getElementById("upimg").src=returndata.result.url;
+                      //document.getElementById("showpic").src="<%=basePath%>UploadImage?picture=showpic";/*这是预览图片用的，自己在文件上传表单外添加*/
+                  },
+                  error: function (returndata) {
+                      alert(34);
+                      alert(returndata);
+                  }
+              });
+          }
 
 
-        //验证密码
-        function checkPass(str) {
-            document.getElementById('msgPass').innerHTML='';
-            var password =  document.getElementById("password").value;
-            var password2 =  document.getElementById("password2").value;
-            var rl = "";
-            if(password!=password2){
-                document.getElementById('msgPass').innerHTML="两次密码不一致";
-            }
-        }
 
-        //cloneEmail //密码 验证 清空
-        function clonePass() {
-            document.getElementById('msgPass').innerHTML='';
-        }
+          function doUpload1() {
+              document.getElementById("imageFile").click();
+          }
 
-        //验证用户
-        function checkName(){
+          function getPicCode() {
+              var location = (window.location+'').split('/');
+              var basePath = location[0]+'//'+location[2]+'/'+location[3];
+              var url = basePath+"/view/picCheckCode?" + Math.random();
+              document.getElementById("pic").src=url;
+          }
+          getPicCode();
 
-            document.getElementById('msgName').innerHTML='';
-            var name =  document.getElementById("name").value;
+          var loginForm = document.getElementById("loginForm");
+          function login() {
+              loginForm.submit();
+          }
+          function reset() {
+              loginForm.reset();
+          }
 
-            //alert(name);
-            var location = (window.location+'').split('/');
-            var basePath = location[0]+'//'+location[2]+'/'+location[3];
-            var ff = basePath+"/manager/user/getUserByName";
+          function chackErr() {
+              var myErr = GetQueryString("err");
+              if (myErr != null  && myErr.toString().length > 0) {
+                  //alert(myErr.toString());
+                  if(myErr == "1"){
+                      var errText = "<span style=\"color: red\">用户名或密码错误！</span>";
+                  } else {
+                      var errText = "<span style=\"color: red\">验证码错误！</span>";
+                  }
+                  document.getElementById("loginErr").innerHTML = errText;
+              }
+          }
+          function GetQueryString(name) {
+              var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+              var r = window.location.search.substr(1).match(reg);
+              if (r != null)return unescape(r[2]);
+              return null;
+          }
+
+          $("#captcha").keydown(function (e) {
+              if (e.keyCode == 13) {
+                  login();
+              }
+          });
+          chackErr();
+          function getPicCode1234() {
+              url = "picCheckCode?" + Math.random();
+              //alert(url);
+              $("#pic").attr("src", url);
+          }
+
+          //邮箱 验证
+          function checkEmail() {
+              var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //正则表达式
+              var obj = document.getElementById("mail"); //要验证的对象
+
+              document.getElementById('msgEmail').innerHTML='';
+              if(obj.value === ""){ //输入不能为空
+                  //alert("输入不能为空!");
+                  return false;
+              }else if(!reg.test(obj.value)){ //正则验证不通过，格式不对
+                  //alert("邮箱格式验证不通过!");
+                  document.getElementById('msgEmail').innerHTML='邮箱格式验证不通过';
+                  return false;
+              }else{
+                  //alert("通过！");
+                  return true;
+              }
+          }
+          //cloneEmail //邮箱 验证 清空
+          function cloneEmail() {
+              document.getElementById('msgEmail').innerHTML='';
+          }
+
+          //验证联系电话
+          function checkMobile(str) {
+              str =  document.getElementById("phone").value;
+              var rl = "";
+              if(str!=''){
+                  var re = /^1\d{10}$/; //手机验证
+                  if (re.test(str)) {
+                      //alert("手机正确");
+                  } else {
+                      rl = '手机验证不通过';
+                  }
+                  if(rl.length>0){
+                      var rer = /^0\d{2,3}-?\d{7,8}$/;//座机验证
+                      if(rer.test(str)){
+                          //alert("座机正确");
+                          rl = "";
+                      }else{
+                          rl = '联系电话验证不通过';
+                      }
+                  }
+                  if(rl.length>0){
+                      document.getElementById('msgPhone').innerHTML=rl;
+                  }
+              }
+          }
+
+          //cloneEmail //邮箱 验证 清空
+          function cloneMobile() {
+              document.getElementById('msgPhone').innerHTML='';
+          }
 
 
-            var data = {
-                name:$('#name').val(),
-                type:"用户"
-            }
+          //验证密码
+          function checkPass(str) {
+              document.getElementById('msgPass').innerHTML='';
+              var password =  document.getElementById("password").value;
+              var password2 =  document.getElementById("password2").value;
+              var rl = "";
+              if(password!=password2){
+                  document.getElementById('msgPass').innerHTML="两次密码不一致";
+              }
+          }
 
-            $.ajax({
-                type:'POST',
-                url:ff ,
-                data:JSON.stringify(data),//必要
-                dataType:"json",
-                contentType:"application/json",
-                async:false,
-                cache:false,
-                success: function (data) {
-                    //alert(returndata.returnCode);
-                    var code = data.returnCode;
-                    if( data.returnCode=="500"){
-                        document.getElementById('msgName').innerHTML="该用户已被使用.";
-                    }
-                    //document.getElementById("upimg").src=returndata.result.url;
-                    //document.getElementById("showpic").src="<%=basePath%>UploadImage?picture=showpic";/*这是预览图片用的，自己在文件上传表单外添加*/
-                },
-                error: function (data) {
-                    document.getElementById('msgName').innerHTML="查询用户失败.";
-                    //alert(returndata);
-                }
-            });
+          //cloneEmail //密码 验证 清空
+          function clonePass() {
+              document.getElementById('msgPass').innerHTML='';
+          }
 
-        }
+          //验证用户
+          function checkName(){
 
-        //cloneEmail //用户 验证 清空
-        function cloneName() {
-            document.getElementById('msgName').innerHTML='';
-        }
+              document.getElementById('msgName').innerHTML='';
+              var name =  document.getElementById("name").value;
 
-        //clonePicCode
+              //alert(name);
+              var location = (window.location+'').split('/');
+              var basePath = location[0]+'//'+location[2]+'/'+location[3];
+              var ff = basePath+"/manager/user/getUserByName";
 
 
-        //cloneEmail //验证码 清空
-        function clonePicCode() {
-            document.getElementById('msgPicCode').innerHTML='';
-        }
+              var data = {
+                  name:$('#name').val(),
+                  type:"用户"
+              }
+
+              $.ajax({
+                  type:'POST',
+                  url:ff ,
+                  data:JSON.stringify(data),//必要
+                  dataType:"json",
+                  contentType:"application/json",
+                  async:false,
+                  cache:false,
+                  success: function (data) {
+                      //alert(returndata.returnCode);
+                      var code = data.returnCode;
+                      if( data.returnCode=="500"){
+                          document.getElementById('msgName').innerHTML="该用户已被使用.";
+                      }
+                      //document.getElementById("upimg").src=returndata.result.url;
+                      //document.getElementById("showpic").src="<%=basePath%>UploadImage?picture=showpic";/*这是预览图片用的，自己在文件上传表单外添加*/
+                  },
+                  error: function (data) {
+                      document.getElementById('msgName').innerHTML="查询用户失败.";
+                      //alert(returndata);
+                  }
+              });
+
+          }
+
+          //cloneEmail //用户 验证 清空
+          function cloneName() {
+              document.getElementById('msgName').innerHTML='';
+          }
+
+          //clonePicCode
 
 
-    </script>
+          //cloneEmail //验证码 清空
+          function clonePicCode() {
+              document.getElementById('msgPicCode').innerHTML='';
+          }
 
-</head>
-<body>
-<table width="100%" height="58" border="0" align="center" cellpadding="0" cellspacing="0" class="top_box">
-    <tr>
-        <td align="center" bgcolor="#FFFFFF">
-            <table width="100%" height="58" border="0" align="center" cellpadding="0" cellspacing="0"
-                   background="../images/topbg.png">
-                <tr>
-                    <td width="524" align="left" class="nav_topfont"><a href="" class="A_blue"></a><img
-                            src="../images/logo-banner.png" height="58" border="0"></td>
-                    <td width="436" align="right" class="nav_topfont"><p>&nbsp;</p>
-                        <p>中国保护消费者基金会 &nbsp;&nbsp;</p>
 
-                        <a href="http://www.cfcpincc.com"  target="_blank"><span style="font-size:12px;text-decoration:none;">网站首页&nbsp;&nbsp;</span></a>
-                        <a href="http://icon.cfcpincc.com"  target="_blank"><span style="font-size:12px;text-decoration:none;">后台登录&nbsp;&nbsp;&nbsp;&nbsp;</span></a>
-                    </td>
-                </tr>
+      </script>
 
-            </table>
-        </td>
-    </tr>
-</table>
-<p>&nbsp;</p>
-<!--<p>&nbsp;</p>-->
+  </head>
+  <body>
+  <table width="100%" height="58" border="0" align="center" cellpadding="0" cellspacing="0" class="top_box">
+      <tr>
+          <td align="center" bgcolor="#FFFFFF">
+              <table width="100%" height="58" border="0" align="center" cellpadding="0" cellspacing="0"
+                     background="../images/topbg.png">
+                  <tr>
+                      <td width="524" align="left" class="nav_topfont"><a href="" class="A_blue"></a><img
+                              src="../images/logo-banner.png" height="58" border="0"></td>
+                      <td width="436" align="right" class="nav_topfont"><p>&nbsp;</p>
+                          <p>中国保护消费者基金会 &nbsp;&nbsp;</p>
+
+                          <a href="http://www.cfcpincc.com"  target="_blank"><span style="font-size:12px;text-decoration:none;">网站首页&nbsp;&nbsp;</span></a>
+                          <a href="http://icon.cfcpincc.com"  target="_blank"><span style="font-size:12px;text-decoration:none;">后台登录&nbsp;&nbsp;&nbsp;&nbsp;</span></a>
+                      </td>
+                  </tr>
+
+              </table>
+          </td>
+      </tr>
+  </table>
+  <p>&nbsp;</p>
+  <!--<p>&nbsp;</p>-->
 <table width="1200" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
         <td width="178" height="30" align="center" class="dh_title"><img src="../images/icon-002.png" width="32"

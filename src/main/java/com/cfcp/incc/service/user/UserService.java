@@ -151,6 +151,15 @@ public class UserService extends BaseService implements UserDetailsService {
             return r;
         } else {
             grantRoles(user);
+
+            String p1 = encodePassword(user.DEFAULT_PASSWORD);
+            String p2 = encodePassword(user.getPassword());
+
+            if("".equals(user.getPassword()) || user.getPassword()==null){
+                user.setPassword(encodePassword(user.DEFAULT_PASSWORD));
+            }else{
+                user.setPassword(encodePassword(user.getPassword()));
+            }
             return userDao.update(user);
         }
     }
