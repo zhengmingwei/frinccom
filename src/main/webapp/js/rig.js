@@ -20,15 +20,22 @@ function doUpload() {
         contentType: false,
         processData: false,
         success: function (returndata) {
+            //alert("rig.js");
+            //alert(returndata.result.url); //businessLicense
+            //alert(returndata.result);
             //alert(returndata.result.url); businessLicense
+            //var rl = returndata.result;
+            //var r = rl.replace("\\\\","");
+            //alert(r);
             document.getElementById("businessLicense").value=JSON.stringify(returndata.result);
+            //document.getElementById("businessLicense1").value=JSON.stringify(r);
             //document.getElementById("businessLicense1").value=JSON.stringify(returndata.result);
             
             document.getElementById("upimg").src=returndata.result.url;
             //document.getElementById("showpic").src="<%=basePath%>UploadImage?picture=showpic";/*这是预览图片用的，自己在文件上传表单外添加*/
         },
         error: function (returndata) {
-            alert(34);
+            //alert(34);
             alert(returndata);
         }
     });

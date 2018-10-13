@@ -32,7 +32,7 @@ public class UserDto extends CommonDto{
         USER_NOT_FOUND("用户不存在", "201"),
         BAD_CREDENTIAL("用户名密码错误", "202"),
         BAD_CAPTCHA("验证码错误", "203"),
-        BAD_CAPTCHA_ISNULL("验证码已失效", "2030"),
+        BAD_CAPTCHA_ISNULL("验证码已失效", "295"),
         REGISTER_ERR("注册失败", "304"),
         USER_EXISTED("用户已存在","205"),
         LOGIN_ERR("注册成功，登录失败", "206"),
@@ -41,17 +41,15 @@ public class UserDto extends CommonDto{
         CAPTCHA_ISNULL("验证码为空", "209"),
         ICCARD_ERR("身份证验证失败", "217"),
         ICCARD_ERR18("身份证长度不足18位", "216"),
-        ICCARD_ERR2("身份证号的第1-17位含有非数字的字符", "2162"),
-        ICCARD_ERR4("身份证号的出生日期非法", "2164"),
-
-
+        ICCARD_ERR2("身份证号的第1-17位含有非数字的字符", "296"),
+        ICCARD_ERR4("身份证号的出生日期非法", "297"),
         ICCARD_ISNULL("身份证为空", "215"),
         COMPANYNAME_ISNULL("企业名称为空", "214"),
         COMPANYNAME_ISUSED("企业名称已被其他用户注册使用", "213"),
         PHONE_ERR("联系电话验证失败", "212"),
-        PHONE_ISNULL("联系电话为空", "2120"),
+        PHONE_ISNULL("联系电话为空", "298"),
         MAIL_ERR("邮箱验证失败", "211"),
-        MAIL_ISNULL("邮箱为空", "2110"),
+        MAIL_ISNULL("邮箱为空", "299"),
         PASSWORD_ATYPISM("两次密码不一致", "210");
         protected String message;
         protected String code;

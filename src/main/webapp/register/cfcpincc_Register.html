@@ -52,7 +52,12 @@
                   contentType: false,
                   processData: false,
                   success: function (returndata) {
-                      //alert(returndata.result.url); businessLicense
+                      //alert("页面rig.js");
+                      //alert(returndata.result.url); //businessLicense
+                      //alert(returndata.result);
+                      //var rl = returndata.result;
+                      //var r = rl.replace("\\\\","");
+                      //alert(r);
                       document.getElementById("businessLicense").value=JSON.stringify(returndata.result);
                       //document.getElementById("businessLicense1").value=JSON.stringify(returndata.result);
 
@@ -388,7 +393,7 @@
                                     </div>
                                     <input type="file" id="imageFile" style="visibility:hidden" name="img" multiple="multiple"  onchange="doUpload();"/>
                                     <input name="businessLicense" id="businessLicense" style="visibility:hidden" type="text" />
-                                   <!-- <input name="businessLicense1" id="businessLicense1" type="text" />-->
+
                                     </td>
 
                                     <td height="38" width="10%"  align="right" valign="top"><span style="color:red">*</span>验证码：</td>
@@ -482,7 +487,9 @@
             cache:false,
             success:function (data) {
                 //getPicCode();
-                if(data.returnCode=="2030"){
+                var recode = data.returnCode;
+
+                if(data.returnCode=="295"){
                     document.getElementById('msgPicCode').innerHTML='验证码已失效，请重新获取验证码信息';
                 }
                 if(data.returnCode=="203"){
@@ -500,11 +507,10 @@
                 if(data.returnCode=="211"){
                     document.getElementById('msgEmail').innerHTML='邮箱验证失败';
                 }
-                if(data.returnCode=="2110"){
+                if(data.returnCode=="299"){
                     document.getElementById('msgEmail').innerHTML='邮箱为空';
                 }
-
-                if(data.returnCode=="2120"){
+                if(data.returnCode=="298"){
                     document.getElementById('msgPhone').innerHTML='联系电话为空';
                 }
                 if(data.returnCode=="212"){
@@ -525,10 +531,10 @@
                 if(data.returnCode=="217"){
                     document.getElementById('msgIdCard').innerHTML='身份证验证失败';
                 }
-                if(data.returnCode=="2162"){
+                if(data.returnCode=="296"){
                     document.getElementById('msgIdCard').innerHTML='身份证号的第1-17位含有非数字的字符';
                 }
-                if(data.returnCode=="2164"){
+                if(data.returnCode=="297"){
                     document.getElementById('msgIdCard').innerHTML='身份证号的出生日期非法';
                 }
                 if(data.returnCode=="200"){
@@ -542,6 +548,8 @@
                 //getPicCode();
             },
             error:function (data) {
+                var dd = data;
+                alert("注册失败，请两项管理员！");
                 //getPicCode();
             }
         });

@@ -256,29 +256,32 @@ public class UserController extends BaseController{
             return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.USER_ISNULL));
         }
 
-
         if(usr.getPassword()!=null && usr.getPassword2()!=null && !usr.getPassword2().equals(usr.getPassword())){
             return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.BAD_CAPTCHA));
         }
         if(usr.getMail()==null || "".equals(usr.getMail())){
             return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.MAIL_ISNULL));
         }
-        if(usr.getIdCard()==null || "".equals(usr.getIdCard())){
+         if(usr.getIdCard()==null || "".equals(usr.getIdCard())){
             return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.ICCARD_ISNULL));
         }
+
+/*
         if(!IdcardUtils.validateCard(usr.getIdCard())){
             return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.ICCARD_ERR));
-        }
+        }*/
 
         if(!CheckUtil.checkEmail(usr.getMail())){
             return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.MAIL_ERR));
         }
-        if(usr.getPhone()==null || "".equals(usr.getPhone())){
+      if(usr.getPhone()==null || "".equals(usr.getPhone())){
             return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.PHONE_ISNULL));
         }
+
+        /*
         if(!CheckUtil.checkMobileNumberzJ(usr.getPhone()) && !CheckUtil.checkMobileNumber(usr.getPhone())){
             return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.PHONE_ERR));
-        }
+        }*/
         //验证  企业名称为空
         if(usr.getCompanyName()==null || usr.getCompanyName().equals("")){
                 return DataEvent.wrap("user", new UserDto(UserDto.ResponseInfo.COMPANYNAME_ISNULL));
