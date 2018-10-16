@@ -8,6 +8,7 @@
     <result column="CATEGORY" property="category" />
     <result column="INDUSTRY" property="industry" />
     <result column="PIC" property="pic" />
+    <result column="SP_VIDEO" property="sp_video" />
     <result column="DISTRIBUTOR_ID" property="distributorId" />
     <result column="COMPANY_ID" property="companyId" />
     <result column="FACTORY_ID" property="factoryId" />
@@ -317,12 +318,12 @@
   </update>
   <insert id="insert" parameterType="com.cfcp.incc.entity.Commodity">
     insert into COMMODITY (ID, NAME, CATEGORY, 
-      INDUSTRY, PIC, DISTRIBUTOR_ID, 
+      INDUSTRY, PIC, SP_VIDEO, DISTRIBUTOR_ID,
       COMPANY_ID, FACTORY_ID, BRAND_ID, 
       CREATE_TIME, CREATOR, STATUS
       )
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, 
-      #{industry,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, #{distributorId,jdbcType=VARCHAR}, 
+      #{industry,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR},#{sp_video,jdbcType=VARCHAR}, #{distributorId,jdbcType=VARCHAR},
       #{companyId,jdbcType=VARCHAR}, #{factoryId,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 1
       )
@@ -440,6 +441,7 @@
       CATEGORY = #{category,jdbcType=VARCHAR},
       INDUSTRY = #{industry,jdbcType=VARCHAR},
       PIC = #{pic,jdbcType=VARCHAR},
+      SP_VIDEO = #{sp_video,jdbcType=VARCHAR},
       DISTRIBUTOR_ID = #{distributorId,jdbcType=VARCHAR},
       COMPANY_ID = #{companyId,jdbcType=VARCHAR},
       FACTORY_ID = #{factoryId,jdbcType=VARCHAR},

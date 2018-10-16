@@ -46,14 +46,36 @@
     </div>
     <div class="clear"></div>
     <div id="info" th:object="${commodity}">
-        <p><strong>商品图片：</strong><br />
+        <div id="commodityPic_">
+            <p><strong>商品图片：</strong><br />
+        </div>
         <div id="commodityPic" class="pro_img" style="background-image: url(../images/pro_pic.jpg);"></div>
+        <div id="commodityVideo_" style="display: none">
+            <p><strong>商品视频：</strong><br />
+        </div>
+        <div id="commodityVideo" style="display: none" class="pro_img">
+            <video id="media"  width="320" height="240" controls>
+                <source id="vi" src="..." type="video/mp4">
+            </video>
+        </div>
         </p>
         <script th:inline="javascript">
 
             var fileInfo = JSON.parse([[*{pic}]]);
-            var ele = document.getElementById("commodityPic");
-            ele.style.backgroundImage= "url(" + fileInfo.url+ ")";
+            var sp_video = JSON.parse([[*{sp_video}]]);
+            if(sp_video!=null && sp_video!='' && sp_video!='null' && sp_video.url.length>0){
+                document.getElementById("commodityPic_").style.display="none";//页面加载时隐藏 最后一个DIV元素
+                document.getElementById("commodityPic").style.display="none";//页面加载时隐藏 最后一个DIV元素
+                document.getElementById("commodityVideo_").style.display="block";
+                document.getElementById("commodityVideo").style.display="block";
+                document.getElementById("vi").poster=fileInfo.url;
+                document.getElementById("vi").src=sp_video.url;
+                document.getElementById("media").load();
+                //alert(sp_video.url);
+            }else{
+                var ele = document.getElementById("commodityPic");
+                ele.style.backgroundImage= "url(" + fileInfo.url+ ")";
+            }
         </script>
     </div>
 

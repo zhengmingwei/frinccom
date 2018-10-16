@@ -174,4 +174,53 @@ public class UploadController {
         }
         return DataEvent.wrap("UPLOAD_FAILED", "上传失败");
     }
+
+
+
+
+    @RequestMapping(value = "/upload_sp/{system}/{module}", method = RequestMethod.POST)
+    public Object upload_sp(@PathVariable String system,
+                         @PathVariable String module,
+
+                         @RequestParam(value = "uploadFile", required = false) MultipartFile file,
+                         HttpServletRequest request,
+                         HttpServletResponse response
+    ) {
+
+        response.setHeader("Access-Control-Expose-Headers", "TigerFace-Event");
+        try {
+            if (file.getSize() > 0) {
+
+                String orifilename = file.getOriginalFilename();
+                String ext = orifilename.substring(orifilename.lastIndexOf(".") + 1);
+
+
+                InputStream input = file.getInputStream();
+                File path = new File(rootPath, "cdn/" + system + "/" + module + "/" );
+                path.mkdirs();
+                System.out.println(path.getPath());
+                String digest = MessageDigestUtils.sha1FileDigest(file.getBytes());
+                Assert.hasText(digest, "文件内容为空无法算出文件签名");
+
+                String filename = digest + "." + ext;
+                UploadedFile obj = new UploadedFile(digest,this.rootURL + system + "/" + module + "/" + filename, ext, orifilename, "done");
+                File newfile = new File(path, filename);
+                OutputStream output = new FileOutputStream(newfile);
+
+                int ret = 0;
+                byte[] buf = new byte[1024];
+                while ((ret = input.read(buf, 0, 1024)) > 0) {
+                    output.write(buf, 0, ret);
+                }
+                output.flush();
+                output.close();
+                input.close();
+
+                return DataEvent.wrap("UPLOAD_SUCCESS", new CommonDto<UploadedFile>(obj));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return DataEvent.wrap("UPLOAD_FAILED", "上传失败");
+    }
 }

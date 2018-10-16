@@ -54,6 +54,8 @@ public class Commodity extends BaseEntity {
 
     private String pic;
 
+    private String sp_video;
+
     private String distributorId;
 
     private String companyId;
@@ -189,6 +191,14 @@ public class Commodity extends BaseEntity {
                 this.statusValue = "未通过";
         }
 
+    }
+
+    public String getSp_video() {
+        return sp_video;
+    }
+
+    public void setSp_video(String sp_video) {
+        this.sp_video = sp_video;
     }
 
     public Company getCompany() {
