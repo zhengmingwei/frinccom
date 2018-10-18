@@ -42,8 +42,9 @@
     <!-- 文件上传支持 -->
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <!-- 指定最大文件尺寸(字节) -->
-        <property name="maxUploadSize" value="5242880"/>
+        <!-- 指定最大文件尺寸(字节)  15M=15728640kb ；5M:5242880kb--><!--
+        <property name="maxUploadSize" value="5242880"/>-->
+        <property name="maxUploadSize" value="15728640"/>
     </bean>
 
     <!-- 容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL -->

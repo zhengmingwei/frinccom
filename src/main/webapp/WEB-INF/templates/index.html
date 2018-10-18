@@ -177,8 +177,12 @@
                     _this.autoplay = opt.autoplay == "true" ? "autoplay" : "";     //自动播放（true为自动播放）
                     _this.poster = opt.poster;                                     //视频封面，播放时的封面图片
                     _this.preload = opt.preload == "true" ? "preload" : "";        //预加载(true时启动加载)
-                    _this.loop = opt.loop == "true" ? "loop" : "";                 //循环播放(true时循环播放)
-                    var str = "<video id='playVideo' controls ";                   //根据设置的属性的值，拼写video控件
+                    _this.loop = opt.loop == "false" ? "loop" : "";                 //循环播放(true时循环播放)
+
+                    //_this.x5_type = opt.x5_type == "true" ? "h5" : "";                 //循环播放(true时循环播放)
+
+                   // x5_type:'h5' //声明启用同层H5播放器，支持的值：h5
+                    var str = "<video id='playVideo' controls  x5-video-player-fullscreen='false'  x5-video-player-type='h5' ";                   //根据设置的属性的值，拼写video控件
                     str += " width='" + _this.width + "' height='" + _this.height + "' " + _this.autoplay + " " + _this.preload + " " + _this.loop + " ";
                     if (typeof (_this.poster) != "undefined") {
                         str += " poster='" + _this.poster + "' >";
@@ -190,7 +194,18 @@
                     _this.elemt.innerHTML = str;                                   //将str放到要插入的对象中
                 }
 
-
+/*
+*
+                        <video id="media" controls="controls" poster="ewm.gif"
+                               style="background-color: rgb(0, 0, 0); width: 100%; display: block;"
+                               webkit-playsinline=""
+                               x-webkit-airplay=""
+                               preload="auto"
+                               data-role="txp_video_tag"
+                               src="http://192.168.1.14:8081/incc/file/get/1/1/e8057612f7c61286bab6f380d41036f0ede6bf1b.mp4">
+                        </video>
+*
+* */
 
 
 
