@@ -47,31 +47,154 @@
     <div class="clear"></div>
     <div id="info" th:object="${commodity}">
         <div id="commodityPic_">
-            <p><strong>商品图片：</strong><br />
+            <p><strong>商品图片：</strong><br /></p>
         </div>
-        <div id="commodityPic" class="pro_img" style="background-image: url(../images/pro_pic.jpg);"></div>
+        <div id="commodityPic" class="pro_img" style="background-image: url(../images/pro_pic.jpg);"></div></p>
         <div id="commodityVideo_" style="display: none">
-            <p><strong>商品视频：</strong><br />
+            <p><strong>商品视频：</strong><br /></p>
         </div>
-        <div id="commodityVideo" style="display: none" class="pro_img">
-            <video id="media"  width="320" height="240" controls>
-                <source id="vi" src="..." type="video/mp4">
+        <div id="commodityVideo">
+
+
+ <!--
+            <video controls="controls"
+                   style="background-color: rgb(0, 0, 0); width: 100%; display: block;"
+                   webkit-playsinline=""
+                   x-webkit-airplay=""
+                   preload="auto"
+                   data-role="txp_video_tag"
+                   src="https://ugcydzd.qq.com/uwMRJfz-r5jAYaQXGdGnC2_ppdhgmrDlPaRvaV7F2Ic/n0127wrh97r.mp4?sdtfrom=v1104&amp;guid=be5e5cc4a2ff5e80496c7f5f6e947e85&amp;vkey=16DF1EB0974B140025CE643FB21DAE1A0A916AA18BEF82633EFB2430FE6FEA7252F5D7B1F5734F768566B3981E2BF03F2D98F60FA0B251A50667F66D3009297C1161A4210067824A3495CE42CBEC8038E9C9A0567ED2D8C5D0C29D5438C11DE1B8260B6D4FCC2F1637113454BE8DA3485609D39B2D3FE7B4">
             </video>
+
+-->
+
+<!--
+
+                        <video id="media" controls="controls" poster="ewm.gif"
+                               style="background-color: rgb(0, 0, 0); width: 100%; display: block;"
+                               webkit-playsinline=""
+                               x-webkit-airplay=""
+                               preload="auto"
+                               data-role="txp_video_tag"
+                               src="http://192.168.1.14:8081/incc/file/get/1/1/e8057612f7c61286bab6f380d41036f0ede6bf1b.mp4">
+                        </video>
+-->
+
+
+<!--
+            <video id="media" controls="controls" poster="ewm.gif"
+                   style="background-color: rgb(0, 0, 0); width: 100%; display: block;"
+                   webkit-playsinline="" x-webkit-airplay="" preload="auto" data-role="txp_video_tag"
+                   src="http://192.168.1.14:8081/incc/file/get/1/1/e8057612f7c61286bab6f380d41036f0ede6bf1b.mp4">
+            </video>-->
+
+<!--
+
+            <video id="media"  width="100%" controls="controls" x5-playsinline  playsinline  webkit-playsinline="true">
+&lt;!&ndash;
+             <video id="media" width="100%" webkit-playsinline="" poster=""  x-webkit-airplay="" preload="auto">&ndash;&gt;
+                 <source id="vi" src="..." type="video/mp4">
+            </video>-->
+
+
+            <!--
+            <video style="background-color: rgb(0, 0, 0); width: 100%;display: block;" webkit-playsinline="" x-webkit-airplay="" preload="auto" data-role="txp_video_tag" src="https://ugcydzd.qq.com/uwMRJfz-r5jAYaQXGdGnC2_ppdhgmrDlPaRvaV7F2Ic/n0127wrh97r.mp4?sdtfrom=v1104&amp;guid=be5e5cc4a2ff5e80496c7f5f6e947e85&amp;vkey=16DF1EB0974B140025CE643FB21DAE1A0A916AA18BEF82633EFB2430FE6FEA7252F5D7B1F5734F768566B3981E2BF03F2D98F60FA0B251A50667F66D3009297C1161A4210067824A3495CE42CBEC8038E9C9A0567ED2D8C5D0C29D5438C11DE1B8260B6D4FCC2F1637113454BE8DA3485609D39B2D3FE7B4">
+            </video>-->
         </div>
-        </p>
+
         <script th:inline="javascript">
 
             var fileInfo = JSON.parse([[*{pic}]]);
             var sp_video = JSON.parse([[*{sp_video}]]);
             if(sp_video!=null && sp_video!='' && sp_video!='null' && sp_video.url.length>0){
+
+                //document.getElementById("media").src= "https://ugcydzd.qq.com/uwMRJfz-r5jAYaQXGdGnC2_ppdhgmrDlPaRvaV7F2Ic/n0127wrh97r.mp4?sdtfrom=v1104&amp;guid=be5e5cc4a2ff5e80496c7f5f6e947e85&amp;vkey=16DF1EB0974B140025CE643FB21DAE1A0A916AA18BEF82633EFB2430FE6FEA7252F5D7B1F5734F768566B3981E2BF03F2D98F60FA0B251A50667F66D3009297C1161A4210067824A3495CE42CBEC8038E9C9A0567ED2D8C5D0C29D5438C11DE1B8260B6D4FCC2F1637113454BE8DA3485609D39B2D3FE7B4";//sp_video.url;
+                //document.getElementById("media").load();
+
                 document.getElementById("commodityPic_").style.display="none";//页面加载时隐藏 最后一个DIV元素
                 document.getElementById("commodityPic").style.display="none";//页面加载时隐藏 最后一个DIV元素
                 document.getElementById("commodityVideo_").style.display="block";
                 document.getElementById("commodityVideo").style.display="block";
-                document.getElementById("vi").poster=fileInfo.url;
-                document.getElementById("vi").src=sp_video.url;
-                document.getElementById("media").load();
+                //alert('原来视频：'+document.getElementById("media").src);
+                //alert('新视频：'+sp_video.url);
+                //document.getElementById("media").src = sp_video.url;
+                //document.getElementById("media").load();
+                //http://192.168.1.14:8081/incc/file/get/1/1/e8057612f7c61286bab6f380d41036f0ede6bf1b.mp4
+                //http://icon.cfcpincc.com/incc/file/get/1/1/e8057612f7c61286bab6f380d41036f0ede6bf1b.mp4
+                //document.getElementById("vi").poster="F:/data/incc/upload/cdn/1/1/ec5847afbabf3ce92c45f2e4a525b24fca8d9e31.png";//fileInfo.url;
+                //document.getElementById("vi").src="F:/data/incc/upload/cdn/1/1/e8057612f7c61286bab6f380d41036f0ede6bf1b.mp4"; //sp_video.url;
+
+                //document.getElementById("media").poster=fileInfo.url;
+                //document.getElementById("media").src=sp_video.url;
+                // document.getElementById("media").src=sr;
+ 
+                //document.getElementById("media").load();
+                //document.getElementById("media").poster=fileInfo.url;
                 //alert(sp_video.url);
+                //var sr= "https://ugcydzd.qq.com/uwMRJfz-r5jAYaQXGdGnC2_ppdhgmrDlPaRvaV7F2Ic/n0127wrh97r.mp4?sdtfrom=v1104&amp;guid=be5e5cc4a2ff5e80496c7f5f6e947e85&amp;vkey=16DF1EB0974B140025CE643FB21DAE1A0A916AA18BEF82633EFB2430FE6FEA7252F5D7B1F5734F768566B3981E2BF03F2D98F60FA0B251A50667F66D3009297C1161A4210067824A3495CE42CBEC8038E9C9A0567ED2D8C5D0C29D5438C11DE1B8260B6D4FCC2F1637113454BE8DA3485609D39B2D3FE7B4";//sp_video.url;
+
+                var sr = sp_video.url;
+                //sr = "http://127.0.0.1:8090/incc/upload/cdn/1/1/v.mp4";
+                //sr = "http://192.168.1.14:8081/incc/file/get/1/1/e8057612f7c61286bab6f380d41036f0ede6bf1b.mp4?rr=wewerrrffff"
+                //sr ="http://www.litbr.com/data/upload/casus/image/cass/ad/dongdu/2016-08-10%20DDI_Final.mp4";
+                //sr = "http://www.cfcpincc.com/data/v/v.mp4";
+                //sr = "333444555666777888999";
+                //sr = "http://192.168.1.4/v/v.mp4";
+                sr = "http://icon.cfcpincc.com:81"+sr.split('get')[1];
+                playVideo({
+                    //所有参数，elemt和src为必填其他看需求怎么要求
+                    //elemt为播放控件要插入的容器，src为视频文件地址，preload为预加载，autoplay是否页面进入就自动播放
+                    //poster为播放前的遮照图片，loop为是否循环播放，width和heigth默认100%
+                    elemt: document.getElementById("commodityVideo"),
+                    //src: "3.mp4",    //此地址是在本机测试用的，如果发布在服务器上请写服务器的绝对路径。我是发布在外网上的，例如：http://www.tttt.com/test/3.mp4
+                    src: sr,    //此地址是在本机测试用的，如果发布在服务器上请写服务器的绝对路径。我是发布在外网上的，例如：http://www.tttt.com/test/3.mp4
+                    preload: "true",
+                    autoplay: "false",
+                    poster: fileInfo.url,
+                    loop: "true",
+                    width: "",
+                    heigth:""
+                });
+
+                function  playVideo (opt) {
+                    if (typeof (opt) == "undefined") {
+                        alert("请传入必要参数！");
+                        return;
+                    }
+                    if (typeof (opt.elemt) == "undefined") {
+                        alert("请指定播放器要插入的对象！");
+                        return;
+                    }
+                    if (typeof (opt.src) == "undefined") {
+                        alert("请指定要播放视频的路径！");
+                        return;
+                    }
+                    var _this = this;
+                    _this.elemt = opt.elemt;                                       //播放器要插入的对象
+                    _this.src = opt.src;                                           //视频的URL(必设) 
+                    _this.width = opt.width > 0 ? opt.width + "px" : "100%";       //宽度(默认100%) 
+                    _this.height = opt.height > 0 ? opt.height + "px" : "100%";    //高度(默认100%)
+                    _this.autoplay = opt.autoplay == "true" ? "autoplay" : "";     //自动播放（true为自动播放）
+                    _this.poster = opt.poster;                                     //视频封面，播放时的封面图片
+                    _this.preload = opt.preload == "true" ? "preload" : "";        //预加载(true时启动加载)
+                    _this.loop = opt.loop == "true" ? "loop" : "";                 //循环播放(true时循环播放)
+                    var str = "<video id='playVideo' controls ";                   //根据设置的属性的值，拼写video控件
+                    str += " width='" + _this.width + "' height='" + _this.height + "' " + _this.autoplay + " " + _this.preload + " " + _this.loop + " ";
+                    if (typeof (_this.poster) != "undefined") {
+                        str += " poster='" + _this.poster + "' >";
+                    } else {
+                        str += " > ";
+                    }
+                    str += " <source src='" + _this.src + "'  type='video/mp4; codecs='avc1.42E01E, mp4a.40.2''/>";
+                    str += "</video>";
+                    _this.elemt.innerHTML = str;                                   //将str放到要插入的对象中
+                }
+
+
+
+
+
+
             }else{
                 var ele = document.getElementById("commodityPic");
                 ele.style.backgroundImage= "url(" + fileInfo.url+ ")";
@@ -206,41 +329,41 @@
         </p>
     </div>
     <!--<div id="info">-->
-        <!--<p><strong>行政审批许可信息</strong></p>-->
+    <!--<p><strong>行政审批许可信息</strong></p>-->
 
-        <!--<table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" class="box01">-->
-            <!--<tr>-->
-                <!--<td height="38" class="td_gray01">行政许可审批机构</td>-->
-                <!--<td height="38" class="td_gray01">国家食品药品监督管理总局</td>-->
-                <!--<td height="38" class="td_gray01">&#45;&#45;</td>-->
-            <!--</tr>-->
-            <!--<tr>-->
-                <!--<td width="32%" height="38" class="td_gray01">备案时间</td>-->
-                <!--<td width="55%" height="38" class="td_gray01">2017-1-18</td>-->
-                <!--<td width="13%" height="38" class="td_gray01">有效</td>-->
-            <!--</tr>-->
-            <!--<tr>-->
-                <!--<td height="38" class="td_gray01">备案凭证号</td>-->
-                <!--<td height="38" class="td_gray01">京G妆网备字20＊＊＊＊＊＊39</td>-->
-                <!--<td height="38" class="td_gray01">有效</td>-->
-            <!--</tr>-->
-        <!--</table>-->
+    <!--<table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" class="box01">-->
+    <!--<tr>-->
+    <!--<td height="38" class="td_gray01">行政许可审批机构</td>-->
+    <!--<td height="38" class="td_gray01">国家食品药品监督管理总局</td>-->
+    <!--<td height="38" class="td_gray01">&#45;&#45;</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td width="32%" height="38" class="td_gray01">备案时间</td>-->
+    <!--<td width="55%" height="38" class="td_gray01">2017-1-18</td>-->
+    <!--<td width="13%" height="38" class="td_gray01">有效</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td height="38" class="td_gray01">备案凭证号</td>-->
+    <!--<td height="38" class="td_gray01">京G妆网备字20＊＊＊＊＊＊39</td>-->
+    <!--<td height="38" class="td_gray01">有效</td>-->
+    <!--</tr>-->
+    <!--</table>-->
 
-        <!--</p>-->
+    <!--</p>-->
     <!--</div>-->
     <!--<div id="info">-->
-        <!--<p><strong>商品检测信息</strong></p>-->
+    <!--<p><strong>商品检测信息</strong></p>-->
 
-        <!--<table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" class="box01">-->
-            <!--<tr th:each="item : ${otherQualifications}">-->
-                <!--<td height="38" class="td_gray01" th:text="${item.reportTypePo!=null}?${item.reportTypePo.value}">铅</td>-->
-                <!--<td height="38" class="td_gray01" th:text="${item.detectionOrg}">广州微生物检测中心</td>-->
-                <!--<td height="38" class="td_gray01">合格</td>-->
-            <!--</tr>-->
+    <!--<table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" class="box01">-->
+    <!--<tr th:each="item : ${otherQualifications}">-->
+    <!--<td height="38" class="td_gray01" th:text="${item.reportTypePo!=null}?${item.reportTypePo.value}">铅</td>-->
+    <!--<td height="38" class="td_gray01" th:text="${item.detectionOrg}">广州微生物检测中心</td>-->
+    <!--<td height="38" class="td_gray01">合格</td>-->
+    <!--</tr>-->
 
-        <!--</table>-->
+    <!--</table>-->
 
-        <!--</p>-->
+    <!--</p>-->
     <!--</div>-->
     <div id="info">
         <p>注： <br />
@@ -252,8 +375,8 @@
         <p align="right"><strong>中国保护消费者基金会 <br />
             合规商品资质验证中心 <br />
             <span th:text="${audit != null&&audit.auditDate!=null}?${#calendars.format(audit.auditDate,' yyyy年 MM月 dd日')}"></span>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-    </strong></ul>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+        </strong></ul>
 
         </p>
     </div>
