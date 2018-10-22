@@ -7,7 +7,7 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
     <meta content="telephone=no" name="format-detection" />
     <link rel="stylesheet" type="text/css" href="../css/all.css"/>
-    <title>CFCPINCC</title>
+    <title>INCC</title>
     <style type="text/css">
         <!--
         body {
@@ -30,10 +30,10 @@
     <div class="clear"></div>
     <div id="header">
         <h2 align="center">中国保护消费者基金会</h2>
-        <h1 align="center"><span class="incc_big">CFCPINCC</span> 合规商品资质识别信息 </h1>
-        <p>　　经过CFCPINCC验证，该商品资质齐备，商品资质符合国家监管部门对此类型
+        <h1 align="center"><span class="incc_big">INCC</span> 商品资质合规识别信息 </h1>
+        <p>　　经过INCC验证，该商品资质齐备，商品资质符合国家监管部门对此类型
             商品上市流通的法规要求和规范。<br />
-            　　特授予此商品 <b>合规资质CFCPINCC标识</b> 。 </p>
+            　　特授予此商品 <b>资质合规识别INCC标识</b> 。 </p>
     </div>
     <div class="clear"></div>
     <div id="info" th:object="${commodity}">
@@ -43,7 +43,6 @@
             出品机构： <b  th:text="${company != null}?${company.name}"></b>	    <br />
             品牌名称： <b th:text="${brand.name}"></b><br />
             标识效期： <b th:text="${audit != null&&audit.beginDate!=null}?${#calendars.format(audit.beginDate,' yyyy年 MM月 dd日')} + '至' + ${#calendars.format(audit.expireDate,' yyyy年 MM月 dd日')}:''"> </b> </p>
-      厂商指导价(元)： <b th:text="*{mg_price}"></b><br />
     </div>
     <div class="clear"></div>
     <div id="info" th:object="${commodity}">
@@ -183,7 +182,10 @@
                     //_this.x5_type = opt.x5_type == "true" ? "h5" : "";                 //循环播放(true时循环播放)
 
                    // x5_type:'h5' //声明启用同层H5播放器，支持的值：h5
-                    var str = "<video id='playVideo' controls  x5-video-player-fullscreen='false'  x5-video-player-type='h5' ";                   //根据设置的属性的值，拼写video控件
+                    //var str = "<video id='playVideo' controls webkit-playsinline=''  x-webkit-airplay=''  preload='auto'  data-role='txp_video_tag' ";
+                    //var str = "<video id='playVideo' controls webkit-playsinline=''  x-webkit-airplay=''  preload='auto' ";                   //根据设置的属性的值，拼写video控件
+                    var str = "<video id='playVideo' controls='controls' style='background-color: rgb(0, 0, 0); display: block;'  webkit-playsinline='' x-webkit-airplay='' preload='auto' data-role='txp_video_tag' ";                   //根据设置的属性的值，拼写video控件
+                    //str += " width='" + _this.width + "' height='" + _this.height + "' " + _this.autoplay + " " + _this.preload + " " + _this.loop + " ";
                     str += " width='" + _this.width + "' height='" + _this.height + "' " + _this.autoplay + " " + _this.preload + " " + _this.loop + " ";
                     if (typeof (_this.poster) != "undefined") {
                         str += " poster='" + _this.poster + "' >";
@@ -203,7 +205,7 @@
                                x-webkit-airplay=""
                                preload="auto"
                                data-role="txp_video_tag"
-                               src="http://192.168.1.14:8081/incc/file/get/1/1/e8057612f7c61286bab6f380d41036f0ede6bf1b.mp4">
+                               src="http://192.168.1.15:8081/incc/file/get/1/1/e8057612f7c61286bab6f380d41036f0ede6bf1b.mp4">
                         </video>
 *
 * */
@@ -385,9 +387,9 @@
         <p>注： <br />
             <ul>
                 <li> 本页所列商品资质信息不可用于非法目的。</li>
-                <li> CFCPINCC不对本页所列商品的品质、上市流通资格以及商品经营、生产主体的资格担保或承诺，也不对因上述识别信息而生产的交易纠纷、调处结果及赔付承担任何责任。</li>
-                <li> CFCPINCC仅对本页所列商品的符合国家行政监督管理部门强制要求的检测、认可、许可、备案信息和凭证进行查询、收集、核实与展示。</li>
-                <li>CFCPINCC对本活动拥有最终解释权。 </li>
+                <li> INCC不对本页所列商品的品质、上市流通资格以及商品经营、生产主体的资格担保或承诺，也不对因上述识别信息而生产的交易纠纷、调处结果及赔付承担任何责任。</li>
+                <li> INCC仅对本页所列商品的符合国家行政监督管理部门强制要求的检测、认可、许可、备案信息和凭证进行查询、收集、核实与展示。</li>
+                <li>INCC对本活动拥有最终解释权。 </li>
         <p align="right"><strong>中国保护消费者基金会 <br />
             合规商品资质验证中心 <br />
             <span th:text="${audit != null&&audit.auditDate!=null}?${#calendars.format(audit.auditDate,' yyyy年 MM月 dd日')}"></span>
@@ -399,7 +401,7 @@
     <div id="info">
         <div id="left" style="font-size:1.2rem"><br />
 
-            点击 <span class="incc_red">关注CFCPINCC</span> 或扫描右侧二维码关注CFCPINCC微信公众号
+            点击 <span class="incc_red">关注INCC</span> 或扫描右侧二维码关注INCC微信公众号
             获得更多合规商品讯息和合规商品免费试用机会。</div>
         <div id="right">
             <div align="right"><img src="../images/ewm.png" width="165" height="163" align="absmiddle" /></div>

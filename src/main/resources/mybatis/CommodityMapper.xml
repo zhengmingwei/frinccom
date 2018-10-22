@@ -5,6 +5,8 @@
   <resultMap id="BaseResultMap" type="com.cfcp.incc.entity.Commodity">
     <id column="ID" property="id" />
     <result column="NAME" property="name" />
+
+    <result column="MG_PRICE" jdbcType="DOUBLE" property="mg_price" />
     <result column="CATEGORY" property="category" />
     <result column="INDUSTRY" property="industry" />
     <result column="PIC" property="pic" />
@@ -317,12 +319,12 @@
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   <insert id="insert" parameterType="com.cfcp.incc.entity.Commodity">
-    insert into COMMODITY (ID, NAME, CATEGORY, 
+    insert into COMMODITY (ID, NAME,MG_PRICE, CATEGORY,
       INDUSTRY, PIC, SP_VIDEO, DISTRIBUTOR_ID,
       COMPANY_ID, FACTORY_ID, BRAND_ID, 
       CREATE_TIME, CREATOR, STATUS
       )
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},  #{mg_price,jdbcType=DOUBLE},#{category,jdbcType=VARCHAR},
       #{industry,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR},#{sp_video,jdbcType=VARCHAR}, #{distributorId,jdbcType=VARCHAR},
       #{companyId,jdbcType=VARCHAR}, #{factoryId,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 1
@@ -336,6 +338,9 @@
       </if>
       <if test="name != null">
         NAME,
+      </if>
+      <if test="mg_price != null">
+        MG_PRICE,
       </if>
       <if test="category != null">
         CATEGORY,
@@ -372,6 +377,9 @@
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mg_price != null">
+        #{mg_price,jdbcType=DOUBLE},
       </if>
       <if test="category != null">
         #{category,jdbcType=VARCHAR},
@@ -410,6 +418,9 @@
       <if test="name != null">
         NAME = #{name,jdbcType=VARCHAR},
       </if>
+        <if test="mg_price != null">
+          NAME = #{mg_price,jdbcType=DOUBLE},
+        </if>
       <if test="category != null">
         CATEGORY = #{category,jdbcType=VARCHAR},
       </if>
@@ -438,6 +449,7 @@
   <update id="update" parameterType="com.cfcp.incc.entity.Commodity">
     update COMMODITY
     set NAME = #{name,jdbcType=VARCHAR},
+      MG_PRICE = #{mg_price,jdbcType=DOUBLE},
       CATEGORY = #{category,jdbcType=VARCHAR},
       INDUSTRY = #{industry,jdbcType=VARCHAR},
       PIC = #{pic,jdbcType=VARCHAR},

@@ -46,6 +46,9 @@ public class Commodity extends BaseEntity {
 
     private String name;
 
+    private Double mg_price;
+
+
     private String category;
     private Dictionary categoryPo;
 
@@ -96,6 +99,14 @@ public class Commodity extends BaseEntity {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Double getMg_price() {
+        return mg_price;
+    }
+
+    public void setMg_price(Double mg_price) {
+        this.mg_price = mg_price;
     }
 
     public String getCategory() {
