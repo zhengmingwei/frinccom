@@ -42,10 +42,15 @@
             商品类型： <b th:text="*{categoryPo != null}?*{categoryPo.value}"></b>	    <br />
             出品机构： <b  th:text="${company != null}?${company.name}"></b>	    <br />
             品牌名称： <b th:text="${brand.name}"></b><br />
-            标识效期： <b th:text="${audit != null&&audit.beginDate!=null}?${#calendars.format(audit.beginDate,' yyyy年 MM月 dd日')} + '至' + ${#calendars.format(audit.expireDate,' yyyy年 MM月 dd日')}:''"> </b> </p>
-      厂商指导价(元)： <b th:text="*{mg_price}"></b><br />
+            <div id="info_mg_price" style="display: block">
+            厂商指导价： <b style="font-weight: normal;padding-bottom: 2px;border-bottom: 1px solid #000;" th:text="*{mg_price}+(元)"></b><br />
+            </div>
+            标识效期： <b style="font-weight: normal;padding-bottom: 2px;border-bottom: 1px solid #000;" th:text="${audit != null&&audit.beginDate!=null}?${#calendars.format(audit.beginDate,' yyyy年 MM月 dd日')} + '至' + ${#calendars.format(audit.expireDate,' yyyy年 MM月 dd日')}:''"> </b> <br />
+        </p>
     </div>
     <div class="clear"></div>
+
+
     <div id="info" th:object="${commodity}">
         <div id="commodityPic_">
             <p><strong>商品图片：</strong><br /></p>
@@ -105,8 +110,20 @@
 
         <script th:inline="javascript">
 
+
+
+
             var fileInfo = JSON.parse([[*{pic}]]);
             var sp_video = JSON.parse([[*{sp_video}]]);
+
+            //当厂商指导价 为空的时候，隐藏此项
+            var mg_price = JSON.parse([[*{mg_price}]]);
+            if(!(mg_price!=null && mg_price!=''&& mg_price!='null' && mg_price>0)){
+                document.getElementById("info_mg_price").style.display="none";//页面加载时隐藏 最后一个DIV元素
+            }
+
+
+
             if(sp_video!=null && sp_video!='' && sp_video!='null' && sp_video.url.length>0){
 
                 //document.getElementById("media").src= "https://ugcydzd.qq.com/uwMRJfz-r5jAYaQXGdGnC2_ppdhgmrDlPaRvaV7F2Ic/n0127wrh97r.mp4?sdtfrom=v1104&amp;guid=be5e5cc4a2ff5e80496c7f5f6e947e85&amp;vkey=16DF1EB0974B140025CE643FB21DAE1A0A916AA18BEF82633EFB2430FE6FEA7252F5D7B1F5734F768566B3981E2BF03F2D98F60FA0B251A50667F66D3009297C1161A4210067824A3495CE42CBEC8038E9C9A0567ED2D8C5D0C29D5438C11DE1B8260B6D4FCC2F1637113454BE8DA3485609D39B2D3FE7B4";//sp_video.url;
