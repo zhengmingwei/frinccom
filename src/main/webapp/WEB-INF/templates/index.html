@@ -43,7 +43,7 @@
             出品机构： <b  th:text="${company != null}?${company.name}"></b>	    <br />
             品牌名称： <b th:text="${brand.name}"></b><br />
             <div id="info_mg_price" style="display: block">
-            厂商指导价： <b style="font-weight: normal;padding-bottom: 2px;border-bottom: 1px solid #000;" th:text="*{mg_price}+(元)"></b><br />
+            厂商价格： <b style="font-weight: normal;padding-bottom: 2px;border-bottom: 1px solid #000;" th:text="*{mg_price}+(元)"></b><br />
             </div>
             标识效期： <b style="font-weight: normal;padding-bottom: 2px;border-bottom: 1px solid #000;" th:text="${audit != null&&audit.beginDate!=null}?${#calendars.format(audit.beginDate,' yyyy年 MM月 dd日')} + '至' + ${#calendars.format(audit.expireDate,' yyyy年 MM月 dd日')}:''"> </b> <br />
         </p>
@@ -116,7 +116,7 @@
             var fileInfo = JSON.parse([[*{pic}]]);
             var sp_video = JSON.parse([[*{sp_video}]]);
 
-            //当厂商指导价 为空的时候，隐藏此项
+            //当厂商价格 为空的时候，隐藏此项
             var mg_price = JSON.parse([[*{mg_price}]]);
             if(!(mg_price!=null && mg_price!=''&& mg_price!='null' && mg_price>0)){
                 document.getElementById("info_mg_price").style.display="none";//页面加载时隐藏 最后一个DIV元素
