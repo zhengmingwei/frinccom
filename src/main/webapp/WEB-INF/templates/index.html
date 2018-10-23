@@ -145,7 +145,7 @@
                 //document.getElementById("media").poster=fileInfo.url;
                 //document.getElementById("media").src=sp_video.url;
                 // document.getElementById("media").src=sr;
- 
+
                 //document.getElementById("media").load();
                 //document.getElementById("media").poster=fileInfo.url;
                 //alert(sp_video.url);
@@ -159,6 +159,7 @@
                 //sr = "333444555666777888999";
                 //sr = "http://192.168.1.4/v/v.mp4";
                 sr = "http://icon.cfcpincc.com:81"+sr.split('get')[1];
+                //sr = "http://icon.cfcpincc.com:81/1/1/VID_20181023_131038.mp4";
                 playVideo({
                     //所有参数，elemt和src为必填其他看需求怎么要求
                     //elemt为播放控件要插入的容器，src为视频文件地址，preload为预加载，autoplay是否页面进入就自动播放
@@ -200,7 +201,7 @@
                     //_this.x5_type = opt.x5_type == "true" ? "h5" : "";                 //循环播放(true时循环播放)
 
                    // x5_type:'h5' //声明启用同层H5播放器，支持的值：h5
-                    var str = "<video id='playVideo' controls  x5-video-player-fullscreen='false'  x5-video-player-type='h5' ";                   //根据设置的属性的值，拼写video控件
+                    var str = "<video id='playVideo' preload='auto' x5-video-player-type='h5' controls  playsinline webkit-playsinline='true' ";                   //根据设置的属性的值，拼写video控件
                     str += " width='" + _this.width + "' height='" + _this.height + "' " + _this.autoplay + " " + _this.preload + " " + _this.loop + " ";
                     if (typeof (_this.poster) != "undefined") {
                         str += " poster='" + _this.poster + "' >";
@@ -232,6 +233,8 @@
                 var ele = document.getElementById("commodityPic");
                 ele.style.backgroundImage= "url(" + fileInfo.url+ ")";
             }
+
+
         </script>
     </div>
 
