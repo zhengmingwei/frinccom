@@ -243,11 +243,11 @@ function a(e,t){if(!o.canUseDOM||t&&!("addEventListener"in document))return!1;va
                     if(e!=null && e!="null" && e.length>10 && "video"==e.substring(5,10) && this.props.id=='sp_video'){
 
                         //alert(4466+e);
-                        return _react2.default.createElement(_antd.Upload,{name:"uploadFile_sp",action:this.props.action,beforeUpload:beforeUpload,onChange:this.handleChange,className:"avatar-uploader",showUploadList:!1},e?_react2.default.createElement("video",{src:e,alt:"",controls:"autoplay",width:"148",height:"150",className:"avatar"}):_react2.default.createElement(_antd.Icon,{type:"plus",className:"avatar-uploader-trigger"}))
+                        return _react2.default.createElement(_antd.Upload,{name:"uploadFile",action:this.props.action,beforeUpload:beforeUpload,onChange:this.handleChange,className:"avatar-uploader",showUploadList:!1},e?_react2.default.createElement("video",{src:e,alt:"",controls:"autoplay",width:"148",height:"150",className:"avatar"}):_react2.default.createElement(_antd.Icon,{type:"plus",className:"avatar-uploader-trigger"}))
                     }else if( this.props.id=='sp_video'){
 
                         //alert(4466+e);
-                        return _react2.default.createElement(_antd.Upload,{name:"uploadFile_sp",action:this.props.action,beforeUpload:beforeUpload,onChange:this.handleChange,className:"avatar-uploader",showUploadList:!1},e?_react2.default.createElement("video",{src:e,alt:"",controls:"autoplay",width:"148",height:"150",className:"avatar"}):_react2.default.createElement(_antd.Icon,{type:"plus",className:"avatar-uploader-trigger"}))
+                        return _react2.default.createElement(_antd.Upload,{name:"uploadFile",action:this.props.action,beforeUpload:beforeUpload,onChange:this.handleChange,className:"avatar-uploader",showUploadList:!1},e?_react2.default.createElement("video",{src:e,alt:"",controls:"autoplay",width:"148",height:"150",className:"avatar"}):_react2.default.createElement(_antd.Icon,{type:"plus",className:"avatar-uploader-trigger"}))
                     }else if( this.props.id!='sp_video'){
                         //alert(2288+e);
                         return _react2.default.createElement(_antd.Upload,{name:"uploadFile",action:this.props.action,beforeUpload:beforeUpload,onChange:this.handleChange,className:"avatar-uploader",showUploadList:!1},e?_react2.default.createElement("img",{src:e,alt:"",className:"avatar"}):_react2.default.createElement(_antd.Icon,{type:"plus",className:"avatar-uploader-trigger"}))
