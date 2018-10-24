@@ -63,6 +63,7 @@ public class CommodityService extends BaseService {
             commodity.setDistributorId(user.getDistributorId());
             Commodity commodity1 = commodityDao.get(commodity.getId());
             commodity.setStatus(commodity1.getStatus()); //原来的状态
+            //commodity.setSp_video(commodity1.getSp_video());
             commodityDao.update(commodity);
         } else {
             commodity.setId(this.generateNumIdentifier());

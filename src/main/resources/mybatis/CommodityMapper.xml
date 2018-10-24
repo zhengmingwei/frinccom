@@ -431,7 +431,7 @@
         PIC = #{pic,jdbcType=VARCHAR},
       </if>
         <if test="sp_video != null">
-          PIC = #{sp_video,jdbcType=VARCHAR},
+          SP_VIDEO = #{sp_video,jdbcType=VARCHAR},
         </if>
       <if test="distributorId != null">
         DISTRIBUTOR_ID = #{distributorId,jdbcType=VARCHAR},
