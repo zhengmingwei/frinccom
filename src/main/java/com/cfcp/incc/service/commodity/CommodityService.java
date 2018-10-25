@@ -117,6 +117,20 @@ public class CommodityService extends BaseService {
         return pageInfo;
     }
 
+    public PageInfo query_(Map<String, String> conditions) {
+
+        String status = conditions.get("status");
+        String distributorId = "";
+        int intStatus = Integer.parseInt(status);
+        if ((intStatus < 8  || intStatus == 12) && !distributorId.equals(Constants.CENTRAL_OFFICE_DISTRIBUTOR))
+            conditions.put("distributorId", distributorId);
+        Page page = this.initPage(conditions);
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<Commodity> list =  commodityDao.query(conditions);
+        PageInfo<Commodity> pageInfo = new PageInfo(list);
+        return pageInfo;
+    }
+
     public int delete(String id){
         return commodityDao.delete(id);
     }

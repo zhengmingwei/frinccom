@@ -16,13 +16,16 @@
         div.file{display:inline-block;position:relative;}
         div.file input.transparent{position:absolute;left:0;top:0;filter:alpha(opacity=0);opacity:0;width:100%}
         <!--
+
         body {
-            background-color: #EFEFEF;
-            font-size: 0px;
+            background-color: #fefffe;
         }
         -->
-
-
+        .tdd{
+            width: 110px;
+            height: 168px;
+        }
+        .button_1 {background: url(../images/top-search.png) ;width: 50px;height: 38px;}
         .navi-form .top-searchbtn {
             width: 40px;
             height: 38px;
@@ -44,7 +47,6 @@
       <script src="../js/jquery-1.8.3.min.js"></script>-->
     <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="../js/upload.min.js"></script>
-    <script type="text/javascript" src="../js/rig.js"></script>
 
     <script type="text/javascript">
 
@@ -70,12 +72,7 @@
                 contentType: false,
                 processData: false,
                 success: function (returndata) {
-                    //alert("页面rig.js");
-                    //alert(returndata.result.url); //businessLicense
-                    //alert(returndata.result);
-                    //var rl = returndata.result;
-                    //var r = rl.replace("\\\\","");
-                    //alert(r);
+
                     document.getElementById("businessLicense").value=JSON.stringify(returndata.result);
                     //document.getElementById("businessLicense1").value=JSON.stringify(returndata.result);
 
@@ -95,13 +92,6 @@
             document.getElementById("imageFile").click();
         }
 
-        function getPicCode() {
-            var location = (window.location+'').split('/');
-            var basePath = location[0]+'//'+location[2]+'/'+location[3];
-            var url = basePath+"/view/picCheckCode?" + Math.random();
-            document.getElementById("pic").src=url;
-        }
-        getPicCode();
 
         var loginForm = document.getElementById("loginForm");
         function login() {
@@ -136,11 +126,7 @@
             }
         });
         chackErr();
-        function getPicCode1234() {
-            url = "picCheckCode?" + Math.random();
-            //alert(url);
-            $("#pic").attr("src", url);
-        }
+
 
         //邮箱 验证
         function checkEmail() {
@@ -268,215 +254,166 @@
             document.getElementById('msgPicCode').innerHTML='';
         }
 
+        //查询 sel()
+        function sel() {
+
+            var location = (window.location+'').split('/');
+            var basePath = location[0]+'//'+location[2]+'/'+location[3];
+            var ff = basePath+"/manager/commodity/query_";
+
+            var a_url= 'http://icon.cfcpincc.com/incc/commodity/';
+            if(location.hostname=='localhost'){
+                a_url= 'http://192.168.1.3:8081/incc/commodity/';
+            }
+
+            var data = {
+                name:$('#tiaojiao').val(),
+                type:"用户"
+            }
+
+            $.ajax({
+                type:'POST',
+                url:ff ,
+                data:JSON.stringify(data),//必要
+                dataType:"json",
+                contentType:"application/json",
+                async:false,
+                cache:false,
+                success: function (data) {
+                    var divA = document.getElementById("chaxunsl");
+                    //divA.innerHTML = divA.innerText+'追加的内容s';
+                    divA.innerHTML ='小查为您找到'+data.total+'条符合条件的商品';
+                    //divA.innerHTML = divA.innerHTML+'<h3>追加内容为H3字体</h3>';
+
+                    if(data) {
+                        var res = [];
+                        //res.push('<thead> <tr id="search-tab-title"> <td width="110px" height="42px">公司</td> <td width="710px"></td> <td width="100px">状态</td> </tr> </thead><tbody>');
+                        res.push('<tbody>');
+                        var num = 1;
+                        jQuery.each(data.list, function (i, item) {
+                            var r = item.pic;
+                            var picUrl = r.substring(r.indexOf('url":"')+6,r.indexOf('"ext"')-2);
+
+                            res.push('<tr>');
+                            //res.push('<td align="center" ><a href="http://icon.cfcpincc.com/incc/commodity/'+item.id+'"><img width="80px" height="80px" src="'+picUrl+'"></a></td>');
+                            //res.push('<td border="0.5"  width="110px" height="196px" align="center"><a href="http://192.168.1.3:8081/incc/commodity/'+item.id+'" target="_blank"><img width="80px" height="80px" src="'+picUrl+'"></a></td>');
+                            res.push('<td border="0.5"  width="110px" height="196px" align="center"><a href="'+a_url+item.id+'" target="_blank"><img width="80px" height="80px" src="'+picUrl+'"></a></td>');
+                            /*res.push('<td align="center" >' + item.id + '</td>');*/
+                            res.push('<td><p>商品名称 ：' + item.name + '</p><p>经营企业 ：'+item.company.name+'</p></td>');
+
+
+                            //res.push('<th>经营企业 ：' + item.company.name + '</th>');
+
+                            /*
+                            res.push('<td align="center" >' + item.CWFYXM + '</td>');
+                            res.push('<td align="center" >' + item.CWFY + '</td>');*/
+
+
+                            res.push('<td align="center">' + item.statusValue + '</td>');
+                            res.push('</tr>');
+
+                            num++;
+                        });
+                        //$("#fylistDatas").empty().html(res.join(""));
+                        res.push('</tbody>');
+                        $("#fylistDatas").empty().html(res);
+                    }
+
+                    //alert(returndata.returnCode);
+                    var code = data.returnCode;
+                    if( data.returnCode=="500"){
+                        document.getElementById('msgName').innerHTML="该用户已被使用.";
+                    }
+                    //document.getElementById("upimg").src=returndata.result.url;
+                    //document.getElementById("showpic").src="<%=basePath%>UploadImage?picture=showpic";/*这是预览图片用的，自己在文件上传表单外添加*/
+                },
+                error: function (data) {
+                    document.getElementById('msgName').innerHTML="查询用户失败.";
+                    //alert(returndata);
+                }
+            });
+
+        }
 
     </script>
 
-</head>
-<body>
-<table width="100%" height="58" border="0" align="center" cellpadding="0" cellspacing="0" class="top_box">
-    <tr>
-        <td align="center" bgcolor="#FFFFFF">
-            <table width="100%" height="58" border="0" align="center" cellpadding="0" cellspacing="0"
-                   background="../images/topbg.png">
-                <tr>
-                    <td width="524" align="left" class="nav_topfont">
-                        <a href="" class="A_blue"></a><img
-                            src="../images/logo-banner.png" height="58" border="0">
-                    </td>
-                    <td width="524" align="left" class="nav_topfont">
+    <table width="100%" height="58" border="0" align="center" cellpadding="0" cellspacing="0" class="top_box">
+        <tr>
+            <td align="center" bgcolor="#FFFFFF">
+                <table width="100%" height="58" border="0" align="center" cellpadding="0" cellspacing="0"
+                       background="../images/topbg.png">
+                    <tr>
+                        <td width="524" align="left" class="nav_topfont">
+                            <a href="" class="A_blue"></a><img
+                                src="../images/logo-banner.png" height="58" border="0">
+                        </td>
+                        <td width="524" align="left" class="nav_topfont">
 
+                            <!--
 
-                        <form class="navi-form" role="search" action="/search">
+                                                    <form class="navi-form" role="search" action="">
+                            -->
 
-                            <input type="text" id="tiaojiao" style="width: 457px; height: 34px;font-size: 14px;" placeholder="请输入商品名称，经营主体，生产主体，品牌名称，多关键词用空格隔开，如“38度建国原浆 建国酒业”"  value=""/>
+                            <input type="text" id="tiaojiao" style="width: 400px; height: 34px;font-size: 14px;" placeholder="请输入商品名称，经营主体，生产主体，品牌名称，多关键词用空格隔开，如“38度建国原浆 建国酒业”"  value=""/>
 
 
                             <!--<input id="headerKey" name="key" onkeydown="searchKeydown(event,2);" class="form-control headerKey" style="font-size: 14px;" type="text" placeholder="请输入企业名称、人名，产品名等，多关键词用空格隔开，如“小米 雷军”" value="联达动力" autocomplete="off">
                             -->
-                            <span class="input-group-btn" style="float: right">
+
                             <!--<input type="button" id="cx" class="btn btn-primary top-searchbtn" value="">-->
-                                <button onclick="" type="submit" class="btn btn-primary top-searchbtn"></button>
-                            </span>
+                            <button class="button_1" id="cx"  type="button"  onclick="sel();"  class="btn btn-primary top-searchbtn" >搜索</button>
 
 
-                        </form>
 
-                    </td>
-                    <td width="436" align="right" class="nav_topfont"><p>&nbsp;</p>
-                        <p>中国保护消费者基金会 &nbsp;&nbsp;</p>
+                        </td>
+                        <td width="436" align="right" class="nav_topfont"><p>&nbsp;</p>
+                            <p>中国保护消费者基金会 &nbsp;&nbsp;</p>
 
-                        <a href="http://www.cfcpincc.com"  target="_blank"><span style="font-size:12px;text-decoration:none;">网站首页&nbsp;&nbsp;</span></a>
-                        <a href="http://icon.cfcpincc.com"  target="_blank"><span style="font-size:12px;text-decoration:none;">后台登录&nbsp;&nbsp;&nbsp;&nbsp;</span></a>
-                    </td>
-                </tr>
-
-            </table>
-        </td>
-    </tr>
-</table>
-<p>&nbsp;</p>
-<!--<p>&nbsp;</p>-->
-<table width="1200" border="0" align="center" cellpadding="0" cellspacing="0">
-    <tr>
-        <td width="178" height="30" align="center" class="dh_title"><img src="../images/icon-002.png" width="32"
-                                                                         height="24" align="absmiddle">&nbsp;用户注册
-        </td>
-        <td width="422" class="dh_line_gray">&nbsp;</td>
-    </tr>
-</table>
-<table width="960" border="0" align="center" cellpadding="0" cellspacing="0">
-    <tr>
-        <td>&nbsp;</td>
-    </tr>
-</table>
-<form action="/incc/login" method="post" id="loginForm">
-    <table width="1200" border="0" align="center" cellpadding="0" cellspacing="0" class="tybox">
-        <tr>
-            <td valign="top" bgcolor="#FFFFFF">
-                <table width="100%" height="120" border="0" cellpadding="0" cellspacing="0" bgcolor="#F3F3F3">
-                    <tr>
-                        <td align="center" valign="top" bgcolor="#f5f5f5"><p>&nbsp;</p>
-                            <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
-
-                                <tr>
-                                    <td height="38" width="10%"  align="right"> <span style="color:red">*</span>用户名：</td>
-                                    <td height="38" width="40%" class="songgraybold14" align="left"><input name="name" id="name"
-                                                                                                           type="text"
-                                                                                                           class="inputall_rg"
-                                                                                                           placeholder="请输入用户姓名"
-                                                                                                           onfocus="cloneName();"
-                                                                                                           onblur="checkName();"
-                                                                                                           size="38" required/>
-
-                                        <span style="color:#F00"><div id="msgName"></div></span>
-                                    </td>
-
-                                    <td height="38" width="10%"  align="right"><span style="color:red">*</span>邮箱：</td>
-                                    <td height="38" width="40%" class="songgraybold14" align="left"><input name="mail" id="mail"
-                                                                                                           type="text"
-                                                                                                           class="inputall_rg"
-                                                                                                           placeholder="请输入邮箱"
-                                                                                                           onfocus="cloneEmail();"
-                                                                                                           onblur="checkEmail();"
-                                                                                                           size="38" required/>
-
-                                        <span style="color:#F00"><div id="msgEmail"></div></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td height="38" width="10%"  align="right">密码：</td>
-                                    <td height="38" width="40%" class="songgraybold14" align="left"><input id="password"
-                                                                                                           name="password" type="password" class="inputall_rg" size="38"
-                                                                                                           onfocus="clonePass();"
-                                                                                                           onblur="checkPass();"
-                                    /></td>
-
-                                    <td height="38" width="10%"  align="right">确认密码：</td>
-                                    <td height="38" width="40%" class="songgraybold14" align="left"><input id="password2"
-                                                                                                           name="password2" type="password" class="inputall_rg" size="38"
-                                                                                                           onfocus="clonePass();"
-                                                                                                           onblur="checkPass();"
-                                    />
-
-                                        <span style="color:#F00"><div id="msgPass"></div></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td height="38" width="10%"  align="right"><span style="color:red">*</span>身份证：</td>
-                                    <td height="38" width="40%" class="songgraybold14" align="left"><input name="idCard" id="idCard"
-                                                                                                           type="text"
-                                                                                                           class="inputall_rg"
-                                                                                                           placeholder="请输入身份证号码"
-                                                                                                           onfocus="cloneIdCard();"
-                                                                                                           size="38"/>
-
-
-                                        <span style="color:#F00"><div id="msgIdCard"></div></span>
-                                    </td>
-
-                                    <td height="38" width="10%"  align="right"><span style="color:red">*</span>所属分销商：</td>
-                                    <td height="38" width="40%" class="songgraybold14" align="left">
-                                        <select name="s1234"  id="s1234" style='width:290px;height: 30px'>
-
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td height="38" width="10%"  align="right"><span style="color:red">*</span>企业名称：</td>
-                                    <td height="38" width="40%" class="songgraybold14" align="left"><input name="companyName" id="companyName"
-                                                                                                           type="text"
-                                                                                                           class="inputall_rg"
-                                                                                                           placeholder="请输入企业名称"
-                                                                                                           onfocus="cloneCompany();"
-                                                                                                           onblur="checkCompany();"
-                                                                                                           size="38"/>
-                                        <span style="color:#F00"><div id="msgCompany"></div></span>
-                                    </td>
-
-                                    <td height="38" width="10%"  align="right"><span style="color:red">*</span>联系电话：</td>
-                                    <td height="38" width="40%" class="songgraybold14" align="left"><input name="phone" id="phone"
-                                                                                                           type="text"
-                                                                                                           class="inputall_rg"
-                                                                                                           placeholder="请输入联系电话"
-                                                                                                           onfocus="cloneMobile();"
-                                                                                                           onblur="checkMobile();"
-                                                                                                           size="38"/>
-
-                                        <span style="color:#F00"><div id="msgPhone"></div></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td height="150" width="10%"  align="right"><span style="color:red">*</span>企业资质：</td>
-                                    <td height="150" width="40%" class="songgraybold14" align="left"> <div  class="divcss5">
-                                        <img id="upimg" src="../images/BG.png"，style="CURSOR: hand" onclick='doUpload1()'/>
-                                    </div>
-                                        <input type="file" id="imageFile" style="visibility:hidden" name="img" multiple="multiple"  onchange="doUpload();"/>
-                                        <input name="businessLicense" id="businessLicense" style="visibility:hidden" type="text" />
-
-                                    </td>
-
-                                    <td height="38" width="10%"  align="right" valign="top"><span style="color:red">*</span>验证码：</td>
-                                    <td height="38" width="40%" class="songgraybold14" align="left" valign="top"><input name="yzm" id="yzm"
-                                                                                                                        type="text"
-                                                                                                                        class="inputall_rg"
-                                                                                                                        placeholder="请输入验证码"
-                                                                                                                        onfocus="clonePicCode();"
-                                                                                                                        size="38"/>
-                                        &nbsp;<img id="pic" src="" onclick="getPicCode()" style="vertical-align:middle"/>
-
-                                        <span style="color:#F00"><div id="msgPicCode"></div></span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td height="38" width="10%" class="login_font" align="center"></td>
-                                    <td height="38" width="40%" class="songgraybold14" align="right"><input name="button"
-                                                                                                            type="button"
-                                                                                                            class="button_login yuan"
-                                                                                                            value="注册"
-                                                                                                            style="width:120px"
-                                                                                                            onClick="login()"></td>
-
-                                    <td height="38" width="10%" class="login_font" align="center"></td>
-                                    <td height="38" width="40%" class="songgraybold14" align="left">
-                                        <input name="button2" type="reset" class="button_login yuan" value="重写"
-                                               style="width:120px" onClick="reset()">
-                                        <span id="loginErr"></span></td>
-                                </tr>
-
-                            </table>
+                            <a href="http://www.cfcpincc.com"  target="_blank"><span style="font-size:12px;text-decoration:none;">网站首页&nbsp;&nbsp;</span></a>
+                            <a href="http://icon.cfcpincc.com"  target="_blank"><span style="font-size:12px;text-decoration:none;">后台登录&nbsp;&nbsp;&nbsp;&nbsp;</span></a>
                         </td>
                     </tr>
+
                 </table>
-</form>
-<br>
+            </td>
+        </tr>
+    </table>
+</head>
+
+<div>
 <p>&nbsp;</p>
-<table width="100%" height="40" border="0" cellpadding="0" cellspacing="0" class="lg_bottom">
-    <tr>
-        <td align="center" valign="top" class="songgray12">Copyright © 2017-2018 中国合规商品资质验证中心 版权所有 备案号：京ICP备18047684号-1 商验（北京）认证服务有限公司提供技术和运营服务</td>
-    </tr>
+
+
+<table style="border: solid thin rgba(217,207,255,0.1)" width="97%" border="1" align="center" cellpadding="0" cellspacing="0">
+    <thead>
+    <tr> <th colspan="3" height="66px" align="left"><div id="chaxunsl">小查为您找到条符合条件的商品</div></th> </tr>
+    <tr> <th  width="70px" height="42px">商品图片</th> <th>商品信息</th> <th width="100px">发布状态</th> </tr>
+
+    </thead>
+<tbody id="fylistDatas">
+</tbody >
 </table>
-</body>
+   <!--
+    <ul class="ant-pagination ant-table-pagination" unselectable="unselectable">
+        <li title="上一页" tabindex="0" class=" ant-pagination-prev" aria-disabled="false"><a></a></li>
+        <li title="1" class="ant-pagination-item ant-pagination-item-1" tabindex="0"><a>1</a></li>
+        <li title="2" class="ant-pagination-item ant-pagination-item-2" tabindex="0"><a>2</a></li>
+        <li title="3" class="ant-pagination-item ant-pagination-item-3 ant-pagination-item-active" tabindex="0"><a>3</a></li>
+        <li title="4" class="ant-pagination-item ant-pagination-item-4" tabindex="0"><a>4</a></li>
+        <li title="下一页" tabindex="0" class=" ant-pagination-next" aria-disabled="false"><a></a></li>&lt;!&ndash; react-empty: 576 &ndash;&gt;
+    </ul>-->
+<br>
+<br>
+<br>
+<br>
+</div>
+<footer>
+    <table width="100%" height="40" border="0" cellpadding="0" cellspacing="0" class="lg_bottom">
+        <tr>
+            <td align="center" valign="top" class="songgray12">Copyright © 2017-2018 中国合规商品资质验证中心 版权所有 备案号：京ICP备18047684号-1 商验（北京）认证服务有限公司提供技术和运营服务</td>
+        </tr>
+    </table>
+</footer>
 <script  type="text/javascript">
     var loginForm = document.getElementById("loginForm");
     function login() {
@@ -624,13 +561,6 @@
     });
     chackErr();
 
-    function getPicCode() {
-        var location = (window.location+'').split('/');
-        var basePath = location[0]+'//'+location[2]+'/'+location[3];
-        url = basePath+"/view/picCheckCode?" + Math.random();
-        document.getElementById("pic").src=url;
-    }
-    getPicCode();
 
     window.onload = function() {
         var location = (window.location+'').split('/');

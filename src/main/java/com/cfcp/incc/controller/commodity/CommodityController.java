@@ -3,6 +3,7 @@ package com.cfcp.incc.controller.commodity;
 import com.cfcp.incc.controller.BaseController;
 import com.cfcp.incc.dto.CommonDto;
 import com.cfcp.incc.dto.CommonListDto;
+import com.cfcp.incc.dto.StringDto;
 import com.cfcp.incc.entity.Commodity;
 import com.cfcp.incc.entity.Dictionary;
 import com.cfcp.incc.entity.Distributor;
@@ -18,6 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.tigerfacejs.commons.view.DataEvent;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,6 +72,21 @@ public class CommodityController extends BaseController {
     @RequestMapping(value = "query")
     public Object query(@RequestParam(required = false) Map<String, String> conditions) {
         PageInfo<Commodity> pageInfo=  commodityService.query(conditions);
+        pageInfo.getList().forEach(item->item.setIndustryPo(dictionaryService.findDictionaryById(item.getIndustry())));
+        return DataEvent.wrap("commodityList", pageInfo);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "query_",method = RequestMethod.POST)
+    public Object query_(HttpServletResponse response, HttpServletRequest request, @RequestBody StringDto usr) {
+
+        String con =  request.getParameter("");
+
+        Map conditions = new HashMap();
+        conditions.put("status","1");
+        conditions.put("_","1540449364405");
+
+        PageInfo<Commodity> pageInfo=  commodityService.query_(conditions);
         pageInfo.getList().forEach(item->item.setIndustryPo(dictionaryService.findDictionaryById(item.getIndustry())));
         return DataEvent.wrap("commodityList", pageInfo);
     }

@@ -22,6 +22,8 @@
 		<intercept-url pattern="/register/cfcpincc_Register_.html" access="permitAll"/>
 		<intercept-url pattern="/register/userinfo**" access="permitAll"/>
 		<intercept-url pattern="/search/**" access="permitAll"/>
+		<intercept-url pattern="/manager/commodity/query_/**" access="permitAll"/>
+
 
 		<!--<intercept-url pattern="/view/index.html" access="hasRole('ROLE_ADMIN')"/>-->
 		<intercept-url pattern="/assets/**" access="permitAll" method="GET"/>
