@@ -48,12 +48,14 @@ public class CommodityService extends BaseService {
 
         Company company = commodity.getCompany();
         if (company != null){
+            company.setDescriminator(1);// 类型（1经营企业2生产企业）
             companyService.saveOrUpdate(company);
             commodity.setCompanyId(company.getId());
         }
 
         Company factory = commodity.getFactory();
         if (factory != null){
+            factory.setDescriminator(2);// 类型（1经营企业2生产企业）
             companyService.saveOrUpdate(factory);
             commodity.setFactoryId(factory.getId());
         }
