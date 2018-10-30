@@ -80,10 +80,11 @@ public class CommodityController extends BaseController {
     @RequestMapping(value = "query_",method = RequestMethod.POST)
     public Object query_(HttpServletResponse response, HttpServletRequest request, @RequestBody StringDto usr) {
 
-        String con =  request.getParameter("");
+        String pageNum =  request.getParameter("pageNum");
 
         Map conditions = new HashMap();
         conditions.put("status","1");
+        conditions.put("pageNum",pageNum);
         conditions.put("_","1540449364405");
 
         PageInfo<Commodity> pageInfo=  commodityService.query_(conditions);

@@ -22,6 +22,8 @@ public interface CommodityDao{
 
     List<Commodity> query(Map<String, String> conditions);
 
+    List<Commodity> query_(Map<String, String> conditions);
+
     List<Commodity> allAudited();
 
     List<Map> allMap();

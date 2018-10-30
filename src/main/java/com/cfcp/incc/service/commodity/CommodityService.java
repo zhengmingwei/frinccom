@@ -126,7 +126,7 @@ public class CommodityService extends BaseService {
             conditions.put("distributorId", distributorId);
         Page page = this.initPage(conditions);
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<Commodity> list =  commodityDao.query(conditions);
+        List<Commodity> list =  commodityDao.query_(conditions);
         PageInfo<Commodity> pageInfo = new PageInfo(list);
         return pageInfo;
     }
