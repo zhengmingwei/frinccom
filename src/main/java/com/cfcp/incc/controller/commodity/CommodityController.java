@@ -80,12 +80,50 @@ public class CommodityController extends BaseController {
     @RequestMapping(value = "query_",method = RequestMethod.POST)
     public Object query_(HttpServletResponse response, HttpServletRequest request, @RequestBody StringDto usr) {
 
-        String pageNum =  request.getParameter("pageNum");
-
         Map conditions = new HashMap();
+        String pageNum =  request.getParameter("pageNum");
+        String selXm =  request.getParameter("selXm");
+        String name =  usr.getName().trim();
+        String other_name = "";
+        int ii = name.indexOf(" ");
+        String f = "";
+        if(name.indexOf(" ")>0){
+            f = name.substring(0,name.indexOf(" "));
+            other_name = name.substring(f.length()).trim();
+            conditions.put("other_name",other_name);
+            name = f;
+        }
+        String [] nm = name.split(" ");
+
+        /*
+            a_spmc 商品名称
+            a_jyqy 经营企业
+            a_scqy 生成企业
+            a_sbmc 商标名称
+            a_fr   法定代表人
+        */
+
+        if("a_spmc".equals(selXm)){
+            conditions.put("name",name);    //a_spmc 商品名称
+        }else if("a_jyqy".equals(selXm)){
+            conditions.put("cname",name);   //a_jyqy 经营企业
+        }else if("a_scqy".equals(selXm)){
+            conditions.put("fname",name);   //a_scqy 生成企业
+        }else if("a_sbmc".equals(selXm)){
+            conditions.put("bname",name);   //a_sbmc 商标名称
+        }else if("a_fr".equals(selXm)){    //a_fr   法定代表人
+            //OWNER   '品牌权利人',         BRAND        品牌表
+            conditions.put("owner",name);
+            //LEGAL_PERSON  '法定代表人',   COMPANY      企业表
+            conditions.put("legal_person",name);
+
+        }else
+            conditions.put("name",name);
+
         conditions.put("status","1");
         conditions.put("pageNum",pageNum);
         conditions.put("_","1540449364405");
+
 
         PageInfo<Commodity> pageInfo=  commodityService.query_(conditions);
         pageInfo.getList().forEach(item->item.setIndustryPo(dictionaryService.findDictionaryById(item.getIndustry())));

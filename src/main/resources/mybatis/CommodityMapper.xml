@@ -311,11 +311,29 @@
 
 
     <trim prefix="WHERE" suffixOverrides="AND|OR">
-      <if test="name !=null and name != ''">
-        t.NAME LIKE CONCAT('%',#{name},'%') AND
+      <if test="name !=null and name != ''  and  (other_name ==null or other_name == '') ">
+        ( t.NAME LIKE CONCAT('%',#{name},'%') OR c.NAME LIKE CONCAT('%',#{name},'%')  OR f.NAME LIKE CONCAT('%',#{name},'%')  OR b.NAME LIKE CONCAT('%',#{name},'%')  or  c.LEGAL_PERSON LIKE CONCAT('%',#{name},'%') or b.OWNER LIKE CONCAT('%',#{name},'%') or  f.LEGAL_PERSON LIKE CONCAT('%',#{name},'%') ) AND
+      </if>
+      <if test="name !=null and name != '' and other_name !=null and other_name != ''  ">
+        ( ( t.NAME LIKE CONCAT('%',#{name},'%') OR c.NAME LIKE CONCAT('%',#{name},'%')  OR f.NAME LIKE CONCAT('%',#{name},'%')   OR b.NAME LIKE CONCAT('%',#{name},'%') or  c.LEGAL_PERSON LIKE CONCAT('%',#{name},'%') or b.OWNER LIKE CONCAT('%',#{name},'%') or  f.LEGAL_PERSON LIKE CONCAT('%',#{name},'%') ) and ( t.NAME LIKE CONCAT('%',#{other_name},'%') OR c.NAME LIKE CONCAT('%',#{other_name},'%')  OR f.NAME LIKE CONCAT('%',#{other_name},'%')  OR b.NAME LIKE CONCAT('%',#{other_name},'%') or  c.LEGAL_PERSON LIKE CONCAT('%',#{other_name},'%') or b.OWNER LIKE CONCAT('%',#{other_name},'%') or  f.LEGAL_PERSON LIKE CONCAT('%',#{other_name},'%') )   ) AND
       </if>
       <if test="cname !=null and cname != ''">
         c.NAME LIKE CONCAT('%',#{cname},'%') AND
+      </if>
+      <if test="fname !=null and fname != ''">
+        f.NAME LIKE CONCAT('%',#{fname},'%') AND
+      </if>
+      <if test="bname !=null and bname != ''">
+        b.NAME LIKE CONCAT('%',#{bname},'%') AND
+      </if>
+      <if test="owner !=null and owner != ''">
+        ( c.LEGAL_PERSON LIKE CONCAT('%',#{legal_person},'%') or b.OWNER LIKE CONCAT('%',#{owner},'%') or  f.LEGAL_PERSON LIKE CONCAT('%',#{legal_person},'%')  ) AND
+      </if>
+      <if test="legal_person !=null and legal_person != ''">
+        ( c.LEGAL_PERSON LIKE CONCAT('%',#{legal_person},'%') or b.OWNER LIKE CONCAT('%',#{owner},'%') or  f.LEGAL_PERSON LIKE CONCAT('%',#{legal_person},'%')  ) AND
+      </if>
+      <if test="legal_person !=null and legal_person != ''">
+        ( c.LEGAL_PERSON LIKE CONCAT('%',#{legal_person},'%') or b.OWNER LIKE CONCAT('%',#{owner},'%') or  f.LEGAL_PERSON LIKE CONCAT('%',#{legal_person},'%')  ) AND
       </if>
       <if test="code !=null and code != ''">
         c.ID_CODE LIKE CONCAT('%',#{code},'%') AND
