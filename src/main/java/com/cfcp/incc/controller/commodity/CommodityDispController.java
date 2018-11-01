@@ -6,12 +6,14 @@ import com.cfcp.incc.entity.*;
 import com.cfcp.incc.service.DictionaryService;
 import com.cfcp.incc.service.audit.AuditService;
 import com.cfcp.incc.service.commodity.*;
+import com.cfcp.incc.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.tigerfacejs.commons.view.DataEvent;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -51,7 +53,21 @@ public class CommodityDispController extends BaseController {
 
 
     @RequestMapping(value = "/{commodityId}", method = RequestMethod.GET)
-    public String addDistributor(@PathVariable String commodityId, Model model){
+    public String addDistributor(@PathVariable String commodityId, Model model, HttpServletRequest request){
+
+        /**
+         * 得到访问者的IP地址
+         * @return ip
+         * @throws Exception
+         */
+        String ip1 =  WebUtils.getIpAddress();
+        /**
+         * 通过访问的Ip地址得到mac地址
+         * @param ip
+         * @return mac
+         */
+        String mac1 =  WebUtils.getMacAddress();
+
 //        if (commodityService.save(commodity) > 0 ){
         Map<String, Dictionary> dictionaryMap = dictionaryService.dictionariesMap();
         Commodity commodity = commodityService.get(commodityId);
