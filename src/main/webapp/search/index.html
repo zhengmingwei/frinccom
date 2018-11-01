@@ -4,6 +4,13 @@
 <head>
     <title>中国合规商品资质验证管理中心查询平台</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="Generator" content="EditPlus®">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=shift_jis" />
+
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="../css/all-bg.css" type="text/css">
     <link rel="stylesheet" href="../css/home.css" type="text/css">
@@ -133,8 +140,28 @@
             right: 0;
             top: 0;
         }
-    </style>
 
+    </style>
+    <style>
+        tr{background: #FFFFFF;}
+        tr:hover{background: #fcfcfc;}
+        a:link{
+            text-decoration:none;
+            color: #000000;
+        }
+        a:visited{
+            text-decoration:none;
+            color: #000000;
+        }
+        a:hover{
+            text-decoration:none;
+            color: #0084ff;
+        }
+        a:active{
+            text-decoration:none;
+            color: #0a628f;
+        }
+    </style>
     <!--
       <script src="../js/jquery-1.8.3.min.js"></script>-->
     <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
@@ -346,7 +373,9 @@
         function clonePicCode() {
             document.getElementById('msgPicCode').innerHTML='';
         }
-
+        function yanse(r) {
+            alert(1234);
+        }
         //查询 sel()
         function sel() {
             //http://localhost:8081/incc/manager/commodity/query?status=1&pageNum=2&_=1540798408480
@@ -394,7 +423,7 @@
                         var res = [];
                         var res1 = [];
                         //res.push('<thead> <tr id="search-tab-title"> <td width="110px" height="42px">公司</td> <td width="710px"></td> <td width="100px">状态</td> </tr> </thead><tbody>');
-                        res.push('<tbody>');
+                        //res.push('<tbody>');
                         var num = 1;
                         jQuery.each(data.list, function (i, item) {
                             var r = item.pic;
@@ -407,11 +436,10 @@
                             //res.push('<td border="0.5"  width="110px" height="196px" align="center"><a href="http://192.168.1.3:8081/incc/commodity/'+item.id+'" target="_blank"><img width="80px" height="80px" src="'+picUrl+'"></a></td>');
                             res.push('<td border="0.5"  width="110px" height="196px" align="center"><a href="'+a_url+item.id+'" target="_blank"><img width="80px" height="80px" src="'+picUrl+'"></a></td>');
                             /*res.push('<td align="center" >' + item.id + '</td>');*/
-                            res.push('<td><br><p class="name ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="'+picUrl+'"><span style="font-size: 18px;font-weight: bold">商品名称 ：' + item.name + '</span></p></a><br><br><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经营企业 ：'+item.company.name+'&nbsp;&nbsp;&nbsp;&nbsp;法定代表人 ：<span style="color: #0084ff;">'+item.company.legalPerson+'</span></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;生产企业 ：'+item.factory.name+'&nbsp;&nbsp;&nbsp;&nbsp;法定代表人 ：<span style="color: #0084ff;">'+item.factory.legalPerson+'</span></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;品&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;牌 ：'+item.brand.name+'&nbsp;&nbsp;品牌权利人 ：<span style="color: #0084ff;">'+item.brand.owner+'</span></p><br></td>');
+                            res.push('<td><br><p class="name ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="'+a_url+item.id+'"><span style="font-size: 18px;font-weight: bold">商品名称 ：' + item.name + '</span></p></a><br><br><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经营企业 ：'+item.company.name+'&nbsp;&nbsp;&nbsp;&nbsp;法定代表人 ：<span style="color: #0084ff;">'+item.company.legalPerson+'</span></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;生产企业 ：'+item.factory.name+'&nbsp;&nbsp;&nbsp;&nbsp;法定代表人 ：<span style="color: #0084ff;">'+item.factory.legalPerson+'</span></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;品&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;牌 ：'+item.brand.name+'&nbsp;&nbsp;品牌权利人 ：<span style="color: #0084ff;">'+item.brand.owner+'</span></p><br></td>');
 
 
                             //res.push('<th>经营企业 ：' + item.company.name + '</th>');
-
                             /*
                             res.push('<td align="center" >' + item.CWFYXM + '</td>');
                             res.push('<td align="center" >' + item.CWFY + '</td>');*/
@@ -478,12 +506,20 @@
 
 
                         //$("#fylistDatas").empty().html(res.join(""));
-                        res.push('</tbody>');
+                        //res.push('</tbody>');
                         $("#fylistDatas").empty().html(res);
                         $("#fy").empty().html(res1);
+
+
                     }
-
-
+                    var b=$("#tiaojiao").val().split(' ');
+                    if(b.length>0){
+                        for(var i=0;i<b.length;i++){
+                            var new_text = b[i];
+                            toRed_( new_text, "fylistDatas");
+                        }
+                    }
+                    //toRed_( $("#tiaojiao").val(), "fylistDatas");
                 },
                 error: function (data) {
                     document.getElementById('msgName').innerHTML="查询用户失败.";
@@ -494,16 +530,12 @@
         }
         //回车搜索
         $('#selInputY').bind('keyup', function(event) {
-            alert(12);
+            //alert(12);
             if (event.keyCode == "13") {
-
-                alert(1234);
+                //alert(1234);
                 //回车执行查询
-
                 $('#selInputY').click();
-
             }
-
         });
 
       /*
@@ -625,6 +657,25 @@
             }*/
         });
 
+        function toRed_(content, id) {
+            var bodyHtml = $("#" + id).html();
+            var b=content.split(' ');
+            if(b.length>0){
+                for(var i=0;i<b.length;i++){
+                    var new_text = b[i];
+                    //if(''!=new_text){
+                        reger = new RegExp("(>|^)([^<]*)(" + new_text + ")([^>]*<)","gm");
+                        reslut = bodyHtml.replace(reger, "$1$2<font color='red'>$3</font>$4");
+                        $("#" + id).html(reslut);
+                    //}
+                }
+
+            }else{
+                reger = new RegExp("(>|^)([^<]*)(" + content + ")([^>]*<)","gm");
+                reslut = bodyHtml.replace(reger, "$1$2<font color='red'>$3</font>$4");
+                $("#" + id).html(reslut);
+            }
+        }
     </script>
 
 </head>
@@ -722,3 +773,10 @@
 </footer>
 
 </html>
+
+
+
+
+
+
+
