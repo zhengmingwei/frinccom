@@ -44,6 +44,9 @@ public class CommodityDispController extends BaseController {
     @Autowired
     private AuditService auditService;
 
+    @Autowired
+    private NumberCommodityReadingsService numberCommodityRService;
+
     @ModelAttribute("dictionarys")
     public Map populateTypes() {
         return dictionaryService.dictionariesMap();
@@ -54,7 +57,9 @@ public class CommodityDispController extends BaseController {
     public String addDistributor(@PathVariable String commodityId, Model model){
 //        if (commodityService.save(commodity) > 0 ){
 
-        
+        int numberCommodityReadings = numberCommodityRService.saveOrUpdate(commodityId);
+        model.addAttribute("numberCommodityReadings", numberCommodityReadings);
+
         Map<String, Dictionary> dictionaryMap = dictionaryService.dictionariesMap();
         Commodity commodity = commodityService.get(commodityId);
         commodity.setIndustryPo(dictionaryMap.get(commodity.getIndustry()));
