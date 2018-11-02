@@ -53,6 +53,8 @@ public class CommodityDispController extends BaseController {
     @RequestMapping(value = "/{commodityId}", method = RequestMethod.GET)
     public String addDistributor(@PathVariable String commodityId, Model model){
 //        if (commodityService.save(commodity) > 0 ){
+
+        
         Map<String, Dictionary> dictionaryMap = dictionaryService.dictionariesMap();
         Commodity commodity = commodityService.get(commodityId);
         commodity.setIndustryPo(dictionaryMap.get(commodity.getIndustry()));
