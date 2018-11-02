@@ -52,6 +52,7 @@ public class CommodityDispController extends BaseController {
     }
 
 
+    @ResponseBody
     @RequestMapping(value = "/{commodityId}", method = RequestMethod.GET)
     public String addDistributor(@PathVariable String commodityId, Model model, HttpServletRequest request){
 
@@ -61,12 +62,41 @@ public class CommodityDispController extends BaseController {
          * @throws Exception
          */
         String ip1 =  WebUtils.getIpAddress();
+        WebUtils u =new WebUtils();
+        String ip1234 = (String) u.getMacAddrByIp(ip1);
         /**
          * 通过访问的Ip地址得到mac地址
          * @param ip
          * @return mac
          */
         String mac1 =  WebUtils.getMacAddress();
+
+
+        String iip = WebUtils.getClientIp(request);
+
+        String ip12341 = (String) u.getMacAddrByIp(iip);
+
+        String imac = WebUtils.getMacByIp(iip);
+
+        String imac1 =WebUtils.getIpAddr(request);
+        String ima =WebUtils.getMACAddress(imac1);
+
+        /**
+         * 1.获得客户机信息
+         */
+        String requestUrl = request.getRequestURL().toString();//得到请求的URL地址
+        String requestUri = request.getRequestURI();//得到请求的资源
+        String queryString = request.getQueryString();//得到请求的URL地址中附带的参数
+        String remoteAddr = request.getRemoteAddr();//得到来访者的IP地址
+        String remoteHost = request.getRemoteHost();
+        int remotePort = request.getRemotePort();
+        String remoteUser = request.getRemoteUser();
+        String method = request.getMethod();//得到请求URL地址时使用的方法
+        String pathInfo = request.getPathInfo();
+        String localAddr = request.getLocalAddr();//获取WEB服务器的IP地址
+        String localName = request.getLocalName();//获取WEB服务器的主机名
+
+
 
 //        if (commodityService.save(commodity) > 0 ){
         Map<String, Dictionary> dictionaryMap = dictionaryService.dictionariesMap();
