@@ -17,6 +17,7 @@ public class NumberCommodityReadingsService extends BaseService {
     public int saveOrUpdate(String commodityId){
         NumberCommodityReadings n = dao.get(commodityId);
         if(n!=null && StringUtils.hasLength(n.getId())){
+             n.setLatelyTime(new Date());
              dao.update(n);
              return n.getTotal()+1;
         } else {

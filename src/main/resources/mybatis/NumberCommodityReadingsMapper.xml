@@ -20,13 +20,13 @@
     </select>
     <insert id="insert" parameterType="com.cfcp.incc.entity.NumberCommodityReadings">
     insert into NUMBER_COMMODITY_READINGS ( ID, COMMODITY_ID, CREATE_TIME, LATELY_TIME, TOTAL, STATUS)
-    values (#{id,jdbcType=VARCHAR}, #{commodityId,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE},
-       #{latelyTime,jdbcType=DATE} , 1, 1)
+    values (#{id,jdbcType=VARCHAR}, #{commodityId,jdbcType=VARCHAR}, SYSDATE() ,
+        SYSDATE()  , 1, 1)
   </insert>
     <update id="update" parameterType="com.cfcp.incc.entity.NumberCommodityReadings">
     update NUMBER_COMMODITY_READINGS
     set
-      LATELY_TIME = #{latelyTime,jdbcType=DATE} ,
+      LATELY_TIME = SYSDATE()  ,
       TOTAL = TOTAL+1
     where COMMODITY_ID = #{commodityId,jdbcType=VARCHAR}
   </update>
