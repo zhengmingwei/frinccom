@@ -380,7 +380,7 @@
         }
         //查询 sel()
         function sel() {
-            MacInfo();
+            //MacInfo();
             //http://localhost:8081/incc/manager/commodity/query?status=1&pageNum=2&_=1540798408480
             var pageNum = $("#pageNum").val();
             var selXm =  $("#selXm").val();
@@ -681,7 +681,7 @@
             }
         }
 
-        function MacInfo(){
+/*        function MacInfo(){
             var locator =new ActiveXObject ("WbemScripting.SWbemLocator");
             var service = locator.ConnectServer(".");
             var properties = service.ExecQuery("Select * from Win32_NetworkAdapterConfiguration Where IPEnabled =True");
@@ -692,7 +692,7 @@
                 $("#MacInfo").val(mac);
                 //alert(mac)
             }
-        }
+        }*/
     </script>
 
 </head>
@@ -717,7 +717,7 @@
                         <input type="text" id="tiaojiao" style="width: 300px; height: 34px;font-size: 14px;" placeholder="请输入商品名称，经营主体，生产主体，品牌名称，多关键词用空格隔开，如“38度建国原浆 建国酒业”"  value=""/>
                         <input type="hidden" id="pageNum" value="" placeholder="将查询页"/><!--将查询的页-->
                         <input type="hidden" id="selXm" value="" placeholder="将查询项"/><!--将查询的项目 如：商品名称、企业名称、商标、法人-->
-                        <input type="text" id="MacInfo" value="" placeholder="MAC地址"/>
+                        <input type="hidden" id="MacInfo" value="" placeholder="MAC地址"/>
 
                         <!--<input id="headerKey" name="key" onkeydown="searchKeydown(event,2);" class="form-control headerKey" style="font-size: 14px;" type="text" placeholder="请输入企业名称、人名，产品名等，多关键词用空格隔开，如“小米 雷军”" value="联达动力" autocomplete="off">
                         -->
