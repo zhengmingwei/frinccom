@@ -42,10 +42,10 @@
             商品类型： <b th:text="*{categoryPo != null}?*{categoryPo.value}"></b>	    <br />
             出品机构： <b  th:text="${company != null}?${company.name}"></b>	    <br />
             品牌名称： <b th:text="${brand.name}"></b><br />
-            <div id="info_mg_price" style="display: block">
+        <div id="info_mg_price" style="display: block">
             厂商价格： <b style="font-weight: normal;padding-bottom: 2px;border-bottom: 1px solid #000;" th:text="*{mg_price}+(元)"></b><br />
-            </div>
-            标识效期： <b style="font-weight: normal;padding-bottom: 2px;border-bottom: 1px solid #000;" th:text="${audit != null&&audit.beginDate!=null}?${#calendars.format(audit.beginDate,' yyyy年 MM月 dd日')} + '至' + ${#calendars.format(audit.expireDate,' yyyy年 MM月 dd日')}:''"> </b> <br />
+        </div>
+        标识效期： <b style="font-weight: normal;padding-bottom: 2px;border-bottom: 1px solid #000;" th:text="${audit != null&&audit.beginDate!=null}?${#calendars.format(audit.beginDate,' yyyy年 MM月 dd日')} + '至' + ${#calendars.format(audit.expireDate,' yyyy年 MM月 dd日')}:''"> </b> <br />
         </p>
     </div>
     <div class="clear"></div>
@@ -62,45 +62,45 @@
         <div id="commodityVideo">
 
 
- <!--
-            <video controls="controls"
-                   style="background-color: rgb(0, 0, 0); width: 100%; display: block;"
-                   webkit-playsinline=""
-                   x-webkit-airplay=""
-                   preload="auto"
-                   data-role="txp_video_tag"
-                   src="https://ugcydzd.qq.com/uwMRJfz-r5jAYaQXGdGnC2_ppdhgmrDlPaRvaV7F2Ic/n0127wrh97r.mp4?sdtfrom=v1104&amp;guid=be5e5cc4a2ff5e80496c7f5f6e947e85&amp;vkey=16DF1EB0974B140025CE643FB21DAE1A0A916AA18BEF82633EFB2430FE6FEA7252F5D7B1F5734F768566B3981E2BF03F2D98F60FA0B251A50667F66D3009297C1161A4210067824A3495CE42CBEC8038E9C9A0567ED2D8C5D0C29D5438C11DE1B8260B6D4FCC2F1637113454BE8DA3485609D39B2D3FE7B4">
-            </video>
+            <!--
+                       <video controls="controls"
+                              style="background-color: rgb(0, 0, 0); width: 100%; display: block;"
+                              webkit-playsinline=""
+                              x-webkit-airplay=""
+                              preload="auto"
+                              data-role="txp_video_tag"
+                              src="https://ugcydzd.qq.com/uwMRJfz-r5jAYaQXGdGnC2_ppdhgmrDlPaRvaV7F2Ic/n0127wrh97r.mp4?sdtfrom=v1104&amp;guid=be5e5cc4a2ff5e80496c7f5f6e947e85&amp;vkey=16DF1EB0974B140025CE643FB21DAE1A0A916AA18BEF82633EFB2430FE6FEA7252F5D7B1F5734F768566B3981E2BF03F2D98F60FA0B251A50667F66D3009297C1161A4210067824A3495CE42CBEC8038E9C9A0567ED2D8C5D0C29D5438C11DE1B8260B6D4FCC2F1637113454BE8DA3485609D39B2D3FE7B4">
+                       </video>
 
--->
+           -->
 
-<!--
+            <!--
 
+                                    <video id="media" controls="controls" poster="ewm.gif"
+                                           style="background-color: rgb(0, 0, 0); width: 100%; display: block;"
+                                           webkit-playsinline=""
+                                           x-webkit-airplay=""
+                                           preload="auto"
+                                           data-role="txp_video_tag"
+                                           src="http://192.168.1.14:8081/incc/file/get/1/1/e8057612f7c61286bab6f380d41036f0ede6bf1b.mp4">
+                                    </video>
+            -->
+
+
+            <!--
                         <video id="media" controls="controls" poster="ewm.gif"
                                style="background-color: rgb(0, 0, 0); width: 100%; display: block;"
-                               webkit-playsinline=""
-                               x-webkit-airplay=""
-                               preload="auto"
-                               data-role="txp_video_tag"
+                               webkit-playsinline="" x-webkit-airplay="" preload="auto" data-role="txp_video_tag"
                                src="http://192.168.1.14:8081/incc/file/get/1/1/e8057612f7c61286bab6f380d41036f0ede6bf1b.mp4">
-                        </video>
--->
+                        </video>-->
 
+            <!--
 
-<!--
-            <video id="media" controls="controls" poster="ewm.gif"
-                   style="background-color: rgb(0, 0, 0); width: 100%; display: block;"
-                   webkit-playsinline="" x-webkit-airplay="" preload="auto" data-role="txp_video_tag"
-                   src="http://192.168.1.14:8081/incc/file/get/1/1/e8057612f7c61286bab6f380d41036f0ede6bf1b.mp4">
-            </video>-->
-
-<!--
-
-            <video id="media"  width="100%" controls="controls" x5-playsinline  playsinline  webkit-playsinline="true">
-&lt;!&ndash;
-             <video id="media" width="100%" webkit-playsinline="" poster=""  x-webkit-airplay="" preload="auto">&ndash;&gt;
-                 <source id="vi" src="..." type="video/mp4">
-            </video>-->
+                        <video id="media"  width="100%" controls="controls" x5-playsinline  playsinline  webkit-playsinline="true">
+            &lt;!&ndash;
+                         <video id="media" width="100%" webkit-playsinline="" poster=""  x-webkit-airplay="" preload="auto">&ndash;&gt;
+                             <source id="vi" src="..." type="video/mp4">
+                        </video>-->
 
 
             <!--
@@ -200,7 +200,7 @@
 
                     //_this.x5_type = opt.x5_type == "true" ? "h5" : "";                 //循环播放(true时循环播放)
 
-                   // x5_type:'h5' //声明启用同层H5播放器，支持的值：h5
+                    // x5_type:'h5' //声明启用同层H5播放器，支持的值：h5
                     var str = "<video id='playVideo' preload='auto' x5-video-player-type='h5' controls  playsinline webkit-playsinline='true' ";                   //根据设置的属性的值，拼写video控件
                     str += " width='" + _this.width + "' height='" + _this.height + "' " + _this.autoplay + " " + _this.preload + " " + _this.loop + " ";
                     if (typeof (_this.poster) != "undefined") {
@@ -213,18 +213,18 @@
                     _this.elemt.innerHTML = str;                                   //将str放到要插入的对象中
                 }
 
-/*
-*
-                        <video id="media" controls="controls" poster="ewm.gif"
-                               style="background-color: rgb(0, 0, 0); width: 100%; display: block;"
-                               webkit-playsinline=""
-                               x-webkit-airplay=""
-                               preload="auto"
-                               data-role="txp_video_tag"
-                               src="http://192.168.1.14:8081/incc/file/get/1/1/e8057612f7c61286bab6f380d41036f0ede6bf1b.mp4">
-                        </video>
-*
-* */
+                /*
+                *
+                                        <video id="media" controls="controls" poster="ewm.gif"
+                                               style="background-color: rgb(0, 0, 0); width: 100%; display: block;"
+                                               webkit-playsinline=""
+                                               x-webkit-airplay=""
+                                               preload="auto"
+                                               data-role="txp_video_tag"
+                                               src="http://192.168.1.14:8081/incc/file/get/1/1/e8057612f7c61286bab6f380d41036f0ede6bf1b.mp4">
+                                        </video>
+                *
+                * */
 
 
 
