@@ -3,6 +3,7 @@ package com.cfcp.incc.service.commodity;
 import com.cfcp.incc.dao.NumberCommodityReadingsDao;
 import com.cfcp.incc.entity.NumberCommodityReadings;
 import com.cfcp.incc.service.BaseService;
+import com.cfcp.incc.utils.GetAddressByIp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -26,6 +27,17 @@ public class NumberCommodityReadingsService extends BaseService {
              dao.update(n);
              return n.getTotal()+1;
         } else {
+            String resout = "";
+            try{
+                String str = GetAddressByIp.getJsonContent("http://ip.taobao.com/service/getIpInfo.php?ip="+ip);
+                //System.out.println(str);
+                resout = str;
+            }catch(Exception e){
+                e.printStackTrace();
+                resout = "获取IP地址异常："+e.getMessage();
+            }
+            //System.out.println("result: " + resout);
+
             n = new NumberCommodityReadings();
             n.setId(commodityId);
             n.setCreateTime(new Date());
@@ -34,6 +46,7 @@ public class NumberCommodityReadingsService extends BaseService {
             n.setTotal(1);
             n.setStatus(1);
             n.setIp(ip);
+            n.setAddress(resout);
             dao.insert(n);
             return 1;
         }

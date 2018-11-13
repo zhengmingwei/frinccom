@@ -28,6 +28,15 @@ public class NumberCommodityReadings  extends BaseEntity {
     private Integer total;
     private Integer status;
     private String ip;
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public Date getLatelyTime() {
         return latelyTime;

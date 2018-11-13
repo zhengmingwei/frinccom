@@ -20,9 +20,9 @@
         where COMMODITY_ID = #{commodityId,jdbcType=VARCHAR} and  IP= #{ip,jdbcType=VARCHAR}
     </select>
     <insert id="insert" parameterType="com.cfcp.incc.entity.NumberCommodityReadings">
-    insert into NUMBER_COMMODITY_READINGS ( ID, COMMODITY_ID, CREATE_TIME, LATELY_TIME, TOTAL, STATUS,IP)
+    insert into NUMBER_COMMODITY_READINGS ( ID, COMMODITY_ID, CREATE_TIME, LATELY_TIME, TOTAL, STATUS,IP,ADDRESS)
     values (#{id,jdbcType=VARCHAR}, #{commodityId,jdbcType=VARCHAR}, SYSDATE() ,
-        SYSDATE()  , 1, 1,#{ip,jdbcType=VARCHAR})
+        SYSDATE()  , 1, 1,#{ip,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR})
   </insert>
     <update id="update" parameterType="com.cfcp.incc.entity.NumberCommodityReadings">
     update NUMBER_COMMODITY_READINGS
