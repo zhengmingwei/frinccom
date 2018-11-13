@@ -14,10 +14,15 @@ public class NumberCommodityReadingsService extends BaseService {
 
     @Autowired
     NumberCommodityReadingsDao dao;
-    public int saveOrUpdate(String commodityId){
-        NumberCommodityReadings n = dao.get(commodityId);
+    public int saveOrUpdate(String commodityId,String ip){
+        NumberCommodityReadings ni =new NumberCommodityReadings();
+        ni.setIp(ip);
+        ni.setCommodityId(commodityId);
+        NumberCommodityReadings n = dao.get(ni);
+
         if(n!=null && StringUtils.hasLength(n.getId())){
              n.setLatelyTime(new Date());
+             n.setIp(ip);
              dao.update(n);
              return n.getTotal()+1;
         } else {
@@ -28,12 +33,13 @@ public class NumberCommodityReadingsService extends BaseService {
             n.setCommodityId(commodityId);
             n.setTotal(1);
             n.setStatus(1);
+            n.setIp(ip);
             dao.insert(n);
             return 1;
         }
     }
 
-    public NumberCommodityReadings get(String id){
-        return dao.get(id);
+    public NumberCommodityReadings get(NumberCommodityReadings ni){
+        return dao.get(ni);
     }
 }

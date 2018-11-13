@@ -5,5 +5,5 @@ import com.cfcp.incc.entity.NumberCommodityReadings;
 public interface NumberCommodityReadingsDao {
     int insert(NumberCommodityReadings record);
     int update(NumberCommodityReadings record);
-    NumberCommodityReadings get(String id);
+    NumberCommodityReadings get(NumberCommodityReadings ni);
 }

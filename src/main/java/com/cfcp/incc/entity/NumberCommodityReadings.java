@@ -14,7 +14,8 @@ public class NumberCommodityReadings  extends BaseEntity {
    CREATE_TIME          datetime default NULL comment '初次访问时间',
    LATELY_TIME          datetime default NULL comment '最近访问时间',
    TOTAL                int(11) default NULL comment '访问总次数',
-   STATUS               int(11) default NULL  comment '状态'
+   STATUS               int(11) default NULL  comment '状态',
+   IP                   varchar(32) default NULL comment 'IP地址',
 
 )
 * */
@@ -26,6 +27,19 @@ public class NumberCommodityReadings  extends BaseEntity {
     private Date latelyTime;
     private Integer total;
     private Integer status;
+    private String ip;
+
+    public Date getLatelyTime() {
+        return latelyTime;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     public Integer getTotal() {
         return total;

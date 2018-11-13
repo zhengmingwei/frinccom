@@ -8,26 +8,27 @@
         <result column="LATELY_TIME" jdbcType="TIMESTAMP" property="latelyTime" />
         <result column="TOTAL" jdbcType="INTEGER" property="total" />
         <result column="STATUS" jdbcType="INTEGER" property="status" />
+        <result column="IP" jdbcType="VARCHAR" property="ip" />
     </resultMap>
     <sql id="Base_Column_List">
-    ID, COMMODITY_ID, CREATE_TIME, LATELY_TIME, TOTAL, STATUS
+    ID, COMMODITY_ID, CREATE_TIME, LATELY_TIME, TOTAL, STATUS,IP
   </sql>
-    <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="get" parameterType="com.cfcp.incc.entity.NumberCommodityReadings" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from NUMBER_COMMODITY_READINGS
-        where COMMODITY_ID = #{commodityId,jdbcType=VARCHAR}
+        where COMMODITY_ID = #{commodityId,jdbcType=VARCHAR} and  IP= #{ip,jdbcType=VARCHAR}
     </select>
     <insert id="insert" parameterType="com.cfcp.incc.entity.NumberCommodityReadings">
-    insert into NUMBER_COMMODITY_READINGS ( ID, COMMODITY_ID, CREATE_TIME, LATELY_TIME, TOTAL, STATUS)
+    insert into NUMBER_COMMODITY_READINGS ( ID, COMMODITY_ID, CREATE_TIME, LATELY_TIME, TOTAL, STATUS,IP)
     values (#{id,jdbcType=VARCHAR}, #{commodityId,jdbcType=VARCHAR}, SYSDATE() ,
-        SYSDATE()  , 1, 1)
+        SYSDATE()  , 1, 1,#{ip,jdbcType=VARCHAR})
   </insert>
     <update id="update" parameterType="com.cfcp.incc.entity.NumberCommodityReadings">
     update NUMBER_COMMODITY_READINGS
     set
       LATELY_TIME = SYSDATE()  ,
       TOTAL = TOTAL+1
-    where COMMODITY_ID = #{commodityId,jdbcType=VARCHAR}
+    where COMMODITY_ID = #{commodityId,jdbcType=VARCHAR} and IP= #{ip,jdbcType=VARCHAR}
   </update>
 </mapper>

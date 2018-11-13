@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.tigerfacejs.commons.view.DataEvent;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -54,10 +56,10 @@ public class CommodityDispController extends BaseController {
 
 
     @RequestMapping(value = "/{commodityId}", method = RequestMethod.GET)
-    public String addDistributor(@PathVariable String commodityId, Model model){
+    public String addDistributor(HttpServletResponse response, HttpServletRequest request, @PathVariable String commodityId, Model model){
 //        if (commodityService.save(commodity) > 0 ){
-
-        int numberCommodityReadings = numberCommodityRService.saveOrUpdate(commodityId);
+        String ip = getIpAddr(request);
+        int numberCommodityReadings = numberCommodityRService.saveOrUpdate(commodityId,ip);
         model.addAttribute("numberCommodityReadings", numberCommodityReadings);
 
         Map<String, Dictionary> dictionaryMap = dictionaryService.dictionariesMap();
@@ -82,5 +84,21 @@ public class CommodityDispController extends BaseController {
 //        List<Distributor> list = commodityService.queryery(distributor);distributor
         return DataEvent.wrap("distributor_list", null);
     }
+
+    //获得客户端真实IP地址的方法二：
+    public String getIpAddr(HttpServletRequest request) {
+        String ip = request.getHeader("x-forwarded-for");
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return ip;
+    }
+
 
 }
