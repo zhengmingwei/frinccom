@@ -5,7 +5,6 @@
   <resultMap id="BaseResultMap" type="com.cfcp.incc.entity.Commodity">
     <id column="ID" property="id" />
     <result column="NAME" property="name" />
-
     <result column="MG_PRICE" jdbcType="DOUBLE" property="mg_price" />
     <result column="CATEGORY" property="category" />
     <result column="INDUSTRY" property="industry" />
@@ -18,6 +17,7 @@
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="CREATOR" property="creator" />
     <result column="STATUS" property="status" />
+    <result column="ISPAY" property="isPay" />
     <association property="company" column="COMPANY_ID"  javaType="com.cfcp.incc.entity.Company">
       <id column="C_ID" jdbcType="VARCHAR" property="id" />
       <result column="C_NAME" jdbcType="VARCHAR" property="name" />
@@ -460,6 +460,13 @@
     SET STATUS = 0
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+
+  <update id="updateIsPayIs" parameterType="java.lang.String">
+    UPDATE COMMODITY
+    SET ISPAY = '已付款'
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
   <insert id="insert" parameterType="com.cfcp.incc.entity.Commodity">
     insert into COMMODITY (ID, NAME,MG_PRICE, CATEGORY,
       INDUSTRY, PIC, SP_VIDEO, DISTRIBUTOR_ID,

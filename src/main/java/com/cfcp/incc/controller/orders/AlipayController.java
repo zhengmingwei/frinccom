@@ -5,8 +5,10 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 
+import com.cfcp.incc.entity.Commodity;
 import com.cfcp.incc.entity.Orders;
 import com.cfcp.incc.entity.Product;
+import com.cfcp.incc.service.commodity.CommodityService;
 import com.cfcp.incc.service.orders.OrdersService;
 import com.cfcp.incc.service.orders.ProductService;
 import com.cfcp.incc.utils.AlipayConfig;
@@ -17,6 +19,7 @@ import com.cfcp.incc.service.Sid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,11 +47,16 @@ public class AlipayController {
 	final static Logger log = LoggerFactory.getLogger(AlipayController.class);
 
 	@Autowired
+	private CommodityService commodityService;
+
+	@Autowired
 	private ProductService productService;
 
 	@Autowired
 	private OrdersService orderService;
 
+	@Value("${product.Price}")
+	private String product_Price;
 
 	private Sid sid = new Sid();
 
@@ -75,11 +83,48 @@ public class AlipayController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/goConfirm")
-	public ModelAndView goConfirm(String productId) throws Exception {
+	public ModelAndView goConfirm(String productId, HttpServletRequest request) throws Exception {
+		productId = request.getParameter("id");
+		Commodity c  = commodityService.get(productId);
 
-		Product p = productService.getProductById(productId);
-
+		//Product p = productService.getProductById(productId);
+		Product p = new Product();
+		p.setId(c.getId());
+		p.setName(c.getName());
+        p.setPrice(product_Price);
 		ModelAndView mv = new ModelAndView("goConfirm");
+		mv.addObject("p", p);
+
+		return mv;
+	}
+
+	/**
+	 *
+	 * @param order
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/createInccOrder2")
+	public ModelAndView createInccOrde2r(Orders order, HttpServletRequest request) throws Exception {
+		String productId = request.getParameter("id");
+		Commodity c  = commodityService.get(productId);
+		Product p = new Product();
+		p.setId(c.getId());
+		p.setName(c.getName());
+		p.setPrice(product_Price);
+
+		String orderId = sid.nextShort();
+		order.setProductId(productId);
+		order.setBuyCounts(1);
+		order.setId(orderId);
+		order.setOrderNum(orderId);
+		order.setCreateTime(new Date());
+		order.setOrderAmount(String.valueOf(Float.valueOf(p.getPrice()) * order.getBuyCounts()));
+		order.setOrderStatus(OrderStatusEnum.WAIT_PAY.key);
+		orderService.saveOrder(order);
+
+		ModelAndView mv = new ModelAndView("goPay");
+		mv.addObject("order", order);
 		mv.addObject("p", p);
 
 		return mv;
@@ -120,11 +165,21 @@ public class AlipayController {
 	 */
 	@RequestMapping(value = "/createOrder")
 	@ResponseBody
-	public LeeJSONResult createOrder(Orders order) throws Exception {
+	public LeeJSONResult createOrder(Orders order, HttpServletRequest request) throws Exception {
 
-		Product p = productService.getProductById(order.getProductId());
+		Commodity c  = commodityService.get(order.getProductId());
+
+		//Product p = productService.getProductById(order.getProductId());
+		//Product p = productService.getProductById(productId);
+		Product p = new Product();
+		p.setId(c.getId());
+		p.setName(c.getName());
+		p.setPrice(product_Price);
+
 
 		String orderId = sid.nextShort();
+		order.setProductId(order.getProductId());
+		order.setBuyCounts(1);
 		order.setId(orderId);
 		order.setOrderNum(orderId);
 		order.setCreateTime(new Date());
@@ -150,7 +205,13 @@ public class AlipayController {
 		if(order!=null){
 			ProductId = order.getProductId();
 		}
-		Product p = productService.getProductById(ProductId);
+		//Product p = productService.getProductById(ProductId);
+
+		Commodity c  = commodityService.get(ProductId);
+		Product p = new Product();
+		p.setId(c.getId());
+		p.setName(c.getName());
+		p.setPrice(product_Price);
 
 		ModelAndView mv = new ModelAndView("goPay");
 		mv.addObject("order", order);
@@ -175,12 +236,25 @@ public class AlipayController {
 	@ResponseBody
 	public String goAlipay(String orderId, HttpServletRequest request, HttpServletRequest response) throws Exception {
 
+		if(orderId==null){
+			orderId = request.getParameter("id");
+		}
 		Orders order = orderService.getOrderById(orderId);
 		String ProductId = "";
 		if(order!=null){
 			ProductId = order.getProductId();
 		}
-		Product product = productService.getProductById(ProductId);
+		//Product product = productService.getProductById(ProductId);
+
+		Commodity c  = commodityService.get(ProductId);
+		Product product = new Product();
+		product.setId(c.getId());
+		product.setName(c.getName());
+		product.setPrice(product_Price);
+
+
+
+
 		//获得初始化的AlipayClient
 		AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
 
@@ -275,7 +349,16 @@ public class AlipayController {
 
 
 			Orders order = orderService.getOrderById(out_trade_no);
-			Product product = productService.getProductById(order.getProductId());
+            //更新产品表中是否付款为（已付款）
+			commodityService.updateIsPayIs(order.getProductId());
+
+			Commodity c  = commodityService.get(order.getProductId());
+			Product product = new Product();
+			product.setId(c.getId());
+			product.setName(c.getName());
+			product.setPrice(product_Price);
+
+			//Product product = productService.getProductById(order.getProductId());
 
 			log.info("********************** 支付成功(支付宝同步通知) **********************");
     		log.info("* 订单号: {}", out_trade_no);
@@ -373,7 +456,17 @@ public class AlipayController {
 				orderService.updateOrderStatus(out_trade_no, trade_no, total_amount);
 
 				Orders order = orderService.getOrderById(out_trade_no);
-				Product product = productService.getProductById(order.getProductId());
+				//Product product = productService.getProductById(order.getProductId());
+
+				//更新产品表中是否付款为（已付款）
+				commodityService.updateIsPayIs(order.getProductId());
+
+				Commodity c  = commodityService.get(order.getProductId());
+				Product product = new Product();
+				product.setId(c.getId());
+				product.setName(c.getName());
+				product.setPrice(product_Price);
+
 
 				log.info("********************** 支付成功(支付宝异步通知) **********************");
 	    		log.info("* 订单号: {}", out_trade_no);

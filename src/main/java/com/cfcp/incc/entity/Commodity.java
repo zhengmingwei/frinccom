@@ -80,6 +80,7 @@ public class Commodity extends BaseEntity {
 
     private Integer status;
     private String statusValue;
+    private String isPay;
 
     private List<OtherQualification> otherQualifications;
 
@@ -92,6 +93,18 @@ public class Commodity extends BaseEntity {
 //    public void setId(String id) {
 //        this.id = id == null ? null : id.trim();
 //    }
+
+    public void setStatusValue(String statusValue) {
+        this.statusValue = statusValue;
+    }
+
+    public String getIsPay() {
+        return isPay;
+    }
+
+    public void setIsPay(String isPay) {
+        this.isPay = isPay;
+    }
 
     public String getName() {
         return name;
@@ -203,6 +216,7 @@ public class Commodity extends BaseEntity {
         }
 
     }
+
 
     public String getSp_video() {
         return sp_video;

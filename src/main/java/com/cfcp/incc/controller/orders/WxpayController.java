@@ -1,8 +1,10 @@
 package com.cfcp.incc.controller.orders;
 
 
+import com.cfcp.incc.entity.Commodity;
 import com.cfcp.incc.entity.Orders;
 import com.cfcp.incc.entity.Product;
+import com.cfcp.incc.service.commodity.CommodityService;
 import com.cfcp.incc.service.orders.OrdersService;
 import com.cfcp.incc.service.orders.ProductService;
 import com.cfcp.incc.service.Sid;
@@ -11,6 +13,7 @@ import com.cfcp.incc.wx.entity.PreOrderResult;
 import com.cfcp.incc.wx.service.WxOrderService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,7 +35,13 @@ public class WxpayController {
 	
 	@Autowired
 	private WxOrderService wxOrderService;
-	
+
+	@Value("${product.Price}")
+	private String product_Price;
+
+	@Autowired
+	private CommodityService commodityService;
+
 
 	private Sid sid = new Sid();
 
@@ -62,8 +71,14 @@ public class WxpayController {
 	public ModelAndView createPreOrder(String orderId, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		Orders order = orderService.getOrderById(orderId);
-		
-		Product p = productService.getProductById(order.getProductId());
+		Commodity c  = commodityService.get(order.getProductId());
+
+		//Product p = productService.getProductById(productId);
+		Product p = new Product();
+		p.setId(c.getId());
+		p.setName(c.getName());
+		p.setPrice(product_Price);
+		//Product p = productService.getProductById(order.getProductId());
 		
 //		ModelAndView mv = new ModelAndView("goPay");
 //		mv.addObject("order", order);

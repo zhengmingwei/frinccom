@@ -18,6 +18,8 @@ public interface CommodityDao{
 
     int updateSelective(Commodity record);
 
+    int updateIsPayIs(String id);
+
     int update(Commodity record);
 
     List<Commodity> query(Map<String, String> conditions);

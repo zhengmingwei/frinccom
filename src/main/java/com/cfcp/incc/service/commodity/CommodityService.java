@@ -101,6 +101,10 @@ public class CommodityService extends BaseService {
         return commodityDao.get(commodityId);
     }
 
+    public int updateIsPayIs(String commodityId){
+        return commodityDao.updateIsPayIs(commodityId);
+    }
+
     public PageInfo query(Map<String, String> conditions) {
         User user = getCurrentUser();
         String status = conditions.get("status");

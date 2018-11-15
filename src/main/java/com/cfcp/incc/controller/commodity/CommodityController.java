@@ -15,6 +15,7 @@ import com.cfcp.incc.service.commodity.OtherQualificationService;
 import com.cfcp.incc.service.commodity.SpecialItemService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.tigerfacejs.commons.view.DataEvent;
@@ -60,9 +61,34 @@ public class CommodityController extends BaseController {
     private DictionaryService dictionaryService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addCommodity(@RequestBody Commodity commodity){
+    public Object addCommodity(@RequestBody Commodity commodity, HttpServletRequest request, HttpServletRequest response){
 //        if (commodityService.save(commodity) > 0 ){
         commodityService.save(commodity);
+       
+       
+        String type = request.getHeader("X-Requested-With");// XMLHttpRequest
+        // 重定向
+        String path = request.getContextPath();
+        String basePath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ path + "/";
+        //response.sendRedirect(contextPath+"/index.jsp");
+        // System.err.println("sendRedirect");
+        // 转发
+        if (StringUtils.equals("XMLHttpRequest", type)) {
+            // ajax请求
+
+          /*  response.setHeader("SESSIONSTATUS", "TIMEOUT");
+            response.setHeader("CONTEXTPATH", basePath+"index.jsp");
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);//403 禁止 */
+        } else {
+            /*response.sendRedirect(basePath+"index.jsp");*/
+        }
+         /* 
+        ---------------------
+              作者：独饮阑珊
+        来源：CSDN
+        原文：https://blog.csdn.net/qq_38053426/article/details/78426236
+        版权声明：本文为博主原创文章，转载请附上博文链接！*/
+       // return "redirect:/alipay/products";
         return DataEvent.wrap("commodity", new CommonDto<Commodity>(commodity));
 //        } else {
 //            return DataEvent.wrap("commodity", "保存失败");
