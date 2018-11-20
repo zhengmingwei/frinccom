@@ -318,7 +318,8 @@ create table COMMODITY
 (
    ID                   varchar(32) not null,
    NAME                 varchar(180) default NULL comment '商品名称',
-   MG_PRICE              double(16,2)) comment '商品单价',
+   PRODUCTION_BATCH     varchar(32) default NULL comment '生产批次',
+   MG_PRICE             double(16,2) comment '厂商指导价',
    CATEGORY             int(11) default NULL comment '所属类别',
    INDUSTRY             int(11) default NULL comment '所属行业',
    PIC                  varchar(1000) default NULL comment '商品图片',
@@ -430,7 +431,111 @@ alter table NUMBER_COMMODITY_READINGS comment '商品阅读量表';
 
 
 
+drop table if exists ORDER_PRICE_SYSTEM;
 
+/*==16161616=========================================================*/
+/* Table: ORDER_PRICE_SYSTEM        订购价格体系                             */
+/*==============================================================*/
+create table ORDER_PRICE_SYSTEM
+(
+   ID                   varchar(32) not null,
+   NAME                 varchar(32) default NULL comment '名称',
+   DESC                 varchar(512) default NULL comment '描述',
+   PRICE                double(16,2) comment '价格',
+   TOTAL                int(11) default NULL comment '总数',
+   DELETE               varchar(1) default NULL comment '是否删除',
+   SORT                 int(4) default NULL comment '排序',
+   STATUS               int(11) default NULL  comment '状态：0：免费；1：需支付',
+   CREATE_TIME          datetime default NULL comment '创建时间',
+   UPDATE_TIME          datetime default NULL comment '更新时间'
+)
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+alter table ORDER_PRICE_SYSTEM comment '订购价格体系';
+
+
+
+
+
+
+drop table if exists ORDER_PACKAGE;
+
+/*==17171717=========================================================*/
+/* Table: ORDER_PACKAGE 订购套餐                                    */
+/*==============================================================*/
+create table ORDER_PACKAGE
+(
+   ID                   varchar(32) not null,
+   NAME                 varchar(32) default NULL comment '名称',
+   DESC                 varchar(512) default NULL comment '描述',
+   PRICE                double(16,2) comment '价格',
+   TOTAL                int(11) default NULL comment '总数',
+   QUANTITY_USED        int(11) default NULL comment '已使用的数量',
+   DELETE               varchar(1) default NULL comment '是否删除',
+   SORT                 int(4) default NULL comment '排序',
+   STATUS               int(11) default NULL  comment '状态 0：未订购；1：已订购；2：已过期；；3：免费（管理员订购免费）；',
+   REFUNDS_STATUS       int(11) default NULL  comment '是否退款'  0：未申请；1：已未申请退款；2：已退款；,
+   REFUNDS_PEE          double(16,2)) comment '退款金额',
+   USER_ID              varchar(32) not null  comment '用户ID',
+   USER_ROLE            varchar(32) not null  comment '用户角色',
+   CREATE_USER_ID       varchar(32) not null  comment '创建人ID',
+   DISTRIBUTOR_ID       varchar(32) default NULL comment '所属分销商',
+   UPDATE_USER_ID       varchar(32) not null  comment '更新人ID',
+   CREATE_TIME          datetime default NULL comment '创建时间',
+   UPDATE_TIME          datetime default NULL comment '更新时间'
+)
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+alter table ORDER_PACKAGE comment '订购套餐';
+
+
+
+-- ----------------------------
+--18181818 Table structure for alipay_product  产品表
+-- ----------------------------
+DROP TABLE IF EXISTS `alipay_product`;
+CREATE TABLE `alipay_product` (
+  `id` varchar(20) NOT NULL,
+  `name` varchar(20) DEFAULT NULL COMMENT '产品名称',
+  `price` varchar(11) DEFAULT NULL COMMENT '价格',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='产品表 ';
+
+
+-- ----------------------------
+--19191919 Table structure for `alipay_flow`  流水表
+-- ----------------------------
+DROP TABLE IF EXISTS `alipay_flow`;
+CREATE TABLE `alipay_flow` (
+  `id` varchar(20) NOT NULL,
+  `flow_num` varchar(20) DEFAULT NULL COMMENT '流水号',
+  `order_num` varchar(20) DEFAULT NULL COMMENT '订单号',
+  `product_id` varchar(20) DEFAULT NULL COMMENT '产品主键ID',
+  `paid_amount` varchar(11) DEFAULT NULL COMMENT '支付金额',
+  `paid_method` int(11) DEFAULT NULL COMMENT '支付方式\r\n            1：支付宝\r\n            2：微信',
+  `buy_counts` int(11) DEFAULT NULL COMMENT '购买个数',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='流水表';
+
+
+
+-- ----------------------------
+--20202020 Table structure for `alipay_orders`  订单表
+-- ----------------------------
+DROP TABLE IF EXISTS `alipay_orders`;
+CREATE TABLE `alipay_orders` (
+  `id` varchar(20) NOT NULL,
+  `order_num` varchar(20) DEFAULT NULL COMMENT '订单号',
+  `order_status` varchar(20) DEFAULT NULL COMMENT '订单状态\r\n            10：待付款\r\n            20：已付款',
+  `order_amount` varchar(11) DEFAULT NULL COMMENT '订单金额',
+  `paid_amount` varchar(11) DEFAULT NULL COMMENT '实际支付金额',
+  `product_id` varchar(20) DEFAULT NULL COMMENT '产品表外键ID',
+  `buy_counts` int(11) DEFAULT NULL COMMENT '产品购买的个数',
+  `create_time` datetime DEFAULT NULL COMMENT '订单创建时间',
+  `paid_time` datetime DEFAULT NULL COMMENT '支付时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单表';
 
 
 
