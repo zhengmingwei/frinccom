@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cfcp.incc.dao.OrderPriceSystemDao" >
+    <resultMap id="BaseResultMap" type="com.cfcp.incc.entity.OrderPriceSystem" >
+        <id column="ID" property="id" jdbcType="VARCHAR" />
+        <result column="NAME" property="name" jdbcType="VARCHAR" />
+        <result column="DESCRIBE" property="describe" jdbcType="VARCHAR" />
+        <result column="PRICE" property="price" jdbcType="DOUBLE" />
+        <result column="DELET" property="delet" jdbcType="VARCHAR" />
+        <result column="SORT" property="sort" jdbcType="INTEGER" />
+        <result column="TOTAL" property="total" jdbcType="INTEGER" />
+        <result column="STATUS" property="status" jdbcType="INTEGER" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+         f.ID, f.NAME, f.DESCRIBE, f.PRICE, f.DELET, f.SORT, f.TOTAL, f.STATUS, f.CREATE_TIME, f.UPDATE_TIME
+    </sql>
+
+    <select id="queryAll" resultMap="BaseResultMap">
+		select
+        <include refid="Base_Column_List" />
+        from ORDER_PRICE_SYSTEM f WHERE f.DELET = '0'
+	</select>
+
+    <select id="findOrderPriceSystemById" parameterType="java.lang.String" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List"/>
+        from ORDER_PRICE_SYSTEM f
+        where f.ID = #{id}
+    </select>
+
+
+
+</mapper>

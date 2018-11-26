@@ -16,7 +16,9 @@
 		<intercept-url pattern="/file/upload_r/1/1**" access="permitAll"/>
 		<intercept-url pattern="/file/upload_sp/1/1**" access="permitAll"/>
 		<intercept-url pattern="/manager/user/getUserByName**" access="permitAll"/>
-
+		<!-- 支付开放  页面-->
+		<intercept-url pattern="/alipay/goPay**" access="permitAll"/>
+		<intercept-url pattern="/alipay/goAlipay**" access="permitAll"/>
 
 		<intercept-url pattern="/register/cfcpincc_Register.html" access="permitAll"/>
 		<intercept-url pattern="/register/cfcpincc_Register_.html" access="permitAll"/>

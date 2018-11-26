@@ -431,62 +431,75 @@ alter table NUMBER_COMMODITY_READINGS comment '商品阅读量表';
 
 
 
-drop table if exists ORDER_PRICE_SYSTEM;
+drop table if exists `ORDER_PRICE_SYSTEM`;
 
 /*==16161616=========================================================*/
 /* Table: ORDER_PRICE_SYSTEM        订购价格体系                             */
 /*==============================================================*/
-create table ORDER_PRICE_SYSTEM
+create table `ORDER_PRICE_SYSTEM`
 (
-   ID                   varchar(32) not null,
-   NAME                 varchar(32) default NULL comment '名称',
-   DESC                 varchar(512) default NULL comment '描述',
-   PRICE                double(16,2) comment '价格',
-   TOTAL                int(11) default NULL comment '总数',
-   DELETE               varchar(1) default NULL comment '是否删除',
-   SORT                 int(4) default NULL comment '排序',
-   STATUS               int(11) default NULL  comment '状态：0：免费；1：需支付',
-   CREATE_TIME          datetime default NULL comment '创建时间',
-   UPDATE_TIME          datetime default NULL comment '更新时间'
+   `ID`                   varchar(32) not null,
+   `NAME`                 varchar(32) default NULL comment '名称',
+   `DESCRIBE`             varchar(512) default NULL comment '描述',
+   `PRICE`                double(16,2) comment '价格',
+   `TOTAL`                int(11) default NULL comment '总数',
+   `DELET`               varchar(1) default NULL comment '是否删除',
+   `SORT`                 int(4) default NULL comment '排序',
+   `STATUS`               int(11) default NULL  comment '状态：0：免费；1：需支付',
+   `CREATE_TIME`          datetime default NULL comment '创建时间',
+   `UPDATE_TIME`          datetime default NULL comment '更新时间'
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table ORDER_PRICE_SYSTEM comment '订购价格体系';
+alter table `ORDER_PRICE_SYSTEM` comment '订购价格体系';
 
 
 
+INSERT INTO ORDER_PRICE_SYSTEM (`ID`,`NAME`,`DESCRIBE`,`PRICE`,`TOTAL` ,`DELETE` ,`SORT`,`STATUS`,`CREATE_TIME`,`UPDATE_TIME`)
+VALUES ('1','首次加入费','合规商品资质验证服务系统平台首次加入费用1000(RMB)元/企业（即每个单独的企业主体），（大写：壹仟圆整）。',1000.00,0,'0',1,1,NOW(),NOW());
+
+
+INSERT INTO ORDER_PRICE_SYSTEM (`ID`,`NAME`,`DESCRIBE`,`PRICE`,`TOTAL` ,`DELETE` ,`SORT`,`STATUS`,`CREATE_TIME`,`UPDATE_TIME`)
+VALUES ('2','A类','A类：验证品类10个以内（即小于及等于10个产品）时，客户须缴纳3800（RMB）元，（大写：叁仟捌佰圆整），本费用为系统维护年费，每年缴纳一次。',3800.00,10,'0',2,1,NOW(),NOW());
+
+INSERT INTO ORDER_PRICE_SYSTEM (`ID`,`NAME`,`DESCRIBE`,`PRICE`,`TOTAL` ,`DELETE` ,`SORT`,`STATUS`,`CREATE_TIME`,`UPDATE_TIME`)
+VALUES ('3','B类','B类：验证品类20个以内（即大于10个产品小于等于20个产品）时，客户须缴纳5800（RMB）元，（大写：伍仟捌佰圆整），本费用为系统维护年费，每年缴纳一次。',5800.00,20,'0',3,1,NOW(),NOW());
+
+INSERT INTO ORDER_PRICE_SYSTEM (`ID`,`NAME`,`DESCRIBE`,`PRICE`,`TOTAL` ,`DELETE` ,`SORT`,`STATUS`,`CREATE_TIME`,`UPDATE_TIME`)
+VALUES ('4','C类','C类：验证品类50个以内（即大于20个产品小于等于50个产品）时，客户须缴纳8800（RMB）元，（大写：捌仟捌佰圆整），本费用为系统维护年费，每年缴纳一次。',8800.00,50,'0',4,1,NOW(),NOW());
 
 
 
-drop table if exists ORDER_PACKAGE;
+drop table if exists `ORDER_PACKAGE`;
 
 /*==17171717=========================================================*/
 /* Table: ORDER_PACKAGE 订购套餐                                    */
 /*==============================================================*/
-create table ORDER_PACKAGE
+create table `ORDER_PACKAGE`
 (
-   ID                   varchar(32) not null,
-   NAME                 varchar(32) default NULL comment '名称',
-   DESC                 varchar(512) default NULL comment '描述',
-   PRICE                double(16,2) comment '价格',
-   TOTAL                int(11) default NULL comment '总数',
-   QUANTITY_USED        int(11) default NULL comment '已使用的数量',
-   DELETE               varchar(1) default NULL comment '是否删除',
-   SORT                 int(4) default NULL comment '排序',
-   STATUS               int(11) default NULL  comment '状态 0：未订购；1：已订购；2：已过期；；3：免费（管理员订购免费）；',
-   REFUNDS_STATUS       int(11) default NULL  comment '是否退款'  0：未申请；1：已未申请退款；2：已退款；,
-   REFUNDS_PEE          double(16,2)) comment '退款金额',
-   USER_ID              varchar(32) not null  comment '用户ID',
-   USER_ROLE            varchar(32) not null  comment '用户角色',
-   CREATE_USER_ID       varchar(32) not null  comment '创建人ID',
-   DISTRIBUTOR_ID       varchar(32) default NULL comment '所属分销商',
-   UPDATE_USER_ID       varchar(32) not null  comment '更新人ID',
-   CREATE_TIME          datetime default NULL comment '创建时间',
-   UPDATE_TIME          datetime default NULL comment '更新时间'
+   `ID`                   varchar(32) not null,
+   `NAME`                 varchar(32) default NULL comment '名称',
+   `DESCRIBE`             varchar(512) default NULL comment '描述',
+   `PRICE`                double(16,2) comment '价格',
+   `TOTAL`                int(11) default NULL comment '总数',
+   `QUANTITY_USED`        int(11) default NULL comment '已使用的数量',
+   `DELETE`               varchar(1) default NULL comment '是否删除',
+   `SORT`                 int(4) default NULL comment '排序',
+   `STATUS`               int(11) default NULL  comment '状态 0：未订购；1：已订购；2：已过期；；3：免费（管理员订购免费）；',
+   `REFUNDS_STATUS`       int(11) default NULL  comment '是否退款 0：未申请；1：已未申请退款；2：已退款；' ,
+   `REFUNDS_PEE`          double(16,2) comment '退款金额',
+   `USER_ID`              varchar(32) not null  comment '用户ID',
+   `USER_ROLE`            varchar(32) not null  comment '用户角色',
+   `CREATE_USER_ID`       varchar(32) not null  comment '创建人ID',
+   `DISTRIBUTOR_ID`       varchar(32) default NULL comment '所属分销商',
+   `UPDATE_USER_ID`       varchar(32) not null  comment '更新人ID',
+   `CREATE_TIME`          datetime default NULL comment '创建时间',
+   `UPDATE_TIME`          datetime default NULL comment '更新时间'
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table ORDER_PACKAGE comment '订购套餐';
+alter table `ORDER_PACKAGE` comment '订购套餐';
+
 
 
 
@@ -536,6 +549,39 @@ CREATE TABLE `alipay_orders` (
   `paid_time` datetime DEFAULT NULL COMMENT '支付时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单表';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

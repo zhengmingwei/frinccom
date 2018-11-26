@@ -100,8 +100,9 @@
 	    	data: {"productId": $("#productId").val(), "buyCounts": $("#buyCounts").val()},
 	    	dataType: "json",
 	    	success: function(data) {
-				//alert(4422);
-	            if(data.status == 200 && data.msg == "OK") {
+				//alert(data);
+                //window.location.href = hdnContextPath + "/alipay/goPay.action?orderId=" + data.data;
+	            if(data.status == true && data.message == "OK") {
 					//alert("11data.status:"+data.status+";hdnContextPath:"+hdnContextPath);
 
 	            	//debugger;
@@ -112,7 +113,15 @@
 	            	//alert(data.msg);
 	            	console.log(JSON.stringify(data));
 	            }
-	    	}
+	    	},
+	    	error: function (XMLHttpRequest, textStatus, errorThrown) {
+                // 状态码
+                console.log(XMLHttpRequest.status);
+                // 状态
+                console.log(XMLHttpRequest.readyState);
+                // 错误信息
+                console.log(textStatus);
+            }
 	    });
 	}
 

@@ -6,12 +6,15 @@ import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 
 import com.cfcp.incc.entity.Commodity;
+import com.cfcp.incc.entity.OrderPriceSystem;
 import com.cfcp.incc.entity.Orders;
 import com.cfcp.incc.entity.Product;
 import com.cfcp.incc.service.commodity.CommodityService;
+import com.cfcp.incc.service.orders.OrderPriceSystemService;
 import com.cfcp.incc.service.orders.OrdersService;
 import com.cfcp.incc.service.orders.ProductService;
 import com.cfcp.incc.utils.AlipayConfig;
+import com.cfcp.incc.utils.JsonResult;
 import com.cfcp.incc.utils.LeeJSONResult;
 import com.cfcp.incc.utils.OrderStatusEnum;
 
@@ -47,6 +50,10 @@ public class AlipayController {
 	final static Logger log = LoggerFactory.getLogger(AlipayController.class);
 
 	@Autowired
+	private OrderPriceSystemService orderPriceSystemservice;
+
+
+	@Autowired
 	private CommodityService commodityService;
 
 	@Autowired
@@ -67,11 +74,13 @@ public class AlipayController {
 	 */
 	@RequestMapping(value = "/products")
 	public ModelAndView products() throws Exception {
+		List<OrderPriceSystem> oList = orderPriceSystemservice.queryAll();
 
-		List<Product> pList = productService.getProducts();
 
+		//List<Product> pList = productService.getProducts();
 		ModelAndView mv = new ModelAndView("products");
-		mv.addObject("pList", pList);
+		//mv.addObject("pList", pList);
+		mv.addObject("pList", oList);
 
 		return mv;
 	}
@@ -84,16 +93,28 @@ public class AlipayController {
 	 */
 	@RequestMapping(value = "/goConfirm")
 	public ModelAndView goConfirm(String productId, HttpServletRequest request) throws Exception {
-		productId = request.getParameter("id");
-		Commodity c  = commodityService.get(productId);
+		String productIds = request.getParameter("id");
+		if(productIds==null)
+			productIds = productId;
 
-		//Product p = productService.getProductById(productId);
+		OrderPriceSystem ops = orderPriceSystemservice.queryById(productId);
+
+
+/*
+		Commodity c  = null;
 		Product p = new Product();
-		p.setId(c.getId());
-		p.setName(c.getName());
-        p.setPrice(product_Price);
+		if(productId!=null && "".equals(productId)){
+			c  = commodityService.get(productId);
+			p.setId(c.getId());
+			p.setName(c.getName());
+			p.setPrice(product_Price);
+		}else{
+			c = new Commodity();
+		}*/
+		//Product p = productService.getProductById(productId);
+
 		ModelAndView mv = new ModelAndView("goConfirm");
-		mv.addObject("p", p);
+		mv.addObject("p", ops);
 
 		return mv;
 	}
@@ -165,29 +186,41 @@ public class AlipayController {
 	 */
 	@RequestMapping(value = "/createOrder")
 	@ResponseBody
-	public LeeJSONResult createOrder(Orders order, HttpServletRequest request) throws Exception {
-
+	public JsonResult createOrder(Orders order, HttpServletRequest request) throws Exception {
+//public LeeJSONResult createOrder(Orders order, HttpServletRequest request) throws Exception {
+		String productId = request.getParameter("id");
+/*
 		Commodity c  = commodityService.get(order.getProductId());
-
 		//Product p = productService.getProductById(order.getProductId());
 		//Product p = productService.getProductById(productId);
 		Product p = new Product();
 		p.setId(c.getId());
 		p.setName(c.getName());
 		p.setPrice(product_Price);
-
-
+*/
+        if(order==null){
+        	order = new Orders();
+        	order.setProductId(productId);
+        	order.setBuyCounts(1);
+		}
+		OrderPriceSystem p = orderPriceSystemservice.queryById(order.getProductId());
 		String orderId = sid.nextShort();
 		order.setProductId(order.getProductId());
 		order.setBuyCounts(1);
 		order.setId(orderId);
 		order.setOrderNum(orderId);
 		order.setCreateTime(new Date());
-		order.setOrderAmount(String.valueOf(Float.valueOf(p.getPrice()) * order.getBuyCounts()));
+		//order.setOrderAmount("2");
+		order.setOrderAmount(String.valueOf(p.getPrice() * order.getBuyCounts()));
 		order.setOrderStatus(OrderStatusEnum.WAIT_PAY.key);
 		orderService.saveOrder(order);
 
-		return LeeJSONResult.ok(orderId);
+		JsonResult jsonResult = new JsonResult();
+		jsonResult.setData(orderId);
+		jsonResult.setMessage("OK");
+		jsonResult.setStatus(true);
+		return jsonResult;
+		//return orderId;
 	}
 
 	/**
@@ -206,13 +239,14 @@ public class AlipayController {
 			ProductId = order.getProductId();
 		}
 		//Product p = productService.getProductById(ProductId);
-
+/*
 		Commodity c  = commodityService.get(ProductId);
 		Product p = new Product();
 		p.setId(c.getId());
 		p.setName(c.getName());
 		p.setPrice(product_Price);
-
+*/
+		OrderPriceSystem p = orderPriceSystemservice.queryById(order.getProductId());
 		ModelAndView mv = new ModelAndView("goPay");
 		mv.addObject("order", order);
 		mv.addObject("p", p);
@@ -245,13 +279,16 @@ public class AlipayController {
 			ProductId = order.getProductId();
 		}
 		//Product product = productService.getProductById(ProductId);
+/*
 
 		Commodity c  = commodityService.get(ProductId);
 		Product product = new Product();
 		product.setId(c.getId());
 		product.setName(c.getName());
 		product.setPrice(product_Price);
+*/
 
+		OrderPriceSystem product = orderPriceSystemservice.queryById(order.getProductId());
 
 
 

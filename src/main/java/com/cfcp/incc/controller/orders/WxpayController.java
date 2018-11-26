@@ -2,9 +2,11 @@ package com.cfcp.incc.controller.orders;
 
 
 import com.cfcp.incc.entity.Commodity;
+import com.cfcp.incc.entity.OrderPriceSystem;
 import com.cfcp.incc.entity.Orders;
 import com.cfcp.incc.entity.Product;
 import com.cfcp.incc.service.commodity.CommodityService;
+import com.cfcp.incc.service.orders.OrderPriceSystemService;
 import com.cfcp.incc.service.orders.OrdersService;
 import com.cfcp.incc.service.orders.ProductService;
 import com.cfcp.incc.service.Sid;
@@ -26,7 +28,10 @@ import java.io.PrintWriter;
 @Controller
 @RequestMapping("/wxpay")
 public class WxpayController {
-	
+
+	@Autowired
+	private OrderPriceSystemService orderPriceSystemservice;
+
 	@Autowired
 	private ProductService productService;
 	
@@ -71,14 +76,15 @@ public class WxpayController {
 	public ModelAndView createPreOrder(String orderId, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		Orders order = orderService.getOrderById(orderId);
-		Commodity c  = commodityService.get(order.getProductId());
+/*		Commodity c  = commodityService.get(order.getProductId());
 
 		//Product p = productService.getProductById(productId);
 		Product p = new Product();
 		p.setId(c.getId());
 		p.setName(c.getName());
-		p.setPrice(product_Price);
+		p.setPrice(product_Price);*/
 		//Product p = productService.getProductById(order.getProductId());
+		OrderPriceSystem p = orderPriceSystemservice.queryById(order.getProductId());
 		
 //		ModelAndView mv = new ModelAndView("goPay");
 //		mv.addObject("order", order);

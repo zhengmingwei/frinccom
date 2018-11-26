@@ -1,6 +1,8 @@
 package com.cfcp.incc.entity;
 
-public class Role extends BaseEntity {
+import java.io.Serializable;
+
+public class Role extends BaseEntity  implements Serializable {
     private String id;
 
     private String name;
