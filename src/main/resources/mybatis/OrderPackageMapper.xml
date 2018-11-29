@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cfcp.incc.dao.OrderPackageDao" >
+    <resultMap id="BaseResultMap" type="com.cfcp.incc.entity.OrderPackage" >
+
+        <id column="ID" property="id" jdbcType="VARCHAR" />
+        <result column="ORDER_PRICE_SYSTEM_ID" property="orderPriceSystemId" jdbcType="VARCHAR" />
+        <result column="NAME" property="name" jdbcType="VARCHAR" />
+        <result column="PRICE" property="price" jdbcType="DOUBLE" />
+        <result column="PAYMENT_AMOUNT" property="paymentAmount" jdbcType="DOUBLE" />
+        <result column="BUYING_TIMES" property="buyingIimes" jdbcType="INTEGER" />
+        <result column="TOTAL" property="total" jdbcType="INTEGER" />
+        <result column="QUANTITY_USED" property="quantityUsed" jdbcType="INTEGER" />
+        <result column="SURPLUS_QUANTITY" property="surplusQuentity" jdbcType="INTEGER" />
+        <result column="DELE" property="dele" jdbcType="VARCHAR" />
+        <result column="IS_USE_LIGHT" property="isUseLight" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="INTEGER" />
+        <result column="REFUNDS_STATUS" property="refundsStatus" jdbcType="INTEGER" />
+        <result column="REFUNDS_PEE" property="refundsPee" jdbcType="DOUBLE" />
+        <result column="FLOW_NUM" property="flowNum" jdbcType="VARCHAR" />
+        <result column="ORDER_NUM" property="orderNum" jdbcType="VARCHAR" />
+        <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+        <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+        <result column="USER_ROLE" property="userRole" jdbcType="VARCHAR" />
+        <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+        <result column="DISTRIBUTOR_ID" property="distributorId" jdbcType="VARCHAR" />
+        <result column="DISTRIBUTOR_NAME" property="distributorName" jdbcType="VARCHAR" />
+        <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR" />
+
+
+
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="FIRST_USE_TIME" property="firstUseTime" jdbcType="TIMESTAMP" />
+        <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+         f.ID,f.ORDER_PRICE_SYSTEM_ID, f.NAME,  f.PRICE, f.DELE, f.TOTAL, f.STATUS, f.CREATE_TIME, f.UPDATE_TIME
+    </sql>
+
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from ORDER_PACKAGE f WHERE f.DELE = '0'
+    </select>
+
+    <select id="findOrderPackageById" parameterType="java.lang.String" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List"/>
+        from ORDER_PACKAGE f
+        where f.ID = #{id}
+    </select>
+    <insert id="insert" parameterType="com.cfcp.incc.entity.OrderPackage">
+    insert into ORDER_PACKAGE (
+      ID,ORDER_PRICE_SYSTEM_ID,NAME,PRICE,
+      BUYING_TIMES,TOTAL,QUANTITY_USED,SURPLUS_QUANTITY,DELE,
+      IS_USE_LIGHT,STATUS,ORDER_NUM,USER_ID,USER_NAME,
+      USER_ROLE,CREATE_USER_ID,DISTRIBUTOR_ID,DISTRIBUTOR_NAME,UPDATE_USER_ID,
+      CREATE_TIME,UPDATE_TIME )
+    values (#{id,jdbcType=VARCHAR},#{orderPriceSystemId,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{price,jdbcType=DOUBLE},
+    #{buyingIimes,jdbcType=INTEGER},#{total,jdbcType=INTEGER},#{quantityUsed,jdbcType=INTEGER},#{surplusQuentity,jdbcType=INTEGER},#{dele,jdbcType=VARCHAR},
+    #{isUseLight,jdbcType=VARCHAR},#{status,jdbcType=INTEGER},#{orderNum,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},
+    #{userRole,jdbcType=VARCHAR},#{createUserId,jdbcType=VARCHAR},#{distributorId,jdbcType=VARCHAR},#{distributorName,jdbcType=VARCHAR},#{updateUserId,jdbcType=VARCHAR},
+    SYSDATE(),SYSDATE())
+  </insert>
+
+    <select id="findMaxOrderPackageByUserIdAndStatusIsBuy" parameterType="java.util.Map" resultMap="BaseResultMap" >
+        select
+        f.ID,f.ORDER_PRICE_SYSTEM_ID, f.NAME,  f.PRICE, f.DELE, f.TOTAL, f.STATUS, f.CREATE_TIME, f.UPDATE_TIME,MAX(F.BUYING_TIMES)
+        from ORDER_PACKAGE f
+        where f.STATUS= #{status} and f.USER_ID = #{userId}
+    </select>
+
+    <select id="findMaxOrderPackageByUserIdAndStatusNoBuy" parameterType="java.util.Map" resultMap="BaseResultMap" >
+        select
+        f.ID,f.ORDER_PRICE_SYSTEM_ID, f.NAME,  f.PRICE, f.DELE, f.TOTAL, f.STATUS, f.CREATE_TIME, f.UPDATE_TIME,MAX(F.BUYING_TIMES),
+	    MAX(F.UPDATE_TIME)
+        from ORDER_PACKAGE f
+        where f.STATUS= #{status} and f.USER_ID = #{userId}
+    </select>
+
+    <select id="queryAllByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from ORDER_PACKAGE f WHERE f.USER_ID = #{userId}
+    </select>
+
+
+
+    <select id="findMaxOrderPackageByOrderNum" parameterType="java.lang.String" resultMap="BaseResultMap" >
+        select
+        f.ID,f.ORDER_PRICE_SYSTEM_ID, f.NAME,  f.PRICE, f.DELE, f.TOTAL, f.STATUS, f.CREATE_TIME,f.ORDER_NUM, f.UPDATE_TIME,F.BUYING_TIMES,
+	    MAX(F.UPDATE_TIME)
+        from ORDER_PACKAGE f
+        where f.ORDER_NUM= #{orderNum}
+    </select>
+
+    <update id="updateOrderNum"  parameterType="com.cfcp.incc.entity.OrderPackage">
+    UPDATE ORDER_PACKAGE f
+    SET f.ORDER_NUM = #{orderNum,jdbcType=VARCHAR},f.UPDATE_TIME=SYSDATE(),f.TOTAL= #{total,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <update id="updateStatusIsBuyedForOrderNum"  parameterType="com.cfcp.incc.entity.OrderPackage" >
+    UPDATE ORDER_PACKAGE f
+    SET f.STATUS = 1,f.UPDATE_TIME=SYSDATE(),f.UPDATE_USER_ID= #{updateUserId,jdbcType=INTEGER},
+         f.PAYMENT_AMOUNT = #{paymentAmount,jdbcType=DOUBLE},f.FLOW_NUM= #{flowNum,jdbcType=VARCHAR}
+        where f.ORDER_NUM= #{orderNum,jdbcType=VARCHAR}
+  </update>
+
+
+</mapper>

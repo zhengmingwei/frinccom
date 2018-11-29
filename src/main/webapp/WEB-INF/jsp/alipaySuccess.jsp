@@ -5,11 +5,26 @@
 
 <html>
 
-    <head>
-        
-    </head>
-    
-    <body>
+<head>
+
+	<style type="text/css">
+		.ant-btn-primary {
+			color: #fff;
+			background-color: #108ee9;
+			border-color: #108ee9;
+		}
+	</style>
+</head>
+
+
+<body style="margin:0px;">
+<div align="center">
+	<%@ include file="head.jsp"%>
+	<br>
+	<br>
+	<br>
+	<br>
+
         <h1 style="color: green;">购买成功</h1>
         <table>
         	<tr>
@@ -32,8 +47,27 @@
         		</td>
         	</tr>
         </table>
-    </body>
-    
+
+	<input type="hidden" id="hdnContextPath" name="hdnContextPath" value="<%=request.getContextPath() %>"/>
+	<br>
+	<br>
+	<br>
+	<br>
+
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+
+	<%@ include file="foot.jsp"%>
+</div>
+</body>
+
+
 </html>
 
 

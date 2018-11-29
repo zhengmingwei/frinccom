@@ -5,11 +5,10 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 
-import com.cfcp.incc.entity.Commodity;
-import com.cfcp.incc.entity.OrderPriceSystem;
-import com.cfcp.incc.entity.Orders;
-import com.cfcp.incc.entity.Product;
+import com.cfcp.incc.entity.*;
+import com.cfcp.incc.security.UserContext;
 import com.cfcp.incc.service.commodity.CommodityService;
+import com.cfcp.incc.service.orders.OrderPackageService;
 import com.cfcp.incc.service.orders.OrderPriceSystemService;
 import com.cfcp.incc.service.orders.OrdersService;
 import com.cfcp.incc.service.orders.ProductService;
@@ -19,6 +18,7 @@ import com.cfcp.incc.utils.LeeJSONResult;
 import com.cfcp.incc.utils.OrderStatusEnum;
 
 import com.cfcp.incc.service.Sid;
+import com.cfcp.incc.utils.generator.UUIDGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +51,8 @@ public class AlipayController {
 
 	@Autowired
 	private OrderPriceSystemService orderPriceSystemservice;
+	@Autowired
+	private OrderPackageService orderPackageService;
 
 
 	@Autowired
@@ -290,7 +292,63 @@ public class AlipayController {
 
 		OrderPriceSystem product = orderPriceSystemservice.queryById(order.getProductId());
 
+		User user = UserContext.getCurrentUser();
+		Map mp = new HashMap();
+		String userId = "";
+		if(user!=null){
+			userId = user.getId();
+		}
+		mp.put("userId",userId);
+		mp.put("status",1);
+		OrderPackage op = orderPackageService.findMaxOrderPackageByUserIdAndStatusIsBuy(mp);
 
+		mp.put("status",0);
+		OrderPackage noBuyOp = orderPackageService.findMaxOrderPackageByUserIdAndStatusNoBuy(mp);
+		//List<OrderPackage> opL = orderPackageService.queryAllByUserId(user.getId());
+
+        Integer buyingIimes = 1;
+        if(op!=null){
+			buyingIimes = op.getBuyingIimes();
+			if(buyingIimes==null)
+				buyingIimes = 1;
+		}
+		if(noBuyOp!=null && op==null){
+			noBuyOp.setOrderNum(order.getOrderNum());
+			noBuyOp.setTotal(product.getTotal());
+			orderPackageService.updateOrderNum(noBuyOp);
+		}else{
+			noBuyOp = new OrderPackage();
+			noBuyOp.setId(UUIDGenerator.getUuid());
+			noBuyOp.setOrderNum(order.getOrderNum());
+			noBuyOp.setOrderPriceSystemId(product.getId());
+			noBuyOp.setName(product.getName());
+			noBuyOp.setTotal(product.getTotal());
+			noBuyOp.setPrice(product.getPrice());
+			noBuyOp.setBuyingIimes(buyingIimes+1);
+			noBuyOp.setTotal(product.getTotal());
+			noBuyOp.setDele("0");
+			noBuyOp.setStatus(0);
+			noBuyOp.setUserRole("");
+			if(user!=null){
+				noBuyOp.setUserId(user.getId());
+				noBuyOp.setUserName(user.getName());
+				noBuyOp.setCreateUserId(user.getId());
+				noBuyOp.setUpdateUserId(user.getId());
+			}
+			if(user!=null && user.getDistributor()!=null){
+				noBuyOp.setDistributorId(user.getDistributor().getId());
+				noBuyOp.setDistributorName(user.getDistributor().getName());
+			}
+			orderPackageService.insert(noBuyOp);
+		}
+
+/*
+      ID,ORDER_PRICE_SYSTEM_ID,NAME,PRICE,
+      BUYING_TIMES,TOTAL,QUANTITY_USED,SURPLUS_QUANTITY,DELE,
+      IS_USE_LIGHT,STATUS,ORDER_NUM,USER_ID,USER_NAME,
+      USER_ROLE,CREATE_USER_ID,DISTRIBUTOR_ID,DISTRIBUTOR_NAME,UPDATE_USER_ID,
+      CREATE_TIME,UPDATE_TIME )
+ */
 
 		//获得初始化的AlipayClient
 		AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
@@ -351,6 +409,9 @@ public class AlipayController {
 
 		log.info("支付成功, 进入同步通知接口...");
 
+		User user = UserContext.getCurrentUser();
+
+
 		//获取支付宝GET过来反馈信息
 		Map<String,String> params = new HashMap<String,String>();
 		Map<String,String[]> requestParams = request.getParameterMap();
@@ -371,6 +432,7 @@ public class AlipayController {
 
 		ModelAndView mv = new ModelAndView("alipaySuccess");
 		//——请在这里编写您的程序（以下代码仅作参考）——
+		//signVerified = true;
 		if(signVerified) {
 			//商户订单号
 			String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
@@ -385,15 +447,28 @@ public class AlipayController {
 			orderService.updateOrderStatus(out_trade_no, trade_no, total_amount);
 
 
+			OrderPackage noBuyOp = orderPackageService.findMaxOrderPackageByOrderNum(out_trade_no);
+			if(noBuyOp!=null && noBuyOp.getOrderNum()!=null && !"".equals(noBuyOp.getOrderNum())){
+				noBuyOp.setStatus(1);
+				noBuyOp.setUpdateUserId(user.getId());
+				noBuyOp.setFlowNum(trade_no);
+				noBuyOp.setPaymentAmount(Double.valueOf(total_amount));
+
+				orderPackageService.updateStatusIsBuyedForOrderNum(noBuyOp);
+			}
+
+
 			Orders order = orderService.getOrderById(out_trade_no);
             //更新产品表中是否付款为（已付款）
 			commodityService.updateIsPayIs(order.getProductId());
 
+			OrderPriceSystem product = orderPriceSystemservice.queryById(order.getProductId());
+/*
 			Commodity c  = commodityService.get(order.getProductId());
 			Product product = new Product();
 			product.setId(c.getId());
 			product.setName(c.getName());
-			product.setPrice(product_Price);
+			product.setPrice(product_Price);*/
 
 			//Product product = productService.getProductById(order.getProductId());
 
@@ -497,6 +572,8 @@ public class AlipayController {
 
 				//更新产品表中是否付款为（已付款）
 				commodityService.updateIsPayIs(order.getProductId());
+				//更新产品表中是否付款为（已付款） 由10更改为20
+				//orderPriceSystemservice.updateState20ById(order.getProductId());
 
 				Commodity c  = commodityService.get(order.getProductId());
 				Product product = new Product();
