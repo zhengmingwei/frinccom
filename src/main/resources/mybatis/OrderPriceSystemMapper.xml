@@ -11,17 +11,18 @@
         <result column="TOTAL" property="total" jdbcType="INTEGER" />
         <result column="STATUS" property="status" jdbcType="INTEGER" />
         <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
         <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     </resultMap>
 
     <sql id="Base_Column_List">
-         f.ID, f.NAME, f.DESCRIBE, f.PRICE, f.DELET, f.SORT, f.TOTAL, f.STATUS, f.CREATE_TIME, f.UPDATE_TIME
+         f.ID, f.NAME, f.DESCRIBE, f.PRICE, f.DELET, f.SORT, f.TOTAL, f.STATUS, f.CREATE_TIME,f.END_TIME, f.UPDATE_TIME
     </sql>
 
     <select id="queryAll" resultMap="BaseResultMap">
 		select
         <include refid="Base_Column_List" />
-        from ORDER_PRICE_SYSTEM f WHERE f.DELET = '0'
+        from ORDER_PRICE_SYSTEM f WHERE f.DELET = '0' and f.END_TIME>=  DATE_FORMAT(SYSDATE(),'%Y-%m-%d 00:00:00')
 	</select>
 
     <select id="findOrderPriceSystemById" parameterType="java.lang.String" resultMap="BaseResultMap" >
@@ -29,6 +30,12 @@
         <include refid="Base_Column_List"/>
         from ORDER_PRICE_SYSTEM f
         where f.ID = #{id}
+    </select>
+    <select id="queryByScjrf" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List"/>
+        from ORDER_PRICE_SYSTEM f
+        where f.NAME = '首次加入费'
     </select>
 
 

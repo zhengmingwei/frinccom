@@ -9,4 +9,6 @@ public interface OrderPriceSystemDao {
 
     List<OrderPriceSystem> queryAll();
     OrderPriceSystem findOrderPriceSystemById(String id);
+
+    OrderPriceSystem queryByScjrf();
 }

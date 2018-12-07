@@ -26,6 +26,7 @@
 
     <form action="<%=request.getContextPath() %>/alipay/createOrder.action" method="post">
     	<input type="hidden" id="productId" name="productId" value="${p.id }" />
+		<input type="hidden" id="price" name="price" value="${p.price }" />
         <table>
         	<tr>
         		<td>
@@ -97,7 +98,7 @@
 		$.ajax({
 	    	url: hdnContextPath + "/alipay/createOrder.action",
 	    	type: "POST",
-	    	data: {"productId": $("#productId").val(), "buyCounts": $("#buyCounts").val()},
+	    	data: {"productId": $("#productId").val(),"orderAmount":$("#price").val(), "buyCounts": $("#buyCounts").val()},
 	    	dataType: "json",
 	    	success: function(data) {
 				//alert(data);

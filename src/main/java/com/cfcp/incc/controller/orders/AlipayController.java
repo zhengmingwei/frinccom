@@ -99,7 +99,28 @@ public class AlipayController {
 		if(productIds==null)
 			productIds = productId;
 
+
 		OrderPriceSystem ops = orderPriceSystemservice.queryById(productId);
+
+		User user = UserContext.getCurrentUser();
+		Map mp = new HashMap();
+		String userId = "";
+		if(user!=null){
+			userId = user.getId();
+		}
+		mp.put("userId",userId);
+		mp.put("status",1);
+		OrderPackage op = orderPackageService.findMaxOrderPackageByUserIdAndStatusIsBuy(mp);
+        if(op==null){
+			//首次加入费
+			OrderPriceSystem ops1 = orderPriceSystemservice.queryByScjrf();
+			if(ops1!=null){
+				if (ops.getName().indexOf("测试")!=-1){
+					ops.setPrice(ops.getPrice()+0.01);
+				}else
+				    ops.setPrice(ops.getPrice()+ops1.getPrice());
+			}
+		}
 
 
 /*
@@ -204,6 +225,7 @@ public class AlipayController {
         	order = new Orders();
         	order.setProductId(productId);
         	order.setBuyCounts(1);
+			order.setOrderAmount("0.00");
 		}
 		OrderPriceSystem p = orderPriceSystemservice.queryById(order.getProductId());
 		String orderId = sid.nextShort();
@@ -213,7 +235,7 @@ public class AlipayController {
 		order.setOrderNum(orderId);
 		order.setCreateTime(new Date());
 		//order.setOrderAmount("2");
-		order.setOrderAmount(String.valueOf(p.getPrice() * order.getBuyCounts()));
+		//order.setOrderAmount(String.valueOf(p.getPrice() * order.getBuyCounts()));
 		order.setOrderStatus(OrderStatusEnum.WAIT_PAY.key);
 		orderService.saveOrder(order);
 
@@ -249,6 +271,29 @@ public class AlipayController {
 		p.setPrice(product_Price);
 */
 		OrderPriceSystem p = orderPriceSystemservice.queryById(order.getProductId());
+
+
+		User user = UserContext.getCurrentUser();
+		Map mp = new HashMap();
+		String userId = "";
+		if(user!=null){
+			userId = user.getId();
+		}
+		mp.put("userId",userId);
+		mp.put("status",1);
+		OrderPackage op = orderPackageService.findMaxOrderPackageByUserIdAndStatusIsBuy(mp);
+		if(op==null){
+			//首次加入费
+			OrderPriceSystem ops1 = orderPriceSystemservice.queryByScjrf();
+			if(ops1!=null){
+				if (p.getName().indexOf("测试")!=-1){
+					p.setPrice(p.getPrice()+0.01);
+				}else
+					p.setPrice(p.getPrice()+ops1.getPrice());
+			}
+		}
+
+
 		ModelAndView mv = new ModelAndView("goPay");
 		mv.addObject("order", order);
 		mv.addObject("p", p);
@@ -323,22 +368,35 @@ public class AlipayController {
 			noBuyOp.setOrderPriceSystemId(product.getId());
 			noBuyOp.setName(product.getName());
 			noBuyOp.setTotal(product.getTotal());
-			noBuyOp.setPrice(product.getPrice());
+			noBuyOp.setPrice(Double.valueOf(order.getOrderAmount()));
 			noBuyOp.setBuyingIimes(buyingIimes+1);
 			noBuyOp.setTotal(product.getTotal());
+			noBuyOp.setSurplusQuentity(product.getTotal());
+			noBuyOp.setQuantityUsed(0);
 			noBuyOp.setDele("0");
 			noBuyOp.setStatus(0);
 			noBuyOp.setUserRole("");
 			if(user!=null){
+				log.info("userId:"+user.getId()+";userName:"+user.getName());
 				noBuyOp.setUserId(user.getId());
 				noBuyOp.setUserName(user.getName());
 				noBuyOp.setCreateUserId(user.getId());
 				noBuyOp.setUpdateUserId(user.getId());
+			}else{
+				log.info("userId:"+user.getId()+";userName:"+user.getName());
+				noBuyOp.setUserId("");
+				noBuyOp.setUserName("");
+				noBuyOp.setCreateUserId("");
+				noBuyOp.setUpdateUserId("");
 			}
+
 			if(user!=null && user.getDistributor()!=null){
 				noBuyOp.setDistributorId(user.getDistributor().getId());
 				noBuyOp.setDistributorName(user.getDistributor().getName());
 			}
+
+
+
 			orderPackageService.insert(noBuyOp);
 		}
 

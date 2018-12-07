@@ -58,4 +58,16 @@ public class OrderPackageServiceImpl implements OrderPackageService {
     public void updateStatusIsBuyedForOrderNum(OrderPackage noBuyOp) {
         dao.updateStatusIsBuyedForOrderNum(noBuyOp);
     }
+
+    @Override
+    public OrderPackage findSumSutplusQuantityByUserId(String userId) {
+        return dao.findSumSutplusQuantityByUserId(userId);
+    }
+
+
+
+    @Override
+    public void updateConsumptionCode(OrderPackage p) {
+        dao.updateConsumptionCode(p);
+    }
 }

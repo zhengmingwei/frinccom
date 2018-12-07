@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cfcp.incc.dao.CommodityQrcodeDao">
+
+  <resultMap id="BaseResultMap" type="com.cfcp.incc.entity.CommodityQrcode">
+    <id column="COMMODITY_ID" property="commodityId" />
+    <result column="CHILD_COMMODITY_ID" property="childCommodityId" />
+    <result column="BATCH" property="batch" />
+    <result column="IS_QRCODE" jdbcType="INTEGER" property="isQrcode" />
+    <result column="DELE" jdbcType="INTEGER" property="dele" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="USED_QRCODE_TIME" jdbcType="TIMESTAMP" property="usedQrcodeTime" />
+    <result column="FINAL_TIME" jdbcType="TIMESTAMP" property="finalTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+     F.COMMODITY_ID,F.CHILD_COMMODITY_ID,F.BATCH,F.IS_QRCODE,F.DELE,F.STATUS,F.CREATE_TIME,F.USED_QRCODE_TIME,F.FINAL_TIME,F.UPDATE_TIME
+  </sql>
+  <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from COMMODITY_QRCODE F
+    where F.CHILD_COMMODITY_ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from COMMODITY_QRCODE F
+    order by F.create_time desc
+  </select>
+  <select id="query_" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    t.*
+    from COMMODITY_QRCODE t
+
+    <trim prefix="WHERE" suffixOverrides="AND|OR">
+      <if test="name !=null and name != ''  and  (other_name ==null or other_name == '') ">
+        ( t.NAME LIKE CONCAT('%',#{name},'%') OR c.NAME LIKE CONCAT('%',#{name},'%')  OR f.NAME LIKE CONCAT('%',#{name},'%')  OR b.NAME LIKE CONCAT('%',#{name},'%')  or  c.LEGAL_PERSON LIKE CONCAT('%',#{name},'%') or b.OWNER LIKE CONCAT('%',#{name},'%') or  f.LEGAL_PERSON LIKE CONCAT('%',#{name},'%') ) AND
+      </if>
+      <if test="name !=null and name != '' and other_name !=null and other_name != ''  ">
+        ( ( t.NAME LIKE CONCAT('%',#{name},'%') OR c.NAME LIKE CONCAT('%',#{name},'%')  OR f.NAME LIKE CONCAT('%',#{name},'%')   OR b.NAME LIKE CONCAT('%',#{name},'%') or  c.LEGAL_PERSON LIKE CONCAT('%',#{name},'%') or b.OWNER LIKE CONCAT('%',#{name},'%') or  f.LEGAL_PERSON LIKE CONCAT('%',#{name},'%') ) and ( t.NAME LIKE CONCAT('%',#{other_name},'%') OR c.NAME LIKE CONCAT('%',#{other_name},'%')  OR f.NAME LIKE CONCAT('%',#{other_name},'%')  OR b.NAME LIKE CONCAT('%',#{other_name},'%') or  c.LEGAL_PERSON LIKE CONCAT('%',#{other_name},'%') or b.OWNER LIKE CONCAT('%',#{other_name},'%') or  f.LEGAL_PERSON LIKE CONCAT('%',#{other_name},'%') )   ) AND
+      </if>
+      <if test="cname !=null and cname != ''">
+        c.NAME LIKE CONCAT('%',#{cname},'%') AND
+      </if>
+      <if test="fname !=null and fname != ''">
+        f.NAME LIKE CONCAT('%',#{fname},'%') AND
+      </if>
+      <if test="bname !=null and bname != ''">
+        b.NAME LIKE CONCAT('%',#{bname},'%') AND
+      </if>
+      <if test="owner !=null and owner != ''">
+        ( c.LEGAL_PERSON LIKE CONCAT('%',#{legal_person},'%') or b.OWNER LIKE CONCAT('%',#{owner},'%') or  f.LEGAL_PERSON LIKE CONCAT('%',#{legal_person},'%')  ) AND
+      </if>
+      <if test="legal_person !=null and legal_person != ''">
+        ( c.LEGAL_PERSON LIKE CONCAT('%',#{legal_person},'%') or b.OWNER LIKE CONCAT('%',#{owner},'%') or  f.LEGAL_PERSON LIKE CONCAT('%',#{legal_person},'%')  ) AND
+      </if>
+      <if test="legal_person !=null and legal_person != ''">
+        ( c.LEGAL_PERSON LIKE CONCAT('%',#{legal_person},'%') or b.OWNER LIKE CONCAT('%',#{owner},'%') or  f.LEGAL_PERSON LIKE CONCAT('%',#{legal_person},'%')  ) AND
+      </if>
+      <if test="code !=null and code != ''">
+        c.ID_CODE LIKE CONCAT('%',#{code},'%') AND
+      </if>
+      <if test="distributorId !=null and distributorId != '' ">
+        t.DISTRIBUTOR_ID = #{distributorId} AND
+      </if>
+      <choose>
+        <when test='status !=null and status == "1"'>
+          t.STATUS != 0
+        </when>
+        <when test='status !=null and (status == "2" or status == "12")'>
+          t.STATUS = 1
+        </when>
+        <when test='status !=null and status == "3"'>
+          <![CDATA[ 1 < t.STATUS and t.STATUS < 5 ]]>
+        </when>
+        <when test='status !=null and (status == "4" or status == "14")'>
+          t.STATUS = 5
+        </when>
+        <when test='status !=null and status == "5"'>
+          <![CDATA[ t.STATUS < 0 ]]>
+        </when>
+        <when test='status !=null and status == "6"'>
+          t.STATUS = 2
+        </when>
+        <when test='status !=null and status == "7"'>
+          t.STATUS = -2
+        </when>
+        <when test='status !=null and status == "8"'>
+          t.STATUS = 3
+        </when>
+        <when test='status !=null and (status == "9" or status == "13")'>
+          t.STATUS = 4
+        </when>
+        <when test='status !=null and status == "10"'>
+          t.STATUS = -4
+        </when>
+        <when test='status !=null and status == "11"'>
+          t.STATUS = -5
+        </when>
+        <otherwise>
+          t.STATUs = #{status}
+        </otherwise>
+      </choose>
+    </trim>
+    order by t.create_time desc
+  </select>
+
+  <select id="allAudited" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from COMMODITY_QRCODE F
+    WHERE F.STATUS = 2
+  </select>
+  <update id="delete" parameterType="java.lang.String">
+    UPDATE COMMODITY_QRCODE
+    SET DELE = 1
+    where CHILD_COMMODITY_ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateIsQrcode" parameterType="java.lang.String">
+    UPDATE COMMODITY_QRCODE
+    SET IS_QRCODE = 1
+    where CHILD_COMMODITY_ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="insert" parameterType="com.cfcp.incc.entity.CommodityQrcode">
+    insert into COMMODITY_QRCODE ( COMMODITY_ID,CHILD_COMMODITY_ID,BATCH,IS_QRCODE,DELE,STATUS,CREATE_TIME,USED_QRCODE_TIME,FINAL_TIME,UPDATE_TIME )
+    values (#{commodityId,jdbcType=VARCHAR}, #{childCommodityId,jdbcType=VARCHAR},#{batch,jdbcType=VARCHAR},
+      #{isQrcode,jdbcType=INTEGER}, #{dele,jdbcType=INTEGER},#{status,jdbcType=INTEGER},
+      SYSDATE(),SYSDATE(),SYSDATE(), SYSDATE()
+      )
+  </insert>
+
+  <update id="updateSelective" parameterType="com.cfcp.incc.entity.CommodityQrcode">
+    update COMMODITY_QRCODE
+    <set>
+      <trim suffixOverrides=",">
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+        <if test="mg_price != null">
+          NAME = #{mg_price,jdbcType=DOUBLE},
+        </if>
+      <if test="category != null">
+        CATEGORY = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        INDUSTRY = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null">
+        PIC = #{pic,jdbcType=VARCHAR},
+      </if>
+        <if test="sp_video != null">
+          SP_VIDEO = #{sp_video,jdbcType=VARCHAR},
+        </if>
+      <if test="distributorId != null">
+        DISTRIBUTOR_ID = #{distributorId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryId != null">
+        FACTORY_ID = #{factoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null">
+        BRAND_ID = #{brandId,jdbcType=VARCHAR},
+      </if>
+      </trim>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="update" parameterType="com.cfcp.incc.entity.CommodityQrcode">
+    update COMMODITY_QRCODE
+    set NAME = #{name,jdbcType=VARCHAR},
+      MG_PRICE = #{mg_price,jdbcType=DOUBLE},
+      CATEGORY = #{category,jdbcType=VARCHAR},
+      INDUSTRY = #{industry,jdbcType=VARCHAR},
+      PIC = #{pic,jdbcType=VARCHAR},
+      SP_VIDEO = #{sp_video,jdbcType=VARCHAR},
+      DISTRIBUTOR_ID = #{distributorId,jdbcType=VARCHAR},
+      COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+      FACTORY_ID = #{factoryId,jdbcType=VARCHAR},
+      BRAND_ID = #{brandId,jdbcType=VARCHAR}
+    where CHILD_COMMODITY_ID = #{childCommodityId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateStatus" >
+    update COMMODITY_QRCODE
+    set STATUS = #{status}
+    where CHILD_COMMODITY_ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateUsedQrcodeTime" >
+    update COMMODITY_QRCODE
+    set USED_QRCODE_TIME = SYSDATE(),UPDATE_TIME = SYSDATE(),IS_QRCODE = #{isQrcode} ,STATUS = #{status}
+    where CHILD_COMMODITY_ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateFinalTime" >
+    update COMMODITY_QRCODE
+    set FINAL_TIME = SYSDATE(),UPDATE_TIME = SYSDATE(),STATUS = #{status}
+    where CHILD_COMMODITY_ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

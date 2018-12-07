@@ -15,6 +15,7 @@ public class OrderPriceSystem extends BaseEntity {
    `SORT`                 int(4) default NULL comment '排序',
    `STATUS`               int(11) default NULL  comment '状态：0：免费；1：需支付',
    `CREATE_TIME`          datetime default NULL comment '创建时间',
+   `END_TIME`             datetime default NULL comment '结束时间',
    `UPDATE_TIME`          datetime default NULL comment '更新时间'
      */
 
@@ -30,6 +31,8 @@ public class OrderPriceSystem extends BaseEntity {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private Date endTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updateTime;
 
@@ -113,5 +116,21 @@ public class OrderPriceSystem extends BaseEntity {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getDelet() {
+        return delet;
+    }
+
+    public void setDelet(String delet) {
+        this.delet = delet;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }

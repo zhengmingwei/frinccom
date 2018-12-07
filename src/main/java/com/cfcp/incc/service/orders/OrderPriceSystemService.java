@@ -11,4 +11,6 @@ public interface OrderPriceSystemService {
     public OrderPriceSystem findOrderPriceSystemById(String id);
 
     public OrderPriceSystem queryById(String productId);
+
+    public OrderPriceSystem queryByScjrf();
 }

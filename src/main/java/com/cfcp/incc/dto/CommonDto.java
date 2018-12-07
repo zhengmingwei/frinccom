@@ -14,6 +14,7 @@ public class CommonDto <T>{
     public enum CommonResult {
         SUCCESS("请求成功", "200"),
         COMPANY_NAME_ISUSED("企业名称已被其他用户注册使用", "199"),
+        CREDIT_LOW("因余额不足，保存失败。请充值后再提交上报", "198"),
         FAILED("请求失败", "500");
         private String message;
         private String code;
@@ -46,6 +47,15 @@ public class CommonDto <T>{
 
     public CommonDto(T result) {
         this.state = CommonResult.SUCCESS;
+        this.result = result;
+    }
+
+    public CommonDto(T result,String i) {
+        if("CREDIT_LOW".equals(i)){
+            this.state = CommonResult.CREDIT_LOW;
+        }else {
+            this.state = CommonResult.CREDIT_LOW;
+        }
         this.result = result;
     }
 

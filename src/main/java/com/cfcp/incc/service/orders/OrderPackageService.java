@@ -16,5 +16,7 @@ public interface OrderPackageService {
     public void updateOrderNum(OrderPackage p);
     public OrderPackage findMaxOrderPackageByOrderNum(String orderNum);
     public void updateStatusIsBuyedForOrderNum(OrderPackage noBuyOp);
-
+    //根据 用户ID查询 当前登录人的购买二维码的剩余数量
+    public OrderPackage findSumSutplusQuantityByUserId(String userId);
+    public void updateConsumptionCode(OrderPackage p);
 }

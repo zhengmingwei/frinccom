@@ -41,7 +41,7 @@ public class CommodityService extends BaseService {
     @Autowired
     AuditService auditService;
 
-    public void save(Commodity commodity){
+    public void save(Commodity commodity,String commodityId){
         Brand brand = commodity.getBrand();
         brandService.saveOrUpdate(brand);
         commodity.setBrandId(brand.getId());
@@ -68,7 +68,7 @@ public class CommodityService extends BaseService {
             //commodity.setSp_video(commodity1.getSp_video());
             commodityDao.update(commodity);
         } else {
-            commodity.setId(this.generateNumIdentifier());
+            commodity.setId(commodityId);
             User user = getCurrentUser();
             commodity.setCreator(user.getId());
             commodity.setDistributorId(user.getDistributorId());

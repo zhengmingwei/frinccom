@@ -27,4 +27,9 @@ public class OrderPriceSystemServiceImpl implements OrderPriceSystemService {
     public OrderPriceSystem queryById(String productId) {
         return dao.findOrderPriceSystemById(productId);
     }
+
+    @Override
+    public OrderPriceSystem queryByScjrf() {
+        return dao.queryByScjrf();
+    }
 }

@@ -53,6 +53,7 @@
         from ORDER_PACKAGE f
         where f.ID = #{id}
     </select>
+
     <insert id="insert" parameterType="com.cfcp.incc.entity.OrderPackage">
     insert into ORDER_PACKAGE (
       ID,ORDER_PRICE_SYSTEM_ID,NAME,PRICE,
@@ -69,15 +70,15 @@
 
     <select id="findMaxOrderPackageByUserIdAndStatusIsBuy" parameterType="java.util.Map" resultMap="BaseResultMap" >
         select
-        f.ID,f.ORDER_PRICE_SYSTEM_ID, f.NAME,  f.PRICE, f.DELE, f.TOTAL, f.STATUS, f.CREATE_TIME, f.UPDATE_TIME,MAX(F.BUYING_TIMES)
+        f.ID,f.ORDER_PRICE_SYSTEM_ID, f.NAME,  f.PRICE, f.DELE, f.TOTAL, f.STATUS, f.CREATE_TIME, f.UPDATE_TIME,MAX(f.BUYING_TIMES)
         from ORDER_PACKAGE f
         where f.STATUS= #{status} and f.USER_ID = #{userId}
     </select>
 
     <select id="findMaxOrderPackageByUserIdAndStatusNoBuy" parameterType="java.util.Map" resultMap="BaseResultMap" >
         select
-        f.ID,f.ORDER_PRICE_SYSTEM_ID, f.NAME,  f.PRICE, f.DELE, f.TOTAL, f.STATUS, f.CREATE_TIME, f.UPDATE_TIME,MAX(F.BUYING_TIMES),
-	    MAX(F.UPDATE_TIME)
+        f.ID,f.ORDER_PRICE_SYSTEM_ID, f.NAME,  f.PRICE, f.DELE, f.TOTAL, f.STATUS, f.CREATE_TIME, f.UPDATE_TIME,MAX(f.BUYING_TIMES),
+	    MAX(f.UPDATE_TIME)
         from ORDER_PACKAGE f
         where f.STATUS= #{status} and f.USER_ID = #{userId}
     </select>
@@ -92,11 +93,24 @@
 
     <select id="findMaxOrderPackageByOrderNum" parameterType="java.lang.String" resultMap="BaseResultMap" >
         select
-        f.ID,f.ORDER_PRICE_SYSTEM_ID, f.NAME,  f.PRICE, f.DELE, f.TOTAL, f.STATUS, f.CREATE_TIME,f.ORDER_NUM, f.UPDATE_TIME,F.BUYING_TIMES,
-	    MAX(F.UPDATE_TIME)
+        f.ID,f.ORDER_PRICE_SYSTEM_ID, f.NAME,  f.PRICE, f.DELE, f.TOTAL, f.STATUS, f.CREATE_TIME,f.ORDER_NUM, f.UPDATE_TIME,f.BUYING_TIMES,
+	    MAX(f.UPDATE_TIME)
         from ORDER_PACKAGE f
         where f.ORDER_NUM= #{orderNum}
     </select>
+
+    <select id="findSumSutplusQuantityByUserId" parameterType="java.lang.String" resultMap="BaseResultMap" >
+        select F.ID,
+        IFNULL(F.SURPLUS_QUANTITY,IFNULL(F.TOTAL,0))  AS SURPLUS_QUANTITY,
+        IFNULL(F.TOTAL,0) AS TOTAL,
+        IFNULL(F.QUANTITY_USED,0) AS QUANTITY_USED,
+        MIN(F.CREATE_TIME) AS CREATE_TIME
+        from ORDER_PACKAGE F
+        WHERE F.TOTAL>0 AND F.`STATUS`=1 AND F.DELE='0'
+        and F.USER_ID=#{userId}
+    </select>
+
+
 
     <update id="updateOrderNum"  parameterType="com.cfcp.incc.entity.OrderPackage">
     UPDATE ORDER_PACKAGE f
@@ -106,9 +120,16 @@
 
     <update id="updateStatusIsBuyedForOrderNum"  parameterType="com.cfcp.incc.entity.OrderPackage" >
     UPDATE ORDER_PACKAGE f
-    SET f.STATUS = 1,f.UPDATE_TIME=SYSDATE(),f.UPDATE_USER_ID= #{updateUserId,jdbcType=INTEGER},
+    SET f.STATUS = 1,f.UPDATE_TIME=SYSDATE(),f.UPDATE_USER_ID= #{updateUserId,jdbcType=VARCHAR},
          f.PAYMENT_AMOUNT = #{paymentAmount,jdbcType=DOUBLE},f.FLOW_NUM= #{flowNum,jdbcType=VARCHAR}
         where f.ORDER_NUM= #{orderNum,jdbcType=VARCHAR}
+  </update>
+
+    <update id="updateConsumptionCode"  parameterType="com.cfcp.incc.entity.OrderPackage" >
+    UPDATE ORDER_PACKAGE f
+    SET  f.UPDATE_TIME=SYSDATE(),f.UPDATE_USER_ID= #{updateUserId,jdbcType=VARCHAR},
+         f.QUANTITY_USED = #{quantityUsed,jdbcType=INTEGER},f.SURPLUS_QUANTITY= #{surplusQuentity,jdbcType=INTEGER}
+        where f.ID= #{id,jdbcType=VARCHAR}
   </update>
 
 

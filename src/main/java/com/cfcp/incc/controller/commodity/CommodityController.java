@@ -4,27 +4,26 @@ import com.cfcp.incc.controller.BaseController;
 import com.cfcp.incc.dto.CommonDto;
 import com.cfcp.incc.dto.CommonListDto;
 import com.cfcp.incc.dto.StringDto;
-import com.cfcp.incc.entity.Commodity;
-import com.cfcp.incc.entity.Dictionary;
-import com.cfcp.incc.entity.Distributor;
-import com.cfcp.incc.entity.OtherQualification;
+import com.cfcp.incc.entity.*;
 import com.cfcp.incc.form.CommoditySearchForm;
+import com.cfcp.incc.security.UserContext;
 import com.cfcp.incc.service.DictionaryService;
 import com.cfcp.incc.service.commodity.CommodityService;
 import com.cfcp.incc.service.commodity.OtherQualificationService;
 import com.cfcp.incc.service.commodity.SpecialItemService;
+import com.cfcp.incc.service.orders.OrderPackageService;
+import com.cfcp.incc.service.orders.impl.CommodityQrcodeServiceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.tigerfacejs.commons.view.DataEvent;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -60,40 +59,82 @@ public class CommodityController extends BaseController {
     @Autowired
     private DictionaryService dictionaryService;
 
+    @Autowired
+    private OrderPackageService orderPackageService;
+
+    @Autowired
+    private CommodityQrcodeServiceImpl commodityQrcodeService;
+
+    //#是否收费开关参数 0：不收费；1：收费 ；默认收费 在配置文件中配置的开关
+    @Value("${pay.is_charge}")
+    private String pay_is_charge;
+
     @RequestMapping(method = RequestMethod.POST)
     public Object addCommodity(@RequestBody Commodity commodity, HttpServletRequest request, HttpServletRequest response){
-//        if (commodityService.save(commodity) > 0 ){
-        commodityService.save(commodity);
-       
-       
-        String type = request.getHeader("X-Requested-With");// XMLHttpRequest
-        // 重定向
-        String path = request.getContextPath();
-        String basePath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ path + "/";
-        //response.sendRedirect(contextPath+"/index.jsp");
-        // System.err.println("sendRedirect");
-        // 转发
-        if (StringUtils.equals("XMLHttpRequest", type)) {
-            // ajax请求
-
-          /*  response.setHeader("SESSIONSTATUS", "TIMEOUT");
-            response.setHeader("CONTEXTPATH", basePath+"index.jsp");
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);//403 禁止 */
-        } else {
-            /*response.sendRedirect(basePath+"index.jsp");*/
+        String commodityId = "";
+        if(org.springframework.util.StringUtils.hasLength(commodity.getId())){
+            commodityId = commodity.getId();
+        }else{
+            commodityId = commodityService.generateNumIdentifier();
         }
-         /* 
-        ---------------------
-              作者：独饮阑珊
-        来源：CSDN
-        原文：https://blog.csdn.net/qq_38053426/article/details/78426236
-        版权声明：本文为博主原创文章，转载请附上博文链接！*/
-       // return "redirect:/alipay/products";
-        return DataEvent.wrap("commodity", new CommonDto<Commodity>(commodity));
-//        } else {
-//            return DataEvent.wrap("commodity", "保存失败");
-//        }
+        User user = UserContext.getCurrentUser();
+        //根据 用户ID查询 当前登录人的购买二维码的剩余数量
+        OrderPackage p = orderPackageService.findSumSutplusQuantityByUserId( user.getId());
+        CommodityQrcode cq = commodityQrcodeService.get(commodityId);
+
+        //管理员  略过 缴费的情况，是不用缴费的
+        String ROLE = "";
+        //当不收费时，参与做管理员原始保存方法
+        if("0".equals(pay_is_charge)){
+            ROLE = "ROLE_ADMIN";
+        }
+
+        if((p==null || (p!=null && p.getSurplusQuentity()==0)) && !"ROLE_ADMIN".equals(ROLE)){
+            Set set = user.getRoles();
+            Iterator<Role> it = set.iterator();
+            while (it.hasNext()) {
+                Role r = it.next();
+                if("ROLE_ADMIN".equals(r.getId())){
+                    ROLE = r.getId();
+                }
+            }
+        }
+        //1、当余额，可以新申请二维码的情况下；  2、或有充值历史且 已有二维码的情况;
+        if((p!=null && p.getSurplusQuentity()>0 &&  cq==null)|| (p!=null && cq!=null) || "ROLE_ADMIN".equals(ROLE)){
+
+            //判断该商品是否 已经消耗二维码，若为空则判断为未消耗，此时要做减去码数操作并记录商品对应的码数。
+            //若管理员则不参与记录消费的情况
+            if(cq==null && !"ROLE_ADMIN".equals(ROLE)){
+                cq = new CommodityQrcode();
+                cq.setCommodityId(commodityId);
+                cq.setChildCommodityId(commodityId);
+                cq.setBatch("");
+                cq.setDele(0);
+                cq.setIsQrcode(0);
+                cq.setStatus(0);
+                commodityQrcodeService.insert(cq);
+                //做消耗 二维码 操作
+                p.setUpdateUserId(user.getId());
+                int QuantityUsed = p.getQuantityUsed();
+                int SurplusQuentity = p.getSurplusQuentity();
+                p.setQuantityUsed(QuantityUsed+1);
+                if(SurplusQuentity==0)
+                    SurplusQuentity = p.getTotal();
+                p.setSurplusQuentity(SurplusQuentity-1);
+                orderPackageService.updateConsumptionCode(p);
+                //主要更新 已经使用二维码，并更新时间
+                commodityQrcodeService.updateUsedQrcodeTime(commodity.getId(),1,1);
+            }
+
+            commodityService.save(commodity,commodityId);
+            return DataEvent.wrap("commodity", new CommonDto<Commodity>(commodity));
+        }else{//若没有余额，保存失败。提示用户去充值
+            CommonDto dto = new CommonDto<Commodity>(commodity,"CREDIT_LOW");
+            return DataEvent.wrap("commodity", dto);
+        }
+
     }
+
 
     @RequestMapping(value = "query")
     public Object query(@RequestParam(required = false) Map<String, String> conditions) {

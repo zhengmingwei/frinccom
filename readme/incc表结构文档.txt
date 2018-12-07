@@ -449,6 +449,7 @@ create table `ORDER_PRICE_SYSTEM`
    `SORT`                 int(4) default NULL comment '排序',
    `STATUS`               int(11) default NULL  comment '状态：0：免费；1：需支付',
    `CREATE_TIME`          datetime default NULL comment '创建时间',
+   `END_TIME`             datetime default NULL comment '结束时间',
    `UPDATE_TIME`          datetime default NULL comment '更新时间'
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -568,6 +569,24 @@ CREATE TABLE `alipay_orders` (
   `paid_time` datetime DEFAULT NULL COMMENT '支付时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单表';
+
+
+-- ----------------------------  COMMODITY_QRCODE
+-- 21212121 Table structure for `commodity_qrcode`  商品关联二位码表
+-- ----------------------------
+DROP TABLE IF EXISTS `commodity_qrcode`;
+CREATE TABLE `commodity_qrcode` (
+   COMMODITY_ID         varchar(32) not null comment '商品ID',
+   CHILD_COMMODITY_ID  varchar(32) default NULL comment '子商品ID',
+   BATCH                varchar(60) DEFAULT NULL COMMENT '批次或出厂信息',
+   IS_QRCODE            int(11) default NULL comment '是否使用二维码 0:未使用 ;1:已使用',
+   DELE                 int(1) DEFAULT NULL COMMENT '是否删除 0:未删除;1:删除',
+   STATUS               int(11) default NULL  comment '状态 0:未使用 ;1:已使用审核中;2:终审通过已生效',
+   CREATE_TIME          datetime default NULL comment '创建时间：为用户第一次保存商品之前的时间',
+   USED_QRCODE_TIME     datetime default NULL comment '消耗码时间：为用户第一次保存商品成功后时的时间',
+   FINAL_TIME           datetime default NULL comment '终验通过后的时间',
+   UPDATE_TIME          datetime default NULL comment '最近访问时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品关联二位码表';
 
 
 

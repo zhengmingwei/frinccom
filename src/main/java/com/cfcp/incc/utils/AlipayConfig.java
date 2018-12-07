@@ -11,9 +11,14 @@ public class AlipayConfig {
 	public static String alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAj/7Qc62dXQBK3ukSAkcRr5GRT3+QO5mXT21EcZGyaFUGzH0cAn6vIDl0QI0PFcG4xB4re9cTz9dYNnE5pFsOgyobS8SPtbUlHnUmUySwpqkXAztBEBvreIoxuTcNTxoOC6BkWk98odAqW6xxLuOLsi3eST1SLWU8UJ8p6pmwIbySK0TBxWIhbifPutY1/Kl6KazW4unwWA+yeNTp6sMoX/PXIAzAjQe3vdyUWfBcGxu5VJWdoUbMoEU01Nky7leKA+iEjiK/vl007tODpewuYNBzRmGJVelP0/hFu303VqShLfLDez4JD5lBKxXt0gw+r4hgiaMtM2HkosG0rFwBQQIDAQAB";//�̳̲鿴��ȡ��ʽ���������ã�
 	//public static String alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkjUtKgkefAN+A4VFw3a/47otazQOtjUEXBeow3UElLiYGTjzw1qLQddyJHDDaCYwp5c/+/+YExVDO4t32m5piEhQ+WS+DVaAuAArve5zSengO8ZgvAxv8w72t+NAtnGj//TEK7Hgrw9zhkRX8Bx4r1jD5SJbuEGqB0uli9eJJzKLifuqYLwoytVe7XuJyNQhu7lrXz66L6clGJOcSINvwqzcjZT3DvFCu9eOkSETxBhyfYHNBGQq38SblUFStQ3cmLiA1yNeNJiEGzPHGVOitZzrI5AYpCg7RX1SqwJRlCt1jL8Xy3KQeG0X6/mc2SIw2rwEwnYpdgq6X1gkiZxujQIDAQAB";//�̳̲鿴��ȡ��ʽ���������ã�
 	//服务器异步通知页面路径 需 http://格式的完整路径，不能加？id=123这类自定义路径
-	public static String notify_url = "http://localhost:8081/incc/alipay/alipayNotifyNotice.action";
+	public static String notify_url = "http://icon.cfcpincc.com/incc/alipay/alipayNotifyNotice.action";
 	//页面跳转同步通知页面路径 需http://格式的完整路径，不能加？id=123这类自定义路径
-	public static String return_url = "http://localhost:8081/incc/alipay/alipayReturnNotice.action";
+	public static String return_url = "http://icon.cfcpincc.com/incc/alipay/alipayReturnNotice.action";
+
+	//服务器异步通知页面路径 需 http://格式的完整路径，不能加？id=123这类自定义路径
+	//public static String notify_url = "http://localhost:8081/incc/alipay/alipayNotifyNotice.action";
+	//页面跳转同步通知页面路径 需http://格式的完整路径，不能加？id=123这类自定义路径
+	//public static String return_url = "http://localhost:8081/incc/alipay/alipayReturnNotice.action";
 	//签名方式
 	public static String sign_type = "RSA2";
 	//字符编码格式
