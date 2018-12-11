@@ -14,6 +14,7 @@
         <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
         <result column="STATUS" jdbcType="INTEGER" property="status" />
         <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+        <result column="SURPLUS_QRCODE_DESC" jdbcType="VARCHAR" property="surplusQRcodeDesc" />
         <association column="DISTRIBUTOR_ID" property="distributor" javaType="com.cfcp.incc.entity.Distributor">
             <id column="D_ID" jdbcType="VARCHAR" property="id" />
             <result column="D_NAME" jdbcType="VARCHAR" property="name" />
@@ -83,11 +84,11 @@
     <insert id="insert" parameterType="com.cfcp.incc.entity.User">
     insert into USER (ID, ID_CARD, NAME, 
       MAIL, PHONE, COMPANY_NAME,BUSINESS_LICENSE, DISTRIBUTOR_ID,
-      CREATE_TIME, CREATOR, STATUS,PASSWORD
+      CREATE_TIME, CREATOR, STATUS,PASSWORD,SURPLUS_QRCODE_DESC
       )
     values (#{id,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{mail,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{businessLicense,jdbcType=VARCHAR}, #{distributorId,jdbcType=VARCHAR},
-      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},#{password}
+      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},#{password}, #{surplusQRcodeDesc,jdbcType=VARCHAR}
       )
   </insert>
 
@@ -133,6 +134,13 @@
     set STATUS=#{status}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+
+    <update id="updateSurplusQRcodeDescById" parameterType="com.cfcp.incc.entity.User">
+    update USER
+    set SURPLUS_QRCODE_DESC=#{surplusQRcodeDesc,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
     <select id="fetchUserRole" resultType="com.cfcp.incc.entity.Role">
         SELECT
         R.ROLE_ID AS id,

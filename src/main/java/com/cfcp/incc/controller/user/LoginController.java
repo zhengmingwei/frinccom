@@ -63,6 +63,8 @@ public class LoginController {
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public Object currentUser() {
         User user = UserContext.getCurrentUser();
+        User r = userService.get(user.getId());
+        user.setSurplusQRcodeDesc(r.getSurplusQRcodeDesc());
         return DataEvent.wrap("currentuser", new CommonDto<User>(user));
     }
 

@@ -39,6 +39,7 @@ public class User extends BaseEntity implements Serializable {
     private Date createTime;
 
     private String creator;
+    private String surplusQRcodeDesc;
 
     private Integer status;
 
@@ -47,7 +48,7 @@ public class User extends BaseEntity implements Serializable {
     public User() {
     }
 
-    public User(String id, String idCard, String password, String name, String mail, String phone,String companyName,String businessLicense,String businessLicense1, String distributorId, Date createTime, String creator, Integer status) {
+    public User(String id, String idCard, String password, String name, String mail, String phone,String companyName,String businessLicense,String businessLicense1, String distributorId, Date createTime, String creator, Integer status,String surplusQRcodeDesc) {
         this.id = id;
         this.idCard = idCard;
         this.password = password;
@@ -61,6 +62,7 @@ public class User extends BaseEntity implements Serializable {
         this.createTime = createTime;
         this.creator = creator;
         this.status = status;
+        this.surplusQRcodeDesc = surplusQRcodeDesc;
     }
 
 //    @Override
@@ -157,6 +159,14 @@ public class User extends BaseEntity implements Serializable {
         return roles;
     }
 
+    public String getSurplusQRcodeDesc() {
+        return surplusQRcodeDesc;
+    }
+
+    public void setSurplusQRcodeDesc(String surplusQRcodeDesc) {
+        this.surplusQRcodeDesc = surplusQRcodeDesc;
+    }
+
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
@@ -223,6 +233,7 @@ public class User extends BaseEntity implements Serializable {
                 ", createTime=" + createTime +
                 ", creator='" + creator + '\'' +
                 ", status=" + status +
+                ", surplusQRcodeDesc=" + surplusQRcodeDesc +
                 ", roles=" + roles +
                 '}';
     }

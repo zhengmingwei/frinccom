@@ -106,8 +106,10 @@
         IFNULL(F.QUANTITY_USED,0) AS QUANTITY_USED,
         MIN(F.CREATE_TIME) AS CREATE_TIME
         from ORDER_PACKAGE F
-        WHERE F.TOTAL>0 AND F.`STATUS`=1 AND F.DELE='0'
-        and F.USER_ID=#{userId}
+        WHERE F.TOTAL>0
+        AND F.SURPLUS_QUANTITY>0 AND F.FLOW_NUM IS NOT NULL
+        AND F.`STATUS`=1 AND F.DELE='0'
+        AND F.USER_ID=#{userId}
     </select>
 
 

@@ -1,8 +1,10 @@
 package com.cfcp.incc.security;
 
 import com.cfcp.incc.entity.User;
+import com.cfcp.incc.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,7 +28,6 @@ public class UserContext {
         }
         return user;
     }
-
     public static void refreshAuths(UserAdapter adapter){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), adapter.getAuthorities());

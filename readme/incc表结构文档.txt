@@ -213,7 +213,7 @@ create table USER
    CREATE_TIME          datetime default NULL,
    CREATOR              varchar(32) default NULL,
    STATUS               int(11) default NULL comment '-1删除\n   0禁用\n   1正常',
-
+   SURPLUS_QRCODE_DESC  varchar(255) default NULL comment '剩余二维码量说明',  /*=====20181210 添加字段=====*/
    PASSWORD             varchar(45) default NULL,
    primary key (ID),
    key FK_Ref_User_Distributor (DISTRIBUTOR_ID)

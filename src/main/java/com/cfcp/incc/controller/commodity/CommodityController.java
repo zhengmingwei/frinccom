@@ -13,6 +13,7 @@ import com.cfcp.incc.service.commodity.OtherQualificationService;
 import com.cfcp.incc.service.commodity.SpecialItemService;
 import com.cfcp.incc.service.orders.OrderPackageService;
 import com.cfcp.incc.service.orders.impl.CommodityQrcodeServiceImpl;
+import com.cfcp.incc.service.user.UserService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang.StringUtils;
@@ -64,6 +65,9 @@ public class CommodityController extends BaseController {
 
     @Autowired
     private CommodityQrcodeServiceImpl commodityQrcodeService;
+
+    @Autowired
+    UserService userService;
 
     //#是否收费开关参数 0：不收费；1：收费 ；默认收费 在配置文件中配置的开关
     @Value("${pay.is_charge}")
@@ -118,12 +122,19 @@ public class CommodityController extends BaseController {
                 int QuantityUsed = p.getQuantityUsed();
                 int SurplusQuentity = p.getSurplusQuentity();
                 p.setQuantityUsed(QuantityUsed+1);
-                if(SurplusQuentity==0)
-                    SurplusQuentity = p.getTotal();
+
+
                 p.setSurplusQuentity(SurplusQuentity-1);
                 orderPackageService.updateConsumptionCode(p);
                 //主要更新 已经使用二维码，并更新时间
                 commodityQrcodeService.updateUsedQrcodeTime(commodity.getId(),1,1);
+
+                //根据 用户ID查询 当前登录人的购买二维码的剩余数量
+                 p = orderPackageService.findSumSutplusQuantityByUserId( user.getId());
+                //更新 用户信息中的二维码剩余量的信息
+                user.setSurplusQRcodeDesc("，您剩余商品码数还有"+String.valueOf(p.getSurplusQuentity())+"个。");
+                userService.updateSurplusQRcodeDescById(user);
+
             }
 
             commodityService.save(commodity,commodityId);

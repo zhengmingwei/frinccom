@@ -118,6 +118,7 @@ public class UserService extends BaseService implements UserDetailsService {
      */
     public int insert(User user) {
         user.setId(UUIDGenerator.getUuid());
+        user.setSurplusQRcodeDesc("");
         if("".equals(user.getPassword()) || user.getPassword()==null){
             user.setPassword(encodePassword(user.DEFAULT_PASSWORD));
         }else{
@@ -191,6 +192,10 @@ public class UserService extends BaseService implements UserDetailsService {
 
     public int delete(String id) {
         return userDao.delete(id);
+    }
+
+    public void updateSurplusQRcodeDescById(User user) {
+        userDao.updateSurplusQRcodeDescById(user);
     }
 //
 //    public List<User> query(Map<String, String> conditions) {

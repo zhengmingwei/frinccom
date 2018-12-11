@@ -12,6 +12,7 @@ import com.cfcp.incc.service.orders.OrderPackageService;
 import com.cfcp.incc.service.orders.OrderPriceSystemService;
 import com.cfcp.incc.service.orders.OrdersService;
 import com.cfcp.incc.service.orders.ProductService;
+import com.cfcp.incc.service.user.UserService;
 import com.cfcp.incc.utils.AlipayConfig;
 import com.cfcp.incc.utils.JsonResult;
 import com.cfcp.incc.utils.LeeJSONResult;
@@ -63,6 +64,10 @@ public class AlipayController {
 
 	@Autowired
 	private OrdersService orderService;
+
+	@Autowired
+	UserService userService;
+
 
 	@Value("${product.Price}")
 	private String product_Price;
@@ -521,6 +526,12 @@ public class AlipayController {
 			commodityService.updateIsPayIs(order.getProductId());
 
 			OrderPriceSystem product = orderPriceSystemservice.queryById(order.getProductId());
+
+			//根据 用户ID查询 当前登录人的购买二维码的剩余数量
+			OrderPackage p = orderPackageService.findSumSutplusQuantityByUserId( user.getId());
+			//更新 用户信息中的二维码剩余量的信息
+			user.setSurplusQRcodeDesc("，您剩余商品码数还有"+String.valueOf(p.getSurplusQuentity())+"个。");
+			userService.updateSurplusQRcodeDescById(user);
 /*
 			Commodity c  = commodityService.get(order.getProductId());
 			Product product = new Product();

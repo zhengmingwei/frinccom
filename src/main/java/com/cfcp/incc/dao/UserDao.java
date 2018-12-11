@@ -87,6 +87,8 @@ public interface UserDao extends GenericDao {
 
 	List<User> query(Map conditions);
 
+	void updateSurplusQRcodeDescById(User user);
+
 
 //    int insertRole(@Param("userId") String userId, @Param("userId") String roleId);
 }
