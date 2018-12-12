@@ -1,0 +1,287 @@
+1. 阿里云服务器配置参数
+   远程ip:47.105.123.55
+   用户名/密码  root CFCPincc123456
+
+2. 部署包括的组件
+   后台Nginx + jdk1.8 + Tomcat8 + MySQL Tomcat和mysql都在/usr/local下,mysql就用incc的用户密码程序里有
+
+3.nginx 部署说明（/usr/local目录下未未找到）
+    systemctl status nginx.service 检查nginx是否启动
+	systemctl start nginx.service 启动nginx
+
+
+4.mysql 部署说明（/usr/local目录下未未找到）
+  数据库用户名：icnn
+  密码：123456
+  root:123456      incc:123456
+
+
+  开发环境远程连接阿里云服务器数据库：ip地址47.105.123.55 用户名/密码 root CFCPincc123456
+
+5.关于nginx开机启动配置
+    /etc/nginx/conf.d
+
+    安装成功后nginx的几个默认目录
+    输入命令: whereis nginx
+
+     执行目录：/usr/sbin/nginx
+     模块所在目录：/usr/lib64/nginx/modules
+     配置所在目录：/etc/nginx/
+     默认站点目录：/usr/share/nginx/html
+
+
+
+     查看nginx状态（未启动前）
+     systemctl status nginx.service
+
+
+
+
+    启动、停止、重载命令
+    systemctl start nginx.service
+    systemctl stop nginx.service
+    systemctl reload nginx.service
+    systemctl status nginx.service
+
+
+    查看nginx的状态及进程与端口（启动后）
+    命令1：systemctl status nginx.service
+
+6.部署更新操作说明：
+  更新/usr/local/tomcat/webapps下的incc.war包
+
+7.关于tomcat重启
+   7.1.进入到tomcat的bin目录
+     cd /usr/local/tomcat/bin
+     cd /usr/local/tomcat1/bin
+     cd /usr/local/tomcat2/bin
+     cd /usr/local/tomcat3/bin
+
+   7.2重启tomcat
+    重启可以理解为先关闭tomcat+再启动tomcat
+
+    sh shutdown.sh
+
+    sh startup.sh
+
+
+    cd /usr/local/tomcat/webapps
+    zip -r incc20181203.zip incc
+    zip -r incc20181211.zip incc
+
+    zip -r incc20180930.zip incc
+
+
+    unzip incc20181203.zip
+
+8. linux缓存清理？
+
+
+9. 远程连接阿里云远程服务器连接工具
+   可下载 SecureCRTSecureFX_HH_x64_7.0.0.326
+   其中SecureCRTPortable.exe终端命令操作工具，SecureFXPortable.exe文件传输工具
+   配置连接ip:47.105.123.55
+   用户名: root
+   密码:CFCPincc123456
+
+
+10. 重启机器后注意事项
+     重启nginx  tomcat
+
+	 nginx 部署说明（/usr/local目录下未未找到）
+         systemctl status nginx.service 检查nginx是否启动
+	 systemctl start nginx.service 启动nginx
+
+	 重启可以理解为先关闭tomcat+再启动tomcat
+
+	 进入到tomcat的bin目录
+
+     cd /usr/local/tomcat/bin
+     sh shutdown.sh
+     sh startup.sh
+
+
+
+11.phpstudy 使用方法
+
+	使用方法
+
+	在终端中使用sudo 或者 使用管理员账号运行 phpstudy start 开启
+
+	命令列表：
+
+	phpstudy start | stop | restart        开启 | 停止 | 重启
+
+	phpstudy add | del | list                    添加虚拟主机 | 删除虚拟主机 | 查看虚拟主机列表
+
+				注：添加或删除过虚拟主机域名，需要重新修改host文件配置，（sudo vim /etc/hosts）
+
+	phpstudy ftp add | del | list
+
+	配置文件地址
+
+	apache配置文件：/phpstudy/server/httpd/conf/httpd.conf
+
+	PHP配置文件：/phpstudy/server/php/etc/php.ini
+
+	打开Mysql控制台
+
+	/phpstudy/mysql/bin/mysql -uroot -proot
+
+
+
+12. 重启Apache、mysql服务(注意这里和centos6有区别,Cenots7+不能使用6的方式)
+	systemctl start httpd.service #启动apache
+	systemctl stop httpd.service #停止apache
+	systemctl restart httpd.service #重启apache
+	systemctl enable httpd.service #设置apache开机启动
+
+   重启对应服务
+  service mysqld restart
+  service php-fpm start
+  service httpd restart
+
+
+13 升级备份
+
+   旧版本 备份
+   /data/bak/update-web/old/
+
+
+
+   new版本 备份
+   /data/bak/update-web/new/
+
+        rar incc.rar
+	rar 解压
+	unrar -e incc.tar
+
+
+   cd /usr/local/tomcat/webapps
+   解压：
+   rar x incc.rar        //解压 test.rar 到当前目录
+   压缩
+   rar incc.rar  ./incc/  //将 test目录打包为 test.rar
+
+
+   常用rar命令：
+   rar x centos.rar //解压 centos.rar 到当前目录
+   rar incc.rar ./incc/ //将 piaoyi.org 目录打包为 centos.rar
+
+
+===============================================================================================================
+
+三、 以.zip为扩展名的文件:
+
+#
+
+zip -r incc.zip incc
+
+
+
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+
+
+
+
+centos7 nginx安装/启动/进程状态/杀掉进程
+1、安装
+    下载RPM：wget http://nginx.org/packages/centos/7/x86_64/RPMS/nginx-1.10.0-1.el7.ngx.x86_64.rpm
+     安装： rpm -ivh nginx-1.10.0-1.el7.ngx.x86_64.rpm
+
+     如果找不wget请安装，命令：yum -y install wget
+安装成功后nginx的几个默认目录
+    输入命令: whereis nginx
+
+     执行目录：/usr/sbin/nginx
+     模块所在目录：/usr/lib64/nginx/modules
+     配置所在目录：/etc/nginx/
+     默认站点目录：/usr/share/nginx/html
+
+     主要配置文件：/etc/nginx/nginx.conf 指向：/etc/nginx/conf.d/default.conf
+
+
+     PID目录：/var/run/nginx.pid
+     错误日志：/var/log/nginx/error.log
+     访问日志：/var/log/nginx/access.log
+
+3、查看nginx状态（未启动前）
+    命令1：systemctl status nginx.service
+
+
+
+
+4、启动、停止、重载命令
+    systemctl start nginx.service
+    systemctl stop nginx.service
+    systemctl reload nginx.service
+    systemctl status nginx.service
+
+
+5、查看nginx的状态及进程与端口（启动后）
+    命令1：systemctl status nginx.service
+
+
+
+
+
+
+ ---------------------------------------------------------------------------------
+
+
+ centos 中查找文件、目录、内容
+
+ 1、查找文件
+
+
+
+find / -name 'filename'1
+
+2、查找目录
+
+find / -name 'path' -type d1
+
+3、查找内容
+
+find . | xargs grep -ri 'content'
+//find . | xargs grep -ril 'content' 只显示文件名称
+
+ babel --presets /usr/local/lib/node_modules/babel-preset-react --watch /usr/local/tomcat/webapps/incc/source/ --out-dir /usr/local/tomcat/webapps/incc/1122/
+ 
+ 
+ babel --presets /usr/local/lib/node_modules/babel-preset-react --watch source/ --out-dir 1122/
+ babel --presets /usr/local/lib/node_modules/babel-preset-react --watch jsx/ --out-dir js/
+
+
+
+
+
+babel --presets /usr/local/lib/node_modules/babel-preset-react --watch /jsx/ --out-dir /js/
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
