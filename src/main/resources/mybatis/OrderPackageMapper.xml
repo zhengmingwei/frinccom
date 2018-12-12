@@ -38,7 +38,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-         f.ID,f.ORDER_PRICE_SYSTEM_ID, f.NAME,  f.PRICE, f.DELE, f.TOTAL, f.STATUS, f.CREATE_TIME, f.UPDATE_TIME
+         f.ID,f.ORDER_PRICE_SYSTEM_ID, f.NAME,  f.PRICE, f.DELE, f.TOTAL,f.SURPLUS_QUANTITY,f.QUANTITY_USED, f.STATUS, f.CREATE_TIME, f.UPDATE_TIME
     </sql>
 
     <select id="queryAll" resultMap="BaseResultMap">
@@ -86,7 +86,7 @@
     <select id="queryAllByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
-        from ORDER_PACKAGE f WHERE f.USER_ID = #{userId}
+        from ORDER_PACKAGE f WHERE f.STATUS=1 AND f.TOTAL>0 AND f.USER_ID = #{userId} ORDER BY f.CREATE_TIME DESC
     </select>
 
 
@@ -111,6 +111,20 @@
         AND F.`STATUS`=1 AND F.DELE='0'
         AND F.USER_ID=#{userId}
     </select>
+
+    <select id="findSumAllSutplusQuantityByUserId" parameterType="java.lang.String" resultMap="BaseResultMap" >
+ select F.ID,
+        SUM(IFNULL(F.SURPLUS_QUANTITY,IFNULL(F.TOTAL,0)))  AS SURPLUS_QUANTITY,
+        SUM(IFNULL(F.TOTAL,0)) AS TOTAL,
+        SUM(IFNULL(F.QUANTITY_USED,0)) AS QUANTITY_USED
+        from ORDER_PACKAGE F
+        WHERE F.TOTAL>0
+        AND F.SURPLUS_QUANTITY>0 AND F.FLOW_NUM IS NOT NULL
+        AND F.`STATUS`=1 AND F.DELE='0'
+        AND F.USER_ID=#{userId}
+        GROUP BY F.USER_ID
+    </select>
+
 
 
 

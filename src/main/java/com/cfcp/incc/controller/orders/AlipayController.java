@@ -93,6 +93,23 @@ public class AlipayController {
 	}
 
 	/**
+	 * 获取当前用户所有已购套餐
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/orderPackagesByUserId")
+	public  Map<String, Object>  orderPackages() throws Exception {
+		User user = UserContext.getCurrentUser();
+		List<OrderPackage> opList = orderPackageService.queryAllByUserId(user.getId());
+		Map<String, Object> map =new HashMap<String, Object>();
+		map.put("rows",opList);
+		map.put("total", opList.size());
+
+		return map;
+	}
+
+	/**
 	 * 进入确认页面
 	 * @param productId
 	 * @return
@@ -528,7 +545,7 @@ public class AlipayController {
 			OrderPriceSystem product = orderPriceSystemservice.queryById(order.getProductId());
 
 			//根据 用户ID查询 当前登录人的购买二维码的剩余数量
-			OrderPackage p = orderPackageService.findSumSutplusQuantityByUserId( user.getId());
+			OrderPackage p = orderPackageService.findSumAllSutplusQuantityByUserId( user.getId());
 			//更新 用户信息中的二维码剩余量的信息
 			user.setSurplusQRcodeDesc("，您剩余商品码数还有"+String.valueOf(p.getSurplusQuentity())+"个。");
 			userService.updateSurplusQRcodeDescById(user);

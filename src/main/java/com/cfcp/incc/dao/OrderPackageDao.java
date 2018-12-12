@@ -18,6 +18,6 @@ public interface OrderPackageDao {
     public OrderPackage findMaxOrderPackageByOrderNum(String orderNum);
     public void updateStatusIsBuyedForOrderNum(OrderPackage noBuyOp);
     public void updateConsumptionCode(OrderPackage p);
-
+    public OrderPackage findSumAllSutplusQuantityByUserId(String userId);
     public OrderPackage findSumSutplusQuantityByUserId(String userId);
 }

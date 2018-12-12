@@ -64,6 +64,11 @@ public class OrderPackageServiceImpl implements OrderPackageService {
         return dao.findSumSutplusQuantityByUserId(userId);
     }
 
+    @Override
+    public OrderPackage findSumAllSutplusQuantityByUserId(String userId) {
+        return dao.findSumAllSutplusQuantityByUserId(userId);
+    }
+
 
 
     @Override
