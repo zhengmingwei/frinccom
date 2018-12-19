@@ -125,8 +125,12 @@
         GROUP BY F.USER_ID
     </select>
 
-
-
+    <select id="queryPayList"  resultMap="BaseResultMap">
+        SELECT DATE_FORMAT(P.UPDATE_TIME, '%Y-%m') NAME,
+            sum(P.PAYMENT_AMOUNT) PAYMENT_AMOUNT
+        FROM ORDER_PACKAGE P WHERE P.FLOW_NUM IS NOT NULL
+        ORDER BY P.UPDATE_TIME DESC
+    </select>
 
     <update id="updateOrderNum"  parameterType="com.cfcp.incc.entity.OrderPackage">
     UPDATE ORDER_PACKAGE f

@@ -1,6 +1,7 @@
 package com.cfcp.incc.service.orders;
 
 import com.cfcp.incc.entity.OrderPackage;
+import com.cfcp.incc.entity.OrderPriceSystem;
 
 import java.util.List;
 import java.util.Map;
@@ -20,4 +21,6 @@ public interface OrderPackageService {
     public OrderPackage findSumSutplusQuantityByUserId(String userId);
     public OrderPackage findSumAllSutplusQuantityByUserId(String userId);
     public void updateConsumptionCode(OrderPackage p);
+
+    public List<OrderPackage> queryPayList();
 }

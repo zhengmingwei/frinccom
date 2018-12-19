@@ -2,6 +2,7 @@ package com.cfcp.incc.service.orders.impl;
 
 import com.cfcp.incc.dao.OrderPackageDao;
 import com.cfcp.incc.entity.OrderPackage;
+import com.cfcp.incc.entity.OrderPriceSystem;
 import com.cfcp.incc.service.orders.OrderPackageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,5 +75,10 @@ public class OrderPackageServiceImpl implements OrderPackageService {
     @Override
     public void updateConsumptionCode(OrderPackage p) {
         dao.updateConsumptionCode(p);
+    }
+
+    @Override
+    public List<OrderPackage> queryPayList() {
+        return dao.queryPayList();
     }
 }

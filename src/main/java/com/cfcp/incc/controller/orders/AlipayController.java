@@ -91,6 +91,18 @@ public class AlipayController {
 
 		return mv;
 	}
+	/**
+	 * 获取支付列表//payList
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/payList")
+	public ModelAndView payList() throws Exception {
+		List<OrderPackage> oList = orderPackageService.queryPayList();
+		ModelAndView mv = new ModelAndView("paysum");
+		mv.addObject("payList", oList);
+		return mv;
+	}
 
 	/**
 	 * 获取当前用户所有已购套餐

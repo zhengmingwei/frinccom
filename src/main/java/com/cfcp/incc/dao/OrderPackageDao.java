@@ -1,6 +1,7 @@
 package com.cfcp.incc.dao;
 
 import com.cfcp.incc.entity.OrderPackage;
+import com.cfcp.incc.entity.OrderPriceSystem;
 
 import java.util.List;
 import java.util.Map;
@@ -20,4 +21,5 @@ public interface OrderPackageDao {
     public void updateConsumptionCode(OrderPackage p);
     public OrderPackage findSumAllSutplusQuantityByUserId(String userId);
     public OrderPackage findSumSutplusQuantityByUserId(String userId);
+    public List<OrderPackage> queryPayList();
 }

@@ -17,6 +17,14 @@
 	; line-height: 24px
 	; font-weight: bolder
 	}
+	.songgray2412{
+		font-size: 14px;
+		color: #000000;
+		background-color:lightblue;
+		font-family: "宋体", "仿宋_GB2312", "黑体"
+	; line-height: 24px
+	; font-weight: bolder
+	}
 	.songgray12{
 		font-size: 12px;
 		color: #000000;
@@ -120,53 +128,24 @@
         <table border="0" class="ttable">
 
 			<tr class="songgray24 ttr" style="height: 84px">
-				<td colspan="6" align="center">价格体系</td>
+				<td colspan="6" align="center">付款汇总表</td>
 			</tr>
-        	<tr class="songgray24 ttr">
-        		<td class="ttd"> 产品编号 </td>
-        		<td class="ttd"> 产品名称 </td>
-				<td class="ttd"> 描述说明 </td>
-        		<td class="ttd"> 产品价格 </td>
-				<td class="ttd"> 商品个数 </td>
-        		<td class="ttd"> 操作 </td>
+        	<tr class="songgray2412 ttr">
+        		<td class="ttd"> 年月 </td>
+        		<td class="ttd"> 金额 </td>
         	</tr>
-			<c:forEach items="${pList }" var="p">
+			<c:forEach items="${payList }" var="p">
 			<tr class="songgray24 ttr">
-				<td class="ttd"> ${p.id } </td>
 				<td class="ttd"> ${p.name } </td>
-				<td class="ttd"> ${p.name } </td>
-				<td class="ttd"> ${p.price } </td>
-				<td class="ttd"> ${p.total } </td>
-				<td class="ttd">
-					<c:choose>
-						<c:when test="${p.name== '首次加入费'}">
-						</c:when>
-						<c:otherwise>
-							<a href="<%=request.getContextPath() %>/alipay/goConfirm.action?productId=${p.id }">购买</a>
-						</c:otherwise>
-					</c:choose>
-				</td>
+				<td class="ttd"> ${p.paymentAmount } </td>
+
 			</tr>
 
 		</c:forEach>
         </table>
 
-		<h5><span style="size: 9px">
-			<a href="javascript:void(0);" onclick="loadstu()"> 点击查看购买套餐记录</a>
-		</span>
-		</h5>
 		<table id="stuid" border="0" class="ttable">
 			<thead>
-
-			<tr class="songgray12 ttr">
-				<td class="ttd"> <span style="size: 12px"> 产品编号 </span> </td>
-				<td class="ttd"> 产品名称 </td>
-				<td class="ttd"> 购买数量 </td>
-				<td class="ttd"> 已用 </td>
-				<td class="ttd"> 剩余 </td>
-				<td class="ttd"> 支付金额 </td>
-				<td class="ttd"> 购买时间 </td>
-			</tr>
 			</thead>
 			<tbody>
 
