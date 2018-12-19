@@ -17,6 +17,14 @@
 	; line-height: 24px
 	; font-weight: bolder
 	}
+	.songgray2412{
+		font-size: 14px;
+		color: #000000;
+		background-color:lightblue;
+		font-family: "宋体", "仿宋_GB2312", "黑体"
+	; line-height: 24px
+	; font-weight: bolder
+	}
 	.songgray12{
 		font-size: 12px;
 		color: #000000;
@@ -122,7 +130,7 @@
 			<tr class="songgray24 ttr" style="height: 84px">
 				<td colspan="6" align="center">价格体系</td>
 			</tr>
-        	<tr class="songgray24 ttr">
+        	<tr class="songgray2412 ttr">
         		<td class="ttd"> 产品编号 </td>
         		<td class="ttd"> 产品名称 </td>
 				<td class="ttd"> 描述说明 </td>
