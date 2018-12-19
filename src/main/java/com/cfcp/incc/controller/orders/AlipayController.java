@@ -92,6 +92,30 @@ public class AlipayController {
 		return mv;
 	}
 	/**
+	 * 获取价格体系信息
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/orderPackages")
+	public ModelAndView orderPackages() throws Exception {
+
+		List<OrderPriceSystem> oList = null;
+		User user = UserContext.getCurrentUser();
+		Set set = user.getRoles();
+		Iterator<Role> it = set.iterator();
+		while (it.hasNext()) {
+			Role r = it.next();
+			//只有管理员的角色才可以修改价格体系信息
+			if("ROLE_ADMIN".equals(r.getId())){
+				oList = orderPriceSystemservice.queryAll();
+			}
+		}
+		ModelAndView mv = new ModelAndView("orderPackages");
+		mv.addObject("pList", oList);
+		return mv;
+	}
+
+	/**
 	 * 获取支付列表//payList
 	 * @return
 	 * @throws Exception
@@ -111,7 +135,7 @@ public class AlipayController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/orderPackagesByUserId")
-	public  Map<String, Object>  orderPackages() throws Exception {
+	public  Map<String, Object>  orderPackagesByUserId() throws Exception {
 		User user = UserContext.getCurrentUser();
 		List<OrderPackage> opList = orderPackageService.queryAllByUserId(user.getId());
 		Map<String, Object> map =new HashMap<String, Object>();

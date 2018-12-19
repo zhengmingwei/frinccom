@@ -32,7 +32,7 @@
 	; line-height: 24px
 	; font-weight: bolder
 	}
-	.ttable{ width: 640px; min-height: 25px; line-height: 25px; text-align: center; border-collapse: collapse; padding:2px;}
+	.ttable{ width: 80%; min-height: 25px; line-height: 25px; text-align: center; border-collapse: collapse; padding:2px;}
 	.ttr { border:1px solid #0094ff; }
 	.ttd { border:1px solid #0094ff; }
 </style>
@@ -110,7 +110,63 @@
         });
     }
 
+    function CreateTable(rowCount,cellCount)
+    {
+        //document.getElementById("typediv1").style.display="none";//隐藏
+        document.getElementById("addOne").style.display="";//显示
 
+        var table=$("<table border=\"0\" class=\"ttable\">");
+        table.appendTo($("#createtable"));
+        for(var i=0;i<rowCount;i++)
+        {
+            var tr=$("<tr class=\"songgray24 ttr\"></tr>");
+            tr.appendTo(table);
+            for(var j=0;j<cellCount;j++)
+            {
+                var td=$("<td class=\"ttd\">"+i*j+"</td>");
+                if(j==cellCount-1){
+                    td=$("<td class=\"ttd\"><a  href=\"javascript:void(0)\" style=\"text-decoration: none;\"  onclick=\"subgo1()\">新增</a></td>");
+				}
+                td.appendTo(tr);
+            }
+        }
+        trend.appendTo(table);
+        $("#createtable").append("</table>");
+    }
+    function CreateTableDiv(id,price,total,name,describe,type)
+    {
+        //alert(type);
+        //document.getElementById("typediv1").style.display="none";//隐藏
+        if(type==2){//取消
+            document.getElementById("addOne_id").value = "";
+            document.getElementById("addOne_name").value = "";
+            document.getElementById("addOne_describe").value = "";
+            document.getElementById("addOne_price").value = "";
+            document.getElementById("addOne_total").value = "";
+            document.getElementById("addOne").style.display="none";//隐藏
+        }
+		else if(type==1){//新增
+            document.getElementById("addOne").style.display="";//显示
+            document.getElementById("addOne_id").value = "自动生成";
+            document.getElementById("addOne_name").value = "";
+            document.getElementById("addOne_describe").value = "";
+            document.getElementById("addOne_price").value = "";
+            document.getElementById("addOne_total").value = "";
+		}else{//更新
+            document.getElementById("addOne").style.display="";//显示
+            document.getElementById("addOne_id").value = id;
+            document.getElementById("addOne_name").value = name;
+            document.getElementById("addOne_describe").value = describe;
+            document.getElementById("addOne_price").value = price;
+            document.getElementById("addOne_total").value = total;
+		}
+
+      /*  编号：<input type="text" id="addOne_id" value=""/><br/>
+        名称：<input type="text" id="addOne_name" value=""/><br/>
+        描述：<input type="text" id="addOne_describe" value=""/><br/>
+        价格：<input type="text" id="addOne_price" value=""/><br/>
+        数量：<input type="text" id="addOne_total" value=""/>*/
+    }
 </script>
 
 
@@ -128,12 +184,12 @@
         <table border="0" class="ttable">
 
 			<tr class="songgray24 ttr" style="height: 84px">
-				<td colspan="6" align="center">价格体系</td>
+				<td colspan="6" align="center">价格体系管理</td>
 			</tr>
         	<tr class="songgray2412 ttr">
         		<td class="ttd"> 产品编号 </td>
         		<td class="ttd"> 产品名称 </td>
-				<td class="ttd"> 描述说明 </td>
+				<td class="ttd" style="width:40%"> 描述说明 </td>
         		<td class="ttd"> 产品价格 </td>
 				<td class="ttd"> 商品个数 </td>
         		<td class="ttd"> 操作 </td>
@@ -142,15 +198,18 @@
 			<tr class="songgray24 ttr">
 				<td class="ttd"> ${p.id } </td>
 				<td class="ttd"> ${p.name } </td>
-				<td class="ttd"> ${p.name } </td>
+				<td class="ttd" align="left"> ${p.describe } </td>
 				<td class="ttd"> ${p.price } </td>
 				<td class="ttd"> ${p.total } </td>
 				<td class="ttd">
 					<c:choose>
 						<c:when test="${p.name== '首次加入费'}">
+							<a  href="javascript:void(0)" style="text-decoration: none;" onclick="CreateTableDiv(${p.id },${p.price},${p.total},'${p.name }','${p.describe }',0)"><span style="size: 9px">修改</span></a>
 						</c:when>
 						<c:otherwise>
-							<a  style="text-decoration: none;"  href="<%=request.getContextPath() %>/alipay/goConfirm.action?productId=${p.id }">购买</a>
+							<%--<a href="<%=request.getContextPath() %>/alipay/goConfirm.action?productId=${p.id }">购买</a>--%>
+							<a  href="javascript:void(0)" style="text-decoration: none;" onclick="CreateTableDiv(${p.id },${p.price},${p.total},'${p.name }','${p.describe }',0)"><span style="size: 9px">修改</span></a>
+							<a  href="javascript:void(0)" style="text-decoration: none;"  onclick="subgo1()">删除</a>
 						</c:otherwise>
 					</c:choose>
 				</td>
@@ -159,22 +218,11 @@
 		</c:forEach>
         </table>
 
-		<h5><span style="size: 9px">
-			<a href="javascript:void(0);" onclick="loadstu()"> 点击查看购买套餐记录</a>
-		</span>
-		</h5>
+
 		<table id="stuid" border="0" class="ttable">
 			<thead>
 
-			<tr class="songgray12 ttr">
-				<td class="ttd"> <span style="size: 12px"> 产品编号 </span> </td>
-				<td class="ttd"> 产品名称 </td>
-				<td class="ttd"> 购买数量 </td>
-				<td class="ttd"> 已用 </td>
-				<td class="ttd"> 剩余 </td>
-				<td class="ttd"> 支付金额 </td>
-				<td class="ttd"> 购买时间 </td>
-			</tr>
+
 			</thead>
 			<tbody>
 
@@ -184,6 +232,22 @@
 
 		<input type="hidden" id="hdnContextPath" name="hdnContextPath" value="<%=request.getContextPath() %>"/>
 
+<%--
+		<input type="button" value="添加表格" onClick="CreateTable(5,6)" >--%>
+		<input type="button" value="取消" onClick="CreateTableDiv(1,6,1,1,1,2)" >
+		<input type="button" value="添加" onClick="CreateTableDiv(1,6,1,1,1,1)" >
+		<div id="createtable"></div>
+		<div id="createrow"></div>
+
+		<div id="addOne" style="display:none;">
+			编号：<input type="text" style="width:40%";  id="addOne_id" disabled="disabled" style="background:#CCCCCC"/><br/>
+			名称：<input type="text" style="width:40%";  id="addOne_name" value=""/><br/>
+			描述：<textarea style="width: 40%; height: 100px"  id="addOne_describe" ></textarea><br/>
+			价格：<input type="text" style="width:40%";  id="addOne_price" value=""/><br/>
+			数量：<input type="text" style="width:40%";  id="addOne_total" value=""/>
+
+
+		</div>
 	<br>
 	<br>
 	<br>
