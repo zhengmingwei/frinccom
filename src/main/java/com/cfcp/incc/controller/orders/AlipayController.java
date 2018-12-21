@@ -134,14 +134,26 @@ public class AlipayController {
 	 */
 	@RequestMapping(value = "/addOrUpdateOrderPackages")
 	@ResponseBody
-	public JsonResult AddOrUpdateOrderPackages(@RequestBody OrderPriceSystem orderPriceSystem) throws Exception {
-
-		List<OrderPriceSystem> oList = null;
-		orderPriceSystemservice.saveOrUpdate(orderPriceSystem);
+	public JsonResult AddOrUpdateOrderPackages(@RequestBody OrderPriceSystem r) throws Exception {
 
 		JsonResult jsonResult = new JsonResult();
+		List<OrderPriceSystem> oList = null;
+		if(!"".equals(r.getCreateTimes()) && r.getCreateTimes()!=null
+				&& r.getEndTimes()!=null && !"".equals(r.getEndTimes())
+		        && r.getName()!=null && !"".equals(r.getName())
+				&& r.getDescribe()!=null && !"".equals(r.getDescribe())
+				&& r.getPrice()!=null && !"".equals(r.getPrice())
+				&& r.getTotal()!=null && !"".equals(r.getTotal())
+		){
+
+			orderPriceSystemservice.saveOrUpdate(r);
+			jsonResult.setStatus(true);
+		}else{
+			jsonResult.setMessage("不允许空值提交，填入数据");
+			jsonResult.setStatus(false);
+		}
+
 		jsonResult.setMessage("OK");
-		jsonResult.setStatus(true);
 		return jsonResult;
 	}
 

@@ -166,8 +166,17 @@
             document.getElementById("createTime").value = "";
             document.getElementById("endTime").value = "";
             document.getElementById("addOne").style.display="none";//隐藏
+
+            var obj = document.getElementById("addOne_name");
+            obj.setAttribute("class", "demo-input");
+            $('#addOne_name').attr("disabled",false);
         }
 		else if(type==1){//新增
+
+            var obj = document.getElementById("addOne_name");
+            obj.setAttribute("class", "demo-input");
+            $('#addOne_name').attr("disabled",false);
+
             document.getElementById("tianjia").style.display="none";// 新增按钮 -- 隐藏
             document.getElementById("quxiao").style.display="";//取消按钮 -- 显示
             document.getElementById("baocun").style.display="";//保存按钮 -- 显示
@@ -179,12 +188,34 @@
             document.getElementById("addOne_describe").value = "";
             document.getElementById("addOne_price").value = "";
             document.getElementById("addOne_total").value = "";
-            document.getElementById("createTime").value = "自动生成";
+            document.getElementById("createTime").value = "";
             document.getElementById("endTime").value = "";
 		}
         else if(type==3){//保存
             document.getElementById("addOne").style.display="";//显示
-
+            var jy = "";
+            if(''==$("#addOne_name").val()){
+                jy+='名称不能为空；';
+			}
+            if(''==$("#addOne_describe").val()){
+                jy+='描述不能为空；';
+            }
+            if(''==$("#addOne_price").val()){
+                jy+='价格不能为空；';
+            }
+            if(''==$("#addOne_total").val()){
+                jy+='数量不能为空；';
+            }
+            if(''==$("#createTime").val()){
+                jy+='起始日期不能为空；';
+            }
+            if(''==$("#endTime").val()){
+                jy+='截止日期不能为空；';
+            }
+            if(jy.length>0){
+                alert(jy);
+                return false;
+			}
             //alert($("#addOne_describe").val());
 
             var orderPriceSystem = {
@@ -237,6 +268,16 @@
             document.getElementById("addOne_total").value = total;
             document.getElementById("createTime").value = createTimes;
             document.getElementById("endTime").value = endTimes;
+
+            var obj = document.getElementById("addOne_name");
+            if('首次加入费'==name){
+                //obj.className = "style2"; disabled="disabled"
+                obj.setAttribute("class", "demo-input1");
+                obj.setAttribute("disabled", "disabled");
+            }else{
+                obj.setAttribute("class", "demo-input");
+                $('#addOne_name').attr("disabled",false);
+            }
 		}
 
 
@@ -261,7 +302,9 @@
                     //debugger;
                     // 提交订单成功后, 进入购买页面
                     window.location.href = hdnContextPath + "/alipay/goPay.action?orderId=" + data.data;
-                } else {
+                }else  if(data.status == false && data.message == "OK") {
+                    alert(data.message);
+                } else{
                     //alert("22data.status:"+data.status+";hdnContextPath:"+hdnContextPath);
                     //alert(data.msg);
                     console.log(JSON.stringify(data));
@@ -373,15 +416,15 @@
 
 				<tr>
 				<td align="right">价格：</td>
-				<td align="left"><input type="text" class="demo-input" style="width:100%";  id="addOne_price" /></td>
+				<td align="left"><input type="number" class="demo-input" style="width:100%";  id="addOne_price" /></td>
 			    </tr>
 				<tr>
 					<td align="right">数量：</td>
-					<td align="left"><input type="text" class="demo-input"  style="width:100%";  id="addOne_total" /></td>
+					<td align="left"><input type="number" class="demo-input"  style="width:100%";  id="addOne_total" /></td>
 				</tr>
 				<tr>
 					<td align="right">起始日期：</td>
-					<td align="left"><input type="text" class="demo-input1" style="width:100%";  placeholder="请选择日期" id="createTime"  disabled="disabled" style="background:#CCCCCC"></td>
+					<td align="left"><input type="text" class="demo-input" style="width:100%";  placeholder="请选择日期" id="createTime"  ></td>
 				</tr>
 				<tr>
 					<td align="right">截止日期：</td>

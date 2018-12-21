@@ -56,7 +56,7 @@
       )
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},#{describe,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE},
     #{total,jdbcType=INTEGER}, #{delet,jdbcType=VARCHAR},#{sort,jdbcType=INTEGER}, 1,
-    SYSDATE(), #{endTime,jdbcType=TIMESTAMP},SYSDATE()
+    #{createTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP},SYSDATE()
       )
   </insert>
     <update id="update" parameterType="com.cfcp.incc.entity.OrderPriceSystem" >
@@ -65,6 +65,7 @@
       `DESCRIBE` = #{describe,jdbcType=VARCHAR},
       PRICE = #{price,jdbcType=DOUBLE},
       TOTAL = #{total,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       END_TIME = #{endTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = SYSDATE()
     where ID = #{id,jdbcType=VARCHAR}

@@ -1472,9 +1472,10 @@ function a(e,t){if(!o.canUseDOM||t&&!("addEventListener"in document))return!1;va
             g.default.createElement(b.Menu.Item,{key:"7"},g.default.createElement(y.Link,{to:"/manager/commodity/list/12"},"待审核的认证信息")),
             g.default.createElement(b.Menu.Item,{key:"8"},g.default.createElement(y.Link,{to:"/manager/commodity/list/6"},"已审核通过认证信息")),
             g.default.createElement(b.Menu.Item,{key:"9"},g.default.createElement(y.Link,{to:"/manager/commodity/list/7"},"已审核未通过认证信息"))):"",
-            r(e,["ROLE_FEE_AUDITOR"])?g.default.createElement(_,{key:"sub3",title:g.default.createElement("span",null,g.default.createElement(b.Icon,{type:"user"}),"标识费用审核管理")},g.default.createElement(b.Menu.Item,{key:"10"},
-            g.default.createElement(y.Link,{to:"/manager/payment/form"},"登记标识费用")),
-            g.default.createElement(b.Menu.Item,{key:"11"},g.default.createElement(y.Link,{to:"/manager/payment/list"},"标识费用列表"))):"",
+            r(e,["ROLE_FEE_AUDITOR"])?g.default.createElement(_,{key:"sub3",title:g.default.createElement("span",null,g.default.createElement(b.Icon,{type:"user"}),"标识费用审核管理")},
+            g.default.createElement(b.Menu.Item,{key:"10"},g.default.createElement(y.Link,{to:"/manager/payment/form"},"登记标识费用")),
+            g.default.createElement(b.Menu.Item,{key:"11"},g.default.createElement(y.Link,{to:"/manager/payment/list"},"标识费用列表")),
+             g.default.createElement(b.Menu.Item,{key:"30"},g.default.createElement("a",{href:"/incc/alipay/payList.action",target:"_Blank"},"付款汇总"))):"",
             r(e,["ROLE_REAUDITOR"])?g.default.createElement(_,{key:"sub4",title:g.default.createElement("span",null,g.default.createElement(b.Icon,{type:"user"}),"复核管理中心")},g.default.createElement(b.Menu.Item,{key:"12"},g.default.createElement(y.Link,{to:"/manager/commodity/list/8"},"待复核的认证信息")),
             g.default.createElement(b.Menu.Item,{key:"13"},g.default.createElement(y.Link,{to:"/manager/commodity/list/9"},"已复核通过认证信息")),
             g.default.createElement(b.Menu.Item,{key:"14"},
@@ -1494,7 +1495,8 @@ function a(e,t){if(!o.canUseDOM||t&&!("addEventListener"in document))return!1;va
             g.default.createElement(b.Menu.Item,{key:"24"},g.default.createElement(y.Link,{to:"/manager/distributor/list"},"分销商企业名录管理")),
             g.default.createElement(b.Menu.Item,{key:"25"},g.default.createElement(y.Link,{to:"/manager/user/form"},"添加用户")),
             g.default.createElement(b.Menu.Item,{key:"26"},g.default.createElement(y.Link,{to:"/manager/user/list"},"用户管理")),
-            g.default.createElement(b.Menu.Item,{key:"27"},g.default.createElement(y.Link,{to:"/manager/dictionary/list"},"类别管理"))):"")}
+            g.default.createElement(b.Menu.Item,{key:"27"},g.default.createElement(y.Link,{to:"/manager/dictionary/list"},"类别管理")),
+                g.default.createElement(b.Menu.Item,{key:"31"},g.default.createElement("a",{href:"/incc/alipay/orderPackages.action",target:"_Blank"},"价格体系管理"))):"")}
 
 
 

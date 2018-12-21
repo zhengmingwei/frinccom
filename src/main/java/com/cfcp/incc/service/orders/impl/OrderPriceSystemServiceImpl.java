@@ -46,11 +46,12 @@ public class OrderPriceSystemServiceImpl implements OrderPriceSystemService {
     public int saveOrUpdate(OrderPriceSystem op) {
 
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if(op!=null && op.getEndTimes()!=null){
+        if(op!=null && op.getEndTimes()!=null && op.getCreateTimes()!=null){
             try {
                 Date d = (Date) sf.parse(op.getEndTimes()+" 00:00:00");
-
+                Date cd = (Date) sf.parse(op.getCreateTimes()+" 00:00:00");
                 op.setEndTime(d);
+                op.setCreateTime(cd);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
