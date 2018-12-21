@@ -25,11 +25,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -107,12 +109,40 @@ public class AlipayController {
 			Role r = it.next();
 			//只有管理员的角色才可以修改价格体系信息
 			if("ROLE_ADMIN".equals(r.getId())){
-				oList = orderPriceSystemservice.queryAll();
+				//SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+				oList = orderPriceSystemservice.queryAll01();
+				for(int i=0;i<oList.size();i++){
+					OrderPriceSystem p = oList.get(i);
+					if(p!=null && p.getEndTime()!=null && p.getCreateTime()!=null && p.getUpdateTime()!=null){
+						p.setCreateTimes(sf.format(p.getCreateTime()));
+						p.setUpdateTimes(sf.format(p.getUpdateTime()));
+						p.setEndTimes(sf.format(p.getEndTime()));
+					}
+				}
 			}
 		}
 		ModelAndView mv = new ModelAndView("orderPackages");
 		mv.addObject("pList", oList);
 		return mv;
+	}
+
+	/**
+	 * 新增或更新价格体系信息
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/addOrUpdateOrderPackages")
+	@ResponseBody
+	public JsonResult AddOrUpdateOrderPackages(@RequestBody OrderPriceSystem orderPriceSystem) throws Exception {
+
+		List<OrderPriceSystem> oList = null;
+		orderPriceSystemservice.saveOrUpdate(orderPriceSystem);
+
+		JsonResult jsonResult = new JsonResult();
+		jsonResult.setMessage("OK");
+		jsonResult.setStatus(true);
+		return jsonResult;
 	}
 
 	/**

@@ -31,10 +31,13 @@ public class OrderPriceSystem extends BaseEntity {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createTime;
+    private String createTimes;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date endTime;
+    private String endTimes;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updateTime;
+    private String updateTimes;
 
     @Override
     public String getId() {
@@ -132,5 +135,29 @@ public class OrderPriceSystem extends BaseEntity {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public String getCreateTimes() {
+        return createTimes;
+    }
+
+    public void setCreateTimes(String createTimes) {
+        this.createTimes = createTimes;
+    }
+
+    public String getEndTimes() {
+        return endTimes;
+    }
+
+    public void setEndTimes(String endTimes) {
+        this.endTimes = endTimes;
+    }
+
+    public String getUpdateTimes() {
+        return updateTimes;
+    }
+
+    public void setUpdateTimes(String updateTimes) {
+        this.updateTimes = updateTimes;
     }
 }
