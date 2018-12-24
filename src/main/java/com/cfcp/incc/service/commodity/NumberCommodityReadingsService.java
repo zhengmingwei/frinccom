@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class NumberCommodityReadingsService extends BaseService {
@@ -55,4 +56,29 @@ public class NumberCommodityReadingsService extends BaseService {
     public NumberCommodityReadings get(NumberCommodityReadings ni){
         return dao.get(ni);
     }
+
+
+    public List<NumberCommodityReadings> getAll(NumberCommodityReadings i){
+        return dao.getAll(i);
+    }
+    public int updateAddressByIP(NumberCommodityReadings i){
+        return dao.updateAddressByIP(i);
+    }
+    public  List<NumberCommodityReadings> getByAddressIsNull(NumberCommodityReadings i){
+        return dao.getByAddressIsNull(i);
+    }
+
+    public String GetAddressByIp(String ip){
+        String resout = "";
+        try{
+            String address = GetAddressByIp.getJsonContent("http://ip.taobao.com/service/getIpInfo.php?ip="+ip);
+            //System.out.println(str);
+            resout = address;
+        }catch(Exception e){
+            e.printStackTrace();
+            resout = "获取IP地址异常："+e.getMessage();
+        }
+        return resout;
+    }
+
 }

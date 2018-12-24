@@ -414,17 +414,17 @@ drop table if exists NUMBER_COMMODITY_READINGS;
 /*==15151515=========================================================*/
 /* Table: NUMBER_COMMODITY_READINGS        商品阅读量表                                     */
 /*==============================================================*/
-create table NUMBER_COMMODITY_READINGS
-(
-   ID                   varchar(32) not null,
-   COMMODITY_ID         varchar(32) default NULL comment '商品ID',
-   CREATE_TIME          datetime default NULL comment '初次访问时间',
-   LATELY_TIME          datetime default NULL comment '最近访问时间',
-   TOTAL                int(11) default NULL comment '访问总次数',
-   STATUS               int(11) default NULL  comment '状态'
-
-)
-ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `NUMBER_COMMODITY_READINGS`;
+CREATE TABLE `NUMBER_COMMODITY_READINGS` (
+  `ID` varchar(32) NOT NULL,
+  `COMMODITY_ID` varchar(32) DEFAULT NULL COMMENT '商品ID',
+  `CREATE_TIME` datetime DEFAULT NULL COMMENT '初次访问时间',
+  `LATELY_TIME` datetime DEFAULT NULL COMMENT '最近访问时间',
+  `TOTAL` int(11) DEFAULT NULL COMMENT '访问总次数',
+  `STATUS` int(11) DEFAULT NULL COMMENT '状态',
+  `IP` varchar(32) DEFAULT NULL COMMENT ' IP地址',
+  `ADDRESS` varchar(355) DEFAULT NULL COMMENT ' 区域地址'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品阅读量表';
 
 alter table NUMBER_COMMODITY_READINGS comment '商品阅读量表';
 

@@ -9,9 +9,10 @@
         <result column="TOTAL" jdbcType="INTEGER" property="total" />
         <result column="STATUS" jdbcType="INTEGER" property="status" />
         <result column="IP" jdbcType="VARCHAR" property="ip" />
+        <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
     </resultMap>
     <sql id="Base_Column_List">
-    ID, COMMODITY_ID, CREATE_TIME, LATELY_TIME, TOTAL, STATUS,IP
+    ID, COMMODITY_ID, CREATE_TIME, LATELY_TIME, TOTAL, STATUS,IP,ADDRESS
   </sql>
     <select id="get" parameterType="com.cfcp.incc.entity.NumberCommodityReadings" resultMap="BaseResultMap">
         select
@@ -19,6 +20,19 @@
         from NUMBER_COMMODITY_READINGS
         where COMMODITY_ID = #{commodityId,jdbcType=VARCHAR} and  IP= #{ip,jdbcType=VARCHAR}
     </select>
+    <select id="getAll" parameterType="com.cfcp.incc.entity.NumberCommodityReadings" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from NUMBER_COMMODITY_READINGS
+    </select>
+
+    <select id="getByAddressIsNull" parameterType="com.cfcp.incc.entity.NumberCommodityReadings" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from NUMBER_COMMODITY_READINGS where ADDRESS ='' or ADDRESS is NULL
+
+    </select>
+
     <insert id="insert" parameterType="com.cfcp.incc.entity.NumberCommodityReadings">
     insert into NUMBER_COMMODITY_READINGS ( ID, COMMODITY_ID, CREATE_TIME, LATELY_TIME, TOTAL, STATUS,IP,ADDRESS)
     values (#{id,jdbcType=VARCHAR}, #{commodityId,jdbcType=VARCHAR}, SYSDATE() ,
@@ -30,5 +44,11 @@
       LATELY_TIME = SYSDATE()  ,
       TOTAL = TOTAL+1
     where COMMODITY_ID = #{commodityId,jdbcType=VARCHAR} and IP= #{ip,jdbcType=VARCHAR}
+  </update>
+
+    <update id="updateAddressByIP" parameterType="com.cfcp.incc.entity.NumberCommodityReadings">
+    update NUMBER_COMMODITY_READINGS
+    set ADDRESS= #{address,jdbcType=VARCHAR}
+    where IP= #{ip,jdbcType=VARCHAR}
   </update>
 </mapper>
