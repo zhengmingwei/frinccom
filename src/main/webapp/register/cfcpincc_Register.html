@@ -22,6 +22,81 @@
         -->
     </style>
 
+    <style>
+        *{padding: 0; margin: 0}
+        .box{
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.2);
+            display: none;
+        }
+        .box1{
+            width: 500px;
+            height: 500px;
+            position: fixed;left: 50%; top: 25%;
+            margin-left: -250px;
+            border: 1px solid #000000;
+        }
+        .button_login_hs {
+            font-size: 20px;
+            color: #FFFFFF;
+            height: 46px;
+            border-top-style: none;
+            border-right-style: none;
+            border-bottom-style: none;
+            border-left-style: none;
+            cursor: pointer;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            border: 0px solid #999;
+            /* background-color: #3D8DE2; */
+        }
+    </style>
+    <style>
+        /*背景层*/
+        #popLayer {
+            display: none;
+            background-color: #B3B3B3;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 10;
+            -moz-opacity: 0.8;
+            opacity:.80;
+            filter: alpha(opacity=80);/* 只支持IE6、7、8、9 */
+        }
+
+        /*弹出层*/
+        #popBox {
+            display: none;
+            background-color: #FFFFFF;
+            z-index: 11;
+            width: 600px;
+            height: 800px;
+            position:fixed;
+            top:0;
+            right:0;
+            left:0;
+            bottom:0;
+            margin:auto;
+        }
+
+        #popBox .close{
+            text-align: right;
+            margin-right: 5px;
+            background-color: #F8F8F8;
+        }
+
+        /*关闭按钮*/
+        #popBox .close a {
+            text-decoration: none;
+            color: #2D2C3B;
+        }
+
+    </style>
     <!--
       <script src="../js/jquery-1.8.3.min.js"></script>-->
       <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
@@ -29,6 +104,28 @@
       <script type="text/javascript" src="../js/rig.js"></script>
 
       <script type="text/javascript">
+
+       /*
+          $(function(){
+              var docHeight = $(document).height(); //获取窗口高度
+              //alert('获取窗口高度:'+docHeight);
+              $('body').append('<div id="overlay"><h1>sasdasddff</h1></div>');
+              $('#overlay')
+                  .height(docHeight)
+                  .css({
+                      'opacity': .9, //透明度
+                      'position': 'absolute',
+                      'top': 0,
+                      'left': 0,
+                      'background-color': 'black',
+                      'width': '100%',
+                      'z-index': 5000 //保证这个悬浮层位于其它内容之上
+                  });
+              setTimeout(function(){$('#overlay').fadeOut('slow')}, 3000); //设置3秒后覆盖层自动淡出
+          });*/
+
+
+
 
           function doUpload() {
 
@@ -251,10 +348,21 @@
           }
 
 
+       function openwin() {
+
+           window.open ("../register/agreement.html", "newwindow", "height=900, width=600, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no")
+
+           //写成一行
+       }
+
       </script>
 
-  </head>
+
+
+    </head>
   <body>
+
+
   <table width="100%" height="58" border="0" align="center" cellpadding="0" cellspacing="0" class="top_box">
       <tr>
           <td align="center" bgcolor="#FFFFFF">
@@ -294,7 +402,7 @@
     <table width="1200" border="0" align="center" cellpadding="0" cellspacing="0" class="tybox">
         <tr>
             <td valign="top" bgcolor="#FFFFFF">
-                <table width="100%" height="120" border="0" cellpadding="0" cellspacing="0" bgcolor="#F3F3F3">
+                <table width="100%" height="200" border="0" cellpadding="0" cellspacing="0" bgcolor="#F3F3F3">
                     <tr>
                         <td align="center" valign="top" bgcolor="#f5f5f5"><p>&nbsp;</p>
                             <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
@@ -387,8 +495,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td height="150" width="10%"  align="right"><span style="color:red">*</span>企业资质：</td>
-                                    <td height="150" width="40%" class="songgraybold14" align="left"> <div  class="divcss5">
+                                    <td rowspan="2" height="150" width="10%"  align="right"><span style="color:red">*</span>企业资质：</td>
+                                    <td rowspan="2" height="150" width="40%" class="songgraybold14" align="left"> <div  class="divcss5">
                                         <img id="upimg" src="../images/BG.png"，style="CURSOR: hand" onclick='doUpload1()'/>
                                     </div>
                                     <input type="file" id="imageFile" style="visibility:hidden" name="img" multiple="multiple"  onchange="doUpload();"/>
@@ -396,8 +504,8 @@
 
                                     </td>
 
-                                    <td height="38" width="10%"  align="right" valign="top"><span style="color:red">*</span>验证码：</td>
-                                    <td height="38" width="40%" class="songgraybold14" align="left" valign="top"><input name="yzm" id="yzm"
+                                    <td rowspan="1" height="38" width="10%"  align="right" valign="top"><span style="color:red">*</span>验证码：</td>
+                                    <td rowspan="1" height="38" width="40%" class="songgraybold14" align="left" valign="top"><input name="yzm" id="yzm"
                                                                                                            type="text"
                                                                                                            class="inputall_rg"
                                                                                                            placeholder="请输入验证码"
@@ -409,13 +517,32 @@
                                     </td>
                                 </tr>
 
+                                <!-- ******************************************************** -->
+                                <tr>
+
+                                   <td colspan="4" align="left" height="150" >
+
+                                         <input type="checkbox" id="agree" name="agree" onclick="checkboxOnclick(this,1)" >
+                                        我已阅读并同意遵守<a target="_blank" href="../register/agreement.html">《INCC合作伙伴协议》</a>
+                                       <!--<a href="#" onclick="popBox()">打开一个窗口</a>-->
+
+                                   </td>
+                                </tr>
+
+                                <!--  ******************************************************** -->
+
+
+
+
                                 <tr>
                                     <td height="38" width="10%" class="login_font" align="center"></td>
                                     <td height="38" width="40%" class="songgraybold14" align="right"><input name="button"
+                                                                                                           id="register"
                                                                                                            type="button"
-                                                                                                           class="button_login yuan"
+                                                                                                           class="button_login_hs"
                                                                                                            value="注册"
                                                                                                            style="width:120px"
+                                                                                                           disabled="disabled"
                                                                                                            onClick="login()"></td>
 
                                     <td height="38" width="10%" class="login_font" align="center"></td>
@@ -425,12 +552,75 @@
                                         <span id="loginErr"></span></td>
                                 </tr>
 
+                            </table>
+
                 </table>
             </td>
         </tr>
+
+
+
+
     </table>
 </form>
 <br>
+
+   <!----- -->
+<!--
+  <input type="button" name="popBox" value="弹出框" onclick="popBox()">-->
+  <div id="popLayer"></div>
+  <div id="popBox" style="width:600px;height:400px; overflow-y:scroll; border:0px solid;">
+
+      <table align="center" style="height: auto">
+      <div class="content" id="div_text">我是弹出层1234</div>
+      <div class="content" id="div_text2">我是弹出层122</div>
+      <div class="content" id="div_text3">我是弹出层133</div>
+      <div class="content" id="div_text4">我是弹出层2</div>
+<!--      <input type="file" id="file" value="../register/testfile.txt"/>
+      <input type="button" value="读取文本文件" onclick="readAsText()" />
+      <div id="result" name="result"></div>-->
+      <div class="content">我是弹出层3</div>
+      <div class="content">我是弹出层4</div>
+      <div class="content">我是弹出层3</div>
+      <div class="content">我是弹出层6</div>
+          <div class="content">我是弹出层4</div>
+          <div class="content">我是弹出层3</div>
+          <div class="content">我是弹出层6</div>
+          <div class="content">我是弹出层4</div>
+          <div class="content">我是弹出层3</div>
+          <div class="content">我是弹出层6</div>
+          <div class="content">我是弹出层4</div>
+          <div class="content">我是弹出层3</div>
+          <div class="content">我是弹出层6</div>
+          <div class="content">我是弹出层4</div>
+          <div class="content">我是弹出层3</div>
+          <div class="content">我是弹出层6</div>
+          <div class="content">我是弹出层4</div>
+          <div class="content">我是弹出层3</div>
+          <div class="content">我是弹出层6</div>
+          <div class="content">我是弹出层4</div>
+          <div class="content">我是弹出层3</div>
+          <div class="content">我是弹出层6</div>
+      <div class="content">
+              <tr align="bottom">
+                  <td align="center">
+                      <input id="bt_close" name="button" disabled="disabled" type="button"
+                             value="关闭" style="width:120px" onclick="closeBox()">
+                  </td>
+
+
+              </tr>
+          </table>
+
+
+      </div>
+  </div>
+
+
+  <!-- -->
+
+
+
 <p>&nbsp;</p>
 <table width="100%" height="40" border="0" cellpadding="0" cellspacing="0" class="lg_bottom">
     <tr>
@@ -634,4 +824,152 @@
 
 
 </script>
+
+
+<script>
+
+    //点击是否启用选择框
+    function checkboxOnclick(checkbox,id){
+        var checked = '';
+        if (checkbox.checked == true){
+            //Action for checked
+            checked = '1';
+
+
+            $('#register').removeClass("button_login_hs");
+            $('#register').addClass("button_login yuan");
+            $('#register').attr("disabled",false);
+            popBox();
+        }else{
+            //Action for not checked
+            checked = '0';
+
+            $('#register').removeClass("button_login yuan");
+            $('#register').addClass("button_login_hs");
+            $('#register').attr("disabled",true);
+        }
+    }
+
+
+
+    /*点击弹出按钮*/
+    function popBox() {
+        var popBox = document.getElementById("popBox");
+        var popLayer = document.getElementById("popLayer");
+        popBox.style.display = "block";
+        popLayer.style.display = "block";
+
+        //$('#div_text2').load('../register/agreement.html');
+        //popBox.document.close();
+        winclose(5);
+    };
+    function winclose(n) {
+        $('#bt_close').removeClass("button_login yuan");
+        $('#bt_close').addClass("button_login_hs");
+        $('#bt_close').attr("disabled",true);
+        document.getElementById("bt_close").value = n+"秒后可关闭";
+        $("#div_text").html(n+"秒可关闭");
+        //jsReadFiles("../register/testfile.txt");
+
+        if(n>0) {
+            setTimeout(function () {
+                winclose(n - 1);
+            }, 1000);
+            //此处可 进行选择性的添加文件读取
+            //readAsText();
+        }else{
+           /*
+            var fso, ts, s ;
+            var ForReading = 1;
+            fso = new ActiveXObject("Scripting.FileSystemObject");
+            ts = fso.OpenTextFile("../register/testfile.txt", ForReading);
+            s = ts.ReadLine();
+            document.getElementById("div_text2").innerHTML=s;
+*/
+
+            document.getElementById("bt_close").value = "关闭";
+            $("#div_text").html(n+"秒，关闭");
+            $('#bt_close').addClass("button_login yuan");
+            $('#bt_close').attr("disabled",false);
+            //$('#bt_close').attr("disabled",false);
+            popBox.close();
+        }
+    }
+    /*点击关闭按钮*/
+    function closeBox() {
+        var popBox = document.getElementById("popBox");
+        var popLayer = document.getElementById("popLayer");
+        popBox.style.display = "none";
+        popLayer.style.display = "none";
+    }
+</script>
+
+<script>
+    var fso;
+    function readAsText1(){
+
+        try {
+        fso=new ActiveXObject("Scripting.FileSystemObject");
+        } catch (e) {
+            alert("当前浏览器不支持");
+            return;
+        }
+        <!-- ...获取fso... -->
+
+        var openf1 = fso.OpenTextFile("../register/testfile.txt");
+        <!-- 读取一行内容 -->
+        var str1 = openf1.ReadLine();
+        <!-- 读取全部内容 -->
+        var str2 = openf1.ReadAll();
+
+        var result=document.getElementById("result");
+        //显示文件
+        //result.innerHTML=this.result;
+        result.innerHTML=str2;
+    }
+
+    function readAsText(){
+
+        document.getElementById("file").click();
+        document.getElementById("file").value
+
+
+        var file = document.getElementById("file").files[0];
+        var reader = new FileReader();
+        //将文件以文本形式读入页面
+        reader.readAsText(file,"gb2312");
+        reader.onload=function(f){
+            var result=document.getElementById("result");
+            //显示文件
+            result.innerHTML=this.result;
+        }
+    }
+
+
+    //js 读取文件
+    function jsReadFiles(files) {
+        //alert(2);
+        //alert(files[0]);
+        if (files.length) {
+            var file = files;
+            var reader = new FileReader();//new一个FileReader实例
+
+            if (1==1) {//判断文件类型，是不是text类型
+
+                reader.onload = function() {
+
+                    $("#div_text4").html('<pre>' + this.result + '</pre>');
+                    $('#div_text4').append('<pre>' + this.result + '</pre>');
+                }
+                reader.readAsText(files[0]);
+            } else if(/image+/.test(file.type)) {//判断文件是不是imgage类型
+                reader.onload = function() {
+                    $('body').append('<img src="' + this.result + '"/>');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    }
+</script>
+
 </html>
