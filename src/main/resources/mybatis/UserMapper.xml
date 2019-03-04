@@ -38,6 +38,16 @@
         LEFT JOIN ROLE r on r.ROLE_ID = ur.ROLE_ID
         where t.ID = #{id,jdbcType=VARCHAR}
     </select>
+    <select id="getUserByDistributorId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT t.*,
+        d.Id as D_ID, d.NAME as D_NAME, r.ROLE_ID, r.ROLE_NAME
+        FROM
+        USER t
+        LEFT JOIN DISTRIBUTOR d ON t.DISTRIBUTOR_ID = d.ID
+        LEFT JOIN USER_ROLE ur ON ur.USER_ID = t.ID
+        LEFT JOIN ROLE r on r.ROLE_ID = ur.ROLE_ID
+        where t.DISTRIBUTOR_ID = #{id,jdbcType=VARCHAR}
+    </select>
     <select id="getByUserName" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>

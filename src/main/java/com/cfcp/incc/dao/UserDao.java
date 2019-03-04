@@ -23,6 +23,8 @@ public interface UserDao extends GenericDao {
 //	int insertSelective(User user);
 
 	public User get(String id);
+	public List<User> getUserByDistributorId(String id);
+
 //
 ////	int updateSelective(User user);
 //

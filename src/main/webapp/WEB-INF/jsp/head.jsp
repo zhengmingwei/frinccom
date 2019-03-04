@@ -21,11 +21,11 @@
     <tr>
         <td align="center" bgcolor="#FFFFFF">
             <table width="100%" height="58" border="0" align="center" cellpadding="0" cellspacing="0"
-                   background="../images/topbg.png">
+                   background="<%=request.getContextPath() %>/images/topbg.png">
                 <tr>
                     <td width="494" align="left" class="nav_topfont">
                         <a href="" class="A_blue"></a><img
-                            src="../images/logo-banner.png" height="58" border="0">
+                            src="<%=request.getContextPath() %>/images/logo-banner.png" height="58" border="0">
                     </td>
 
                     <td width="436" align="right"class="nav_topfont">

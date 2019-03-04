@@ -55,5 +55,4 @@ public class DictionaryController extends BaseController {
         dictionaryService.delete(id);
         return DataEvent.wrap("dictionaryDeleted", new CommonDto<>(CommonDto.CommonResult.SUCCESS));
     }
-
 }

@@ -85,6 +85,11 @@ public class UserService extends BaseService implements UserDetailsService {
 //        return userDao.get(id);
 //    }
 //
+
+     public List<User> getUserByDistributorId(String DistributorId) {
+         return userDao.getUserByDistributorId(DistributorId);
+     }
+
     public int updatePwd(String password, String userId) {
         return userDao.updatePwd(encodePassword(password), userId);
     }
