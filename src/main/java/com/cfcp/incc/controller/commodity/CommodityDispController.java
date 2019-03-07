@@ -64,6 +64,9 @@ public class CommodityDispController extends BaseController {
 
         Map<String, Dictionary> dictionaryMap = dictionaryService.dictionariesMap();
         Commodity commodity = commodityService.get(commodityId);
+        if(commodity!=null && commodity.getStatus()==0){//删除 状态 不允许 再扫描出
+            return "index";
+        }
         commodity.setIndustryPo(dictionaryMap.get(commodity.getIndustry()));
         commodity.setCategoryPo(dictionaryMap.get(commodity.getCategory()));
         model.addAttribute("commodity", commodity);
