@@ -128,8 +128,11 @@ export function receiveCurrentUser(data){
 
 export function getCurrentUser(){
     return dispatch => {
+
         E.doFind("security/user");
         E.addOneTimeEventListener("currentuser", function (e) {
+
+            alert(e.data.returnCode);
             if(e.data.returnCode == "200") {
                 console.log(e)
                 const user = e.data.result;

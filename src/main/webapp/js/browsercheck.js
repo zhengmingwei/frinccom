@@ -31,6 +31,8 @@ var isDevHost = function (hostname) {
 
 if (isDevHost(location.hostname)) {
     server = "http://127.0.0.1:9090/assets/";
+    server = "http://127.0.0.1:9091/assets/";
+
 }
 
 function getBrowserVersion() {

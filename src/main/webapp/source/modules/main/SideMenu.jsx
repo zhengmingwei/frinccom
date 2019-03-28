@@ -33,7 +33,7 @@ export default class SideMenu extends React.Component {
 
                 {hasRoles(currentUser,['ROLE_CUSTOMER'])?
 
-                    <SubMenu key="sub1" title={<span><Icon type="user" />认证管理中心</span>}>
+                    <SubMenu key="sub1" title={<span><Icon type="user" />认证管理中心*****</span>}>
                         <Menu.Item key="1">
                             <Link to="/manager/commodity/form">发布认证信息</Link>
                         </Menu.Item>
