@@ -51,13 +51,57 @@ export function saveCommodity(commodity) {
 
         E.addOneTimeEventListener("commodity", function (e) {
             if(e.data.returnCode == "200"){
-                const commodity = {name: "", category: "", industry:"", pic:"", company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}
+                //const commodity1 = e.data.result;
+                const commodity = {name: "", category: "", industry:"", pic:"",sp_video:"", company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}
                 dispatch(selectCommodity(commodity));
                 E.dispatchEvent("tocommoditylist");
             } else {
                 alert("保存失败");// alert(e.data.message);
             }
              // dispatch(selectCommodity(e.data));
+            // dispatch(refreshcommodityList());
+        });
+    };
+}
+
+export function saveCommodity_2(commodity) {
+    return dispatch => {
+        E.doAdd("manager/commodity", commodity);
+
+        E.addOneTimeEventListener("commodity", function (e) {
+            if(e.data.returnCode == "200"){
+                const commodity1 = e.data.result;
+
+                console.log("saveCommodity_2++++++++++++++++++++++++++++++++++++++")
+                console.log(commodity1)
+                console.log("saveCommodity_2*****************************************")
+
+                const commodity = {name: "", category: "", industry:"", pic:"",sp_video:"", company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}
+                dispatch(selectCommodity(commodity));
+                E.dispatchEvent("tocommoditylist");
+            } else {
+                alert("保存失败");// alert(e.data.message);
+            }
+            // dispatch(selectCommodity(e.data));
+            // dispatch(refreshcommodityList());
+        });
+    };
+}
+
+export function saveCommodity_1(commodity) {
+    return dispatch => {
+        E.doAdd("manager/commodity", commodity);
+
+        E.addOneTimeEventListener("commodity", function (e) {
+            if(e.data.returnCode == "200"){
+                //const commodity1 = e.data.result;
+                const commodity = {name: "", category: "", industry:"", pic:"",sp_video:"", company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}
+                dispatch(selectCommodity(commodity));
+                E.dispatchEvent("tocommoditylist");
+            } else {
+                alert("保存失败");// alert(e.data.message);
+            }
+            // dispatch(selectCommodity(e.data));
             // dispatch(refreshcommodityList());
         });
     };
@@ -101,7 +145,7 @@ export function getCommodity(id) {
         }
     } else {
         return dispatch => {
-            const commodity = {name: "", category: "", industry:"", pic:"", company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}
+            const commodity = {name: "", category: "", industry:"", pic:"", sp_video:"",company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}
             dispatch(selectCommodity(commodity));
             const {specialItems} = commodity;
             dispatch(receiveSpecialItemList(specialItems));
