@@ -10,18 +10,21 @@ function getBase64(img, callback) {
 }
 
 function beforeUpload(file) {
-    const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' ;
+    //alert(file.type);
+    const isJPG =  file.type === 'video/mp4' ;
     if (!isJPG) {
-        alert('只能传 JPG/PNG/GIF 文件!');
+        alert('只能传 video/mp4 文件!');
     }
-    const isLt3M = file.size / 1024 / 1024 < 3;
+    const isLt3M = file.size / 1024 / 1024 < 30;
+
+    //alert(isLt3M);
     if (!isLt3M) {
-        alert('图片不能大于 3MB!');
+        alert('视频不能大于 30MB!');
     }
     return isJPG && isLt3M;
 }
 //noinspection JSAnnotator
-class ImgUpload extends React.Component {
+class VideoUpload extends React.Component {
 
     constructor(){
         super();
@@ -31,8 +34,12 @@ class ImgUpload extends React.Component {
     // const value = this.props.value || {};
 
     };
-    handleChange = (info) => {
+    handleChange1 = (info) => {
+        console.log(info);
         if (info.file.status === 'done') {
+            this.state = {
+                imageUrl:null
+            }
             getBase64(info.file.originFileObj, imageUrl => this.setState({ imageUrl }));
             this.triggerChange(info);
         }
@@ -93,15 +100,18 @@ class ImgUpload extends React.Component {
         const imageUrl = this.state.imageUrl;
         return (
             <Upload name="uploadFile" action={this.props.action}  beforeUpload={beforeUpload}
-                    onChange={this.handleChange} className="avatar-uploader" showUploadList={false} >
+                    onChange={this.handleChange1} className="avatar-uploader" showUploadList={false} >
                 {
                     imageUrl ?
-                        <img src={imageUrl} alt="" className="avatar" /> :
+                        <video width="148" height="150" controls="controls">
+                           {/* <source src="movie.ogg" type="video/ogg" />*/}
+                            <source src={imageUrl} type="video/mp4"></source>
+                        </video> :
                         <Icon type="plus" className="avatar-uploader-trigger" />
                 }
             </Upload>
         );
     }
 }
-ImgUpload = createForm()(ImgUpload);
-export default ImgUpload;
+VideoUpload = createForm()(VideoUpload);
+export default VideoUpload;

@@ -8,12 +8,13 @@ import {connect} from "react-redux";
 
 import {Button, Col, DatePicker, Form, Input, Row, Select} from "antd";
 import {showModalDialog} from "actions/CommonAction";
-import {saveCommodity, getCommodity, selectCommodity} from "actions/CommodityActions";
+import {saveCommodity_1,saveCommodity_2,saveCommodity, getCommodity, selectCommodity} from "actions/CommodityActions";
 import {industryAndCategory} from "actions/DictionaryActions";
 import {receiveOtherQualificationList} from "actions/OtherQualificationActions";
 import {receiveSpecialItemList} from "actions/SpecialItemActions";
 import SubPage from "modules/common/SubPage";
 import ImgUpload from "modules/common/ImgUpload";
+import VideoUpload from "modules/common/VideoUpload"
 import SpecialItemList from "modules/commodity/SpecialItemList";
 import OtherQualificationList from "modules/commodity/OtherQualificationList";
 // import {BrandForm} from "modules/commodity/BrandForm";
@@ -27,7 +28,7 @@ class CommodityForm extends React.Component {
 
     state = {
     	 list:"",
-         company:{name:'',},
+         company:{name:'',idCode:''},
   	};
     constructor(props) {
         super(props);
@@ -38,7 +39,7 @@ class CommodityForm extends React.Component {
         this.props.dispatch(industryAndCategory());
         console.log("form will mount")
         if(!this.props.params.id) {
-            this.props.dispatch(selectCommodity({name: "", category: "", industry:"", pic:"", company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}));
+            this.props.dispatch(selectCommodity({name: "", category: "", industry:"", pic:"",sp_video:"", company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}));
             this.props.dispatch(receiveOtherQualificationList([]));
             this.props.dispatch(receiveSpecialItemList([]));
         }
@@ -51,7 +52,7 @@ class CommodityForm extends React.Component {
         if (statusId != oldStatusId){
             console.log("nextPropsnextProps+++++",nextProps)
             // this.props.dispatch(getCommodity(statusId));
-            this.props.dispatch(selectCommodity({name: "", category: "", industry:"", pic:"", company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}));
+            this.props.dispatch(selectCommodity({name: "", category: "", industry:"", pic:"",sp_video:"", company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}));
             this.props.dispatch(receiveOtherQualificationList([]));
             this.props.dispatch(receiveSpecialItemList([]));
             return false;
@@ -70,37 +71,60 @@ class CommodityForm extends React.Component {
         var url = "http://47.105.123.55:9999/company/base/"+company.name1;
          axios.get(url).then(res=>{
          		 const posts = res.data.data;
-                 console.log("==============>")
-                 console.log(company)
-                 console.log("******************")
-                 console.log(this.props.form.getFieldsValue(["company"]));
-                 //this.props.form.setFields(["company"]).mphone = '000999'
-                 //React.findDOMNode(this.refs.company_name).value=posts.name;
-                 const myComp = this.refs.company_name;
-                 //myComp.inner();  //访问子组件的函数
-                 const dom = ReactDOM.findDOMNode(myComp);
-                 //dom.value = 'hello';
-                 //dom.focus();
-                 //this.refs.company_name.style.color = 'red'
-                 //this.refs.company_name.value =  'hello';
-             document.getElementById('company.name').value='111122223334444';
-             console.log(document.getElementById('company.name').value);
+                 console.log(company);
+                 console.log(posts);
+                 console.log(posts.createTimes);
 
+                 // businessTime "2018-08-14 至 2048-08-13"
+                 let businessTime = posts.businessTime;
+                 let endTime = null;
+                 let bbTime = businessTime.split(' 至 ')[1];
+                 if(bbTime=='无固定期限'){
+                     endTime=moment().add('days',36500).format('YYYY-MM-DD');
+                 }else{
+                     endTime=posts.businessTime.split(' 至 ')[1]
+                 }
 
-             let val=posts.name;
-             let data = Object.assign({}, this.state.company, { name: val })
-             this.setState({
-                 company: data
-             })
-             console.log(this.state.company,data)
-
-
-
+                 this.props.form.setFieldsValue(
+                     {
+                         company:{
+                                 name: posts.name,
+                                 idCode:posts.regCode,
+                                 legalPerson:posts.legalPerson,
+                                 mail:posts.legalPerson,
+                                 mphone:posts.legalPerson,
+                                 phone:posts.tel,
+                                 regAddr:posts.checkInAddr,
+                                 businessScope:posts.scope,
+                                // businessBegin:new Date(),
+                                 businessBegin:moment(posts.createTime),
+                                 businessEnd:moment(endTime),
+                         }
+                     });
          });
-         
     }
     
 //---------------------------------------------
+//---------------------------------------------************************************************
+    handleSubmit_2 = ()=>{
+        E.addOneTimeEventListener("tocommoditylist",  (e) => {
+            this.props.history.push('/manager/commodity/list/1');
+        })
+        this.props.form.validateFields((err, values) => {
+
+                let rows = {};
+                Object.assign(rows, this.props.form.getFieldsValue());
+                const {specialItemList} = this.props;
+                rows.specialItems = specialItemList;
+                const {otherQualificationList} = this.props;
+                rows.otherQualifications = otherQualificationList;
+                this.props.dispatch(saveCommodity_2(rows))
+
+        })
+
+    }
+
+//---------------------------------------------************************************************
     handleSubmit() {
         E.addOneTimeEventListener("tocommoditylist",  (e) => {
             this.props.history.push('/manager/commodity/list/1');
@@ -160,7 +184,7 @@ class CommodityForm extends React.Component {
     
          const list = this.props.list;
         const {getFieldDecorator} = this.props.form;
-        const {selectedCommodity:{id, name, category, industry, pic, company, factory, brand}} = this.props;
+        const {selectedCommodity:{id, name, category, industry, pic,sp_video, company, factory, brand}} = this.props;
         let cBusinessBegin = company?moment(company.businessBegin):moment();
         let cBusinessEnd = company?moment(company.businessEnd):moment();
         let fBusinessBegin = factory?moment(factory.businessBegin):moment();
@@ -304,8 +328,21 @@ class CommodityForm extends React.Component {
                                 getValueFromEvent: this.normFile,
                             })(
                                 <ImgUpload name="uploadFile" action="/incc/file/upload/1/1" initialValue={pic}>
-
                                 </ImgUpload>
+
+
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="商品图片2"
+                        >
+                            {getFieldDecorator('sp_video', {
+                                valuePropName: 'fileList',
+                                getValueFromEvent: this.normFile,
+                            })(
+                                <VideoUpload name="uploadFile" action="/incc/file/upload/1/1" initialValue={sp_video}>
+                                </VideoUpload>
                             )}
                         </FormItem>
                         <Row gutter={40} style={{marginBottom: "12px"}}><Col span={24}>
@@ -479,7 +516,7 @@ class CommodityForm extends React.Component {
                                 whitespace: false,
                                 message: "请输入企业名称或企业信用代码",
                             }],
-                            initialValue: company.name,
+                            initialValue: company.name1,
                         })(
                             <Input placeholder="企业名称或企业信用代码" />
                         )}
@@ -501,7 +538,7 @@ class CommodityForm extends React.Component {
                             }],
                             initialValue: company.name,
                         })(
-                            <Input placeholder="请输入企业名称" ref="company_name" value={this.state.company.name} />
+                            <Input placeholder="请输入企业名称"  />
                         )}
                        
                     </FormItem>
@@ -541,7 +578,7 @@ class CommodityForm extends React.Component {
                                 }],
                                 initialValue: company.idCode,
                             })(
-                                <Input placeholder="输入身份代码"/>
+                                <Input placeholder="输入身份代码" />
                             )}
                         </FormItem>
                     </Col><Col span={12}>
@@ -808,14 +845,14 @@ class CommodityForm extends React.Component {
                         label="企业名称或企业信用代码"
                         hasFeedback
                     >
-                        {getFieldDecorator('company.name', {
+                        {getFieldDecorator('factory.name1', {
                             validateTrigger: ['onChange', 'onBlur'],
                             rules: [{
                                 required: true,
                                 whitespace: false,
                                 message: "请输入企业名称或企业信用代码",
                             }],
-                            initialValue: company.name,
+                            initialValue: factory.name,
                         })(
                             <Input placeholder="企业名称或企业信用代码"/>
                         )}
