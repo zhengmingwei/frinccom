@@ -5,6 +5,9 @@ import {allDistributorOptions} from "actions/DistributorActions";
 import SubPage from 'modules/common/SubPage';
 import {Form, Input, Checkbox, Select, Button} from "antd";
 import {showModalDialog} from "actions/CommonAction";
+import ImgUpload from "modules/common/ImgUpload";
+
+
 const FormItem = Form.Item;
 const CheckboxGroup = Checkbox.Group;
 const createForm = Form.create;
@@ -15,7 +18,7 @@ class UserAdd extends React.Component {
     constructor(props) {
         super(props);
     }
-
+     
     shouldComponentUpdate(nextProps, nextState) {
         const statusId = nextProps.params.id;
         const oldStatusId = this.props.params.id;
@@ -50,7 +53,7 @@ class UserAdd extends React.Component {
 
     render() {
         const {getFieldDecorator} = this.props.form;
-        const {selectedUser:{id, name= "", idCard="", mail="", phone="", distributorId="", roles=[]}} = this.props;
+        const {selectedUser:{id, name= "", password="",idCard="", mail="",pic="", phone="", distributorId="", roles=[]}} = this.props;
         let roleIds = [];
         roles.forEach((item) => roleIds.push(item.id));
         const formItemLayout = {
@@ -108,6 +111,15 @@ class UserAdd extends React.Component {
 				</FormItem>
 				<FormItem
                     {...formItemLayout}
+					label="密码"
+
+				>
+                    {getFieldDecorator('password', {initialValue: 123456,})(
+						<Input placeholder="用户密码"/>
+                    )}
+				</FormItem>
+				<FormItem
+                    {...formItemLayout}
 					label="邮箱"
 				>
                     {getFieldDecorator('mail', {initialValue: mail,})(
@@ -140,6 +152,19 @@ class UserAdd extends React.Component {
 						<Input placeholder="联系电话"/>
                     )}
 				</FormItem>
+				 <FormItem
+                    {...formItemLayout}
+                    label="企业资质"
+                >
+                    {getFieldDecorator('pic', {
+                        valuePropName: 'fileList',
+                        getValueFromEvent: this.normFile,
+                    })(
+                        <ImgUpload name="uploadFile" action="/incc/file/upload/1/1" initialValue={pic} >
+
+                        </ImgUpload>
+                    )}
+                </FormItem>
 				<FormItem
                     {...formItemLayout}
 					label="角色分配"
@@ -155,6 +180,7 @@ class UserAdd extends React.Component {
                     <Button type="primary" htmlType="reset" size="large" onClick={() => this.reset()}
                             style={{marginLeft: 8}}>重置</Button>
                 </FormItem>
+               
 			</Form>
             </SubPage>
         )

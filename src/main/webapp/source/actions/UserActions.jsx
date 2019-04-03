@@ -71,23 +71,6 @@ export function saveUser(user) {
     };
 }
 
-
-export function saveUser_rig(user) {
-    return dispatch => {
-        E.doAdd("manager/user/saveUser_rig", user);
-
-        E.addOneTimeEventListener("user", function (e) {
-            if(e.data.returnCode == "200"){
-                E.dispatchEvent("touserlist");
-            } else {
-                alert("保存失败");// alert(e.data.message);
-            }
-            // dispatch(selectDistributor(e.data));
-            // dispatch(refreshcommodityList());
-        });
-    };
-}
-
 export function getUser(id) {
     if(id){
         return dispatch => {
@@ -128,11 +111,8 @@ export function receiveCurrentUser(data){
 
 export function getCurrentUser(){
     return dispatch => {
-
         E.doFind("security/user");
         E.addOneTimeEventListener("currentuser", function (e) {
-
-            alert(e.data.returnCode);
             if(e.data.returnCode == "200") {
                 console.log(e)
                 const user = e.data.result;

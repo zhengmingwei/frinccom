@@ -4,6 +4,7 @@ export const ADD_DICTIONARY = 'ADD_DICTIONARY';
 export const CHANGE_DICTIONARY_PIC = 'CHANGE_DICTIONARY_PIC';
 export const INDUSTRYS_CATEGORYS = 'INDUSTRYS_CATEGORYS';
 export const DICTIONARY_CRITERIA_CHANGED = 'DICTIONARY_CRITERIA_CHANGED';
+export const RECEIVE_DICTIONARY_LIST2 = 'RECEIVE_DICTIONARY_LIST2';
 
 
 
@@ -13,6 +14,16 @@ export function receiveDictionaryList(data) {
         data: data
     }
 }
+
+//=================价格体系==================
+export function receiveDictionaryList2(data) {
+    return {
+        type: RECEIVE_DICTIONARY_LIST2,
+        data: data
+    }
+}
+//=================价格体系完===================
+
 
 export function selectDictionary(data) {
     return {
@@ -43,7 +54,16 @@ export function refreshDictionaryList(criteria={}) {
         });
     };
 }
-
+//===================价格体系=====================
+export function refreshDictionaryList2(criteria={}) {
+    return dispatch => {
+        E.doFind("manager/orderPriceSystem/query2", Object.assign({}, criteria));
+        E.addOneTimeEventListener("orderPriceSystemList", function (e) {
+            dispatch(receiveDictionaryList2(e.data));
+        });
+    };
+}
+//==============价格体系完==========================
 export function saveDictionary(dictionary) {
     return dispatch => {
         E.doAdd("manager/dictionary", dictionary);

@@ -24,7 +24,6 @@ export default class SideMenu extends React.Component {
 
     render() {
         // console.log("this.props",this.props);
-
         const {currentUser} = this.props;
         const {location} = this.props;
         const pathItems = location.pathname.length > 1 ? location.pathname.trim().match(/\/\w+/g) : ["", ""];
@@ -33,7 +32,7 @@ export default class SideMenu extends React.Component {
 
                 {hasRoles(currentUser,['ROLE_CUSTOMER'])?
 
-                    <SubMenu key="sub1" title={<span><Icon type="user" />认证管理中心*****</span>}>
+                    <SubMenu key="sub1" title={<span><Icon type="user" />认证管理中心</span>}>
                         <Menu.Item key="1">
                             <Link to="/manager/commodity/form">发布认证信息</Link>
                         </Menu.Item>
@@ -163,11 +162,10 @@ export default class SideMenu extends React.Component {
                             <Link to="/manager/dictionary/list">类别管理</Link>
                         </Menu.Item>
                         <Menu.Item key="28">
-                            <Link to="/manager/user/register">用户注册</Link>
-                        </Menu.Item>
+                            <Link to="/manager/orderPriceSystem/query2">价格体系管理</Link>
+                        </Menu.Item> 
                     </SubMenu> : ''
                 }
-
             </Menu>
         )
     }

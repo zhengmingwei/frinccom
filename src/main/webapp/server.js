@@ -2,7 +2,7 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config.dev');
 
-var port = 9090;
+var port = 9091;
 var host = "127.0.0.1";
 
 config.entry.index.unshift("webpack-dev-server/client?http://" + host + ":" + port, "webpack/hot/dev-server");

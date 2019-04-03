@@ -28,11 +28,9 @@ class ImgUpload extends React.Component {
         this.state = {
             imageUrl:null
         }
-    // const value = this.props.value || {};
-
+    
     };
     handleChange = (info) => {
-
         if (info.file.status === 'done') {
             getBase64(info.file.originFileObj, imageUrl => this.setState({ imageUrl }));
             this.triggerChange(info);
@@ -40,13 +38,10 @@ class ImgUpload extends React.Component {
         };
     triggerChange = (info) => {
         const onChange = this.props.onChange;
-
-        console.log(onChange);
         if (onChange) {
             const {file} = info;
             const s = JSON.stringify(file.response.result);
             console.log("s=>", s);
-
             onChange(s);
         }
     };

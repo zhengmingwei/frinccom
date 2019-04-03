@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.tigerfacejs.commons.view.DataEvent;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("manager/orderPriceSystem")
 public class OrderPriceSystemController {
@@ -23,4 +25,10 @@ public class OrderPriceSystemController {
         return DataEvent.wrap("orderPriceSystemList", pageInfo);
     }
 
+    @RequestMapping(value = "query2")
+    public Object query2() {
+        List<OrderPriceSystem> pageInfo= (List<OrderPriceSystem>) service.queryAll();
+        //pageInfo.getList().forEach(item->item.setIndustryPo(dictionaryService.findDictionaryById(item.getIndustry())));
+        return DataEvent.wrap("orderPriceSystemList", pageInfo);
+    }
 }

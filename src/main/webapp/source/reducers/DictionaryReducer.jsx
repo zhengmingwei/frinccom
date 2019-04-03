@@ -1,9 +1,10 @@
-
+        
 import {
     RECEIVE_DICTIONARY_LIST,
     DICTIONARY_STATUS_CHANGED,
     DICTIONARY_CRITERIA_CHANGED,
     INDUSTRYS_CATEGORYS,
+    RECEIVE_DICTIONARY_LIST2,
     SELECT_DICTIONARY
 } from 'actions/DictionaryActions';
 
@@ -15,7 +16,17 @@ export function  dictionaryList(state = [], action){
             return state;
     }
 }
+//=================价格体系====================
+export function  dictionaryList2(state = [], action){
+    switch(action.type){
+        case RECEIVE_DICTIONARY_LIST2:
+            return action.data;
+        default:
+            return state;
+    }
+}
 
+//==================价格体系完==================
 export function  dictionaryCriteria(state = [], action){
     switch(action.type){
         case DICTIONARY_CRITERIA_CHANGED:

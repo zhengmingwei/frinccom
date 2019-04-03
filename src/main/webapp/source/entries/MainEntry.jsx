@@ -23,6 +23,7 @@ import First from 'modules/audit/First';
 import Third from 'modules/audit/Third';
 import Final from 'modules/audit/Final';
 import DictionaryManager from 'modules/dictionary/DictionaryManager';
+import PricingStructureManager from 'modules/dictionary/PricingStructureManager';
 import DictionaryForm from 'modules/dictionary/Form';
 import precautionaryManager from 'modules/precautionary/precautionaryManager';
 
@@ -61,8 +62,6 @@ render(
                     <Route path="/manager/user/form/:id" component={UserForm}/>
                     <Route path="/manager/user/list" components={UserManager}/>
                     <Route path="/manager/user/password" components={Password}/>
-                    <Route path="/manager/user/register" component={UserForm}/>
-                    <Route path="/manager/user/register/:id" component={UserForm}/>
 
                     <Route path="/manager/distributor/detail/:id" component={DistributorDetail}/>
                     <Route path="/manager/distributor/form" component={DistributorForm}/>
@@ -84,6 +83,9 @@ render(
                     <Route path="/manager/audit/final/:id" components={Final}/>
 
                     <Route path="/manager/dictionary/list" components={DictionaryManager}/>
+                    
+                    <Route path="/manager/orderPriceSystem/query2" components={PricingStructureManager}/>
+                    
                     <Route path="/manager/dictionary/form" components={DictionaryForm}/>
                     <Route path="/manager/dictionary/form/:id" components={DictionaryForm}/>
 

@@ -62,6 +62,17 @@ export default class DictionaryList extends React.Component {
         let industrys = new Map();
         dictionaryList.forEach((item)=>{
             if(item.type == "INDUSTRY"){
+
+                console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
+                console.log(item);
+                console.log(item.describe);
+                console.log(item.name);
+                console.log(item.price);
+                console.log("*****  item.id");
+                console.log(item.id);
+                console.log(item.value);
+                console.log("***** item.value");
+                console.log("Pffffffffffffffffffffffffffffffff");
                 industrys.set(item.id, item.value);
             }
         })
