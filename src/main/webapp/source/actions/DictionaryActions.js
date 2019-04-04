@@ -1,5 +1,6 @@
 export const RECEIVE_DICTIONARY_LIST = 'RECEIVE_DICTIONARY_LIST';
 export const SELECT_DICTIONARY = 'SELECT_DICTIONARY';
+export const SELECT_PRICESYSTEM = 'SELECT_PRICESYSTEM';
 export const ADD_DICTIONARY = 'ADD_DICTIONARY';
 export const CHANGE_DICTIONARY_PIC = 'CHANGE_DICTIONARY_PIC';
 export const INDUSTRYS_CATEGORYS = 'INDUSTRYS_CATEGORYS';
@@ -32,6 +33,13 @@ export function selectDictionary(data) {
     }
 }
 
+export function selectPriceSystem(data) {
+    return {
+        type: SELECT_PRICESYSTEM,
+        data: data
+    }
+}
+
 export function switchScene(data) {
     return {
         type: SWITCH_SCENE,
@@ -49,6 +57,7 @@ export function dictionaryCriteriaChanged(data) {
 export function refreshDictionaryList(criteria={}) {
     return dispatch => {
         E.doFind("manager/dictionary/query", Object.assign({}, criteria));
+        console.log("12121212121",criteria)
         E.addOneTimeEventListener("dictionaryList", function (e) {
             dispatch(receiveDictionaryList(e.data));
         });
@@ -98,6 +107,7 @@ export function receiveIndustryAndCategory(data) {
 }
 
 export function getDictionary(id) {
+    console.log(id+"*************@@@@@@@@@@@@@@@@@@@");
     if(id){
         return dispatch => {
             E.doFind("/manager/dictionary/"+id);
@@ -114,6 +124,32 @@ export function getDictionary(id) {
         return dispatch => {
             const dictionary = {value: "", type: "", weight:"", parentId:""}
             dispatch(selectDictionary(dictionary));
+        }
+    }
+}
+
+export function getDictionary2(id) {
+    console.log(id+"*************@@@@@@@@@@@@@@@@@@@");
+    if(id){
+        return dispatch => {
+            E.doFind("/manager/orderPriceSystem/"+id);
+            E.addOneTimeEventListener("orderPriceSystem", function (e) {
+                if(e.data.returnCode == "200") {
+
+                    const dictionaryPrice = e.data.result;
+                    console.log("manager    orderPriceSystem   *************************"+id);
+
+                    dispatch(selectPriceSystem(dictionaryPrice));
+                } else {
+                    console.log("查询失败")
+                }
+            });
+        }
+    } else {
+        return dispatch => {
+            //const dictionary = {value: "", type: "", weight:"", parentId:""}
+            const dictionaryPrice = {   name:"",describe:"",price:"",total:"",createTime:"",endTime:""}
+            dispatch(selectPriceSystem(dictionaryPrice));
         }
     }
 }

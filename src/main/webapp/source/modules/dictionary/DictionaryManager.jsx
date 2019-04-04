@@ -25,6 +25,7 @@ class DictionaryManager extends React.Component {
     }
 
     add(){
+
         this.history.push('/manager/dictionary/form');
     }
 

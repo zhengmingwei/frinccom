@@ -25,6 +25,8 @@ import Final from 'modules/audit/Final';
 import DictionaryManager from 'modules/dictionary/DictionaryManager';
 import PricingStructureManager from 'modules/dictionary/PricingStructureManager';
 import DictionaryForm from 'modules/dictionary/Form';
+
+import PriceForm from 'modules/dictionary/PriceForm';
 import precautionaryManager from 'modules/precautionary/precautionaryManager';
 
 
@@ -88,6 +90,10 @@ render(
                     
                     <Route path="/manager/dictionary/form" components={DictionaryForm}/>
                     <Route path="/manager/dictionary/form/:id" components={DictionaryForm}/>
+                    <Route path="/manager/orderPriceSystem/Priceform" components={PriceForm}/>
+                    <Route path="/manager/orderPriceSystem/Priceform/:id" components={PriceForm}/>
+
+
 
                     <Route path="/manager/precautionary/list/:status" components={precautionaryManager}/>
                 </Route>

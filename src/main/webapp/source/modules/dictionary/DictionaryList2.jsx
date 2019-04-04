@@ -1,6 +1,6 @@
 import React from 'react';
 import {Icon, Table, Modal, Row, Col} from 'antd';
-import {refreshDictionaryList, changeDictionaryStatus, delDictionary} from 'actions/DictionaryActions';
+import {refreshDictionaryList2, changeDictionaryStatus, delDictionary} from 'actions/DictionaryActions';
 import {showModalDialog} from 'actions/CommonAction';
 import DelConfirm from '../common/DelConfirm';
 
@@ -10,7 +10,7 @@ const confirm = Modal.confirm;
  * Date: 16/7/19.
  * Time: 上午10:26.
  */
-export default class DictionaryList extends React.Component {
+export default class DictionaryList2 extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -20,48 +20,51 @@ export default class DictionaryList extends React.Component {
     }
 
     edit(id){
+        console.log(" List2 修改 获取ID********************");
+        console.log(id);
         this.props.onEdit(id);
     }
 
     delete(id, dictionaryCriteria, pageNum){
         this.props.dispatch(delDictionary(id, dictionaryCriteria));
-        // this.props.onDelete(id);
     }
 
     render() {
 
         const columns = [
-            {title: '编号', dataIndex: '', key: 'num', render: (text, record, index) => (
+            {title: '产品编号', dataIndex: '', key: 'num', render: (text, record, index) => (
 
                 <span>
                     {index + 1}
                 </span>
 
             )},
-            {title: '类型', dataIndex: 'type', key: 'type', render: (text, record, index) => (<span>{ text == "INDUSTRY"? "行业":text=="CATEGORY"?"行业类别":text=="REPORT_TYPE"?"检测报告类别":""
-            }</span>)},
-            {title: '名称', dataIndex: 'value', key: 'value'},
-            {title: '显示顺序', dataIndex: 'weight', key: 'weight'},
-            {title: '所属行业', dataIndex: 'parentId', key: 'parentId', render: (text) => (<span>{industrys.get(text)}</span>)},
+            {title: '名称', dataIndex: 'name', key: 'name'},
+            {title: '描述说明', dataIndex: 'describe', key: 'describe'},
+            {title: '价格（元）', dataIndex: 'price', key: 'price'},
+            {title: '个数', dataIndex: 'total', key: 'total'},
+            {title: '起始时间', dataIndex: 'createTime', key: 'createTime'},
+            {title: '截止时间', dataIndex: 'endTime', key: 'endTime'},
             {
                 title: '操作', dataIndex: '', key: 'x', render: (text, record, index) => (
+
                 <span>
                     {/*<a onClick={()=>this.view(record.id)} style={{color:'#2db7f5',cursor:'pointer'}}> 查看</a>*/}
                     <a onClick={()=>this.edit(record.id)} style={{color:'#2db7f5',cursor:'pointer'}}> 修改</a>
-                    <DelConfirm onOk = {()=>this.delete(record.id, dictionaryCriteria, dictionaryList.pageNum)}/>
+                    <DelConfirm onOk = {()=>this.delete(record.id, dictionaryCriteria, dictionaryList2.pageNum)}/>
                 </span>
+
             ),
             },
         ];
-        const {dictionaryList} = this.props;
-
+         
+        	 const {dictionaryList2} = this.props;
         const {dictionaryCriteria} = this.props;
+      
 
         let industrys = new Map();
-        dictionaryList.forEach((item)=>{
-            if(item.type == "INDUSTRY"){
-                industrys.set(item.id, item.value);
-            }
+        dictionaryList2.forEach((item)=>{
+            industrys.set(item.id, item.describe);
         })
         console.log(industrys);
 
@@ -70,7 +73,7 @@ export default class DictionaryList extends React.Component {
                 <Table
                     columns={columns}
                     bordered
-                    dataSource={dictionaryList}
+                    dataSource={dictionaryList2}
                     className="table"
                 />
             </div>
