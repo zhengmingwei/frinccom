@@ -36,7 +36,7 @@ public class DictionaryController extends BaseController {
     public Object get(@PathVariable String id){
         Dictionary dictionary = dictionaryService.get(id);
 
-        System.out.println("+++++++++++************"+id);
+        System.out.println("+++++++++++************pppppppppppppppp"+id);
         return DataEvent.wrap("dictionary", new CommonDto<Dictionary>(dictionary));
     }
 

@@ -3,12 +3,10 @@ package com.cfcp.incc.controller.orders;
 import com.cfcp.incc.dto.CommonDto;
 import com.cfcp.incc.entity.OrderPriceSystem;
 import com.cfcp.incc.service.orders.OrderPriceSystemService;
+import com.cfcp.incc.utils.JsonResult;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.tigerfacejs.commons.view.DataEvent;
 
 import java.util.List;
@@ -20,6 +18,53 @@ public class OrderPriceSystemController {
     @Autowired
     private OrderPriceSystemService service;
 
+
+
+    /**
+     * 新增或更新价格体系信息
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/addOrUpdateOrderPackages")
+    @ResponseBody
+    public JsonResult AddOrUpdateOrderPackages(@RequestBody OrderPriceSystem r) throws Exception {
+
+        JsonResult jsonResult = new JsonResult();
+        List<OrderPriceSystem> oList = null;
+        if(!"".equals(r.getCreateTimes()) && r.getCreateTimes()!=null
+                && r.getEndTimes()!=null && !"".equals(r.getEndTimes())
+                && r.getName()!=null && !"".equals(r.getName())
+                && r.getDescribe()!=null && !"".equals(r.getDescribe())
+                && r.getPrice()!=null && !"".equals(r.getPrice())
+                && r.getTotal()!=null && !"".equals(r.getTotal())
+        ){
+            service.saveOrUpdate(r);
+            jsonResult.setStatus(true);
+        }else{
+            jsonResult.setMessage("不允许空值提交，填入数据");
+            jsonResult.setStatus(false);
+        }
+
+        jsonResult.setMessage("OK");
+        return jsonResult;
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public Object addDictionary(@RequestBody OrderPriceSystem orderPriceSystem) {
+        System.out.println("+++++++++++*****rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrppppppp");
+        if(        orderPriceSystem.getCreateTime()!=null && !"".equals(orderPriceSystem.getCreateTime())
+                && orderPriceSystem.getEndTime()!=null    && !"".equals(orderPriceSystem.getEndTime())
+                && orderPriceSystem.getName()!=null       && !"".equals(orderPriceSystem.getName())
+                && orderPriceSystem.getDescribe()!=null   && !"".equals(orderPriceSystem.getDescribe())
+                && orderPriceSystem.getPrice()!=null      && !"".equals(orderPriceSystem.getPrice())
+                && orderPriceSystem.getTotal()!=null      && !"".equals(orderPriceSystem.getTotal())
+                && service.saveOrUpdate1(orderPriceSystem) > 0)
+        {
+            return DataEvent.wrap("orderPriceSystem", new CommonDto<OrderPriceSystem>(orderPriceSystem));
+        } else {
+            return DataEvent.wrap("orderPriceSystem", "保存失败");
+        }
+    }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
     public Object get(@PathVariable String id){

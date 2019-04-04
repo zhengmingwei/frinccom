@@ -97,6 +97,26 @@ export function saveDictionary(dictionary) {
         });
     };
 }
+//==============价格体系完==========================
+export function saveOrderPriceSystem(orderPriceSystem) {
+    console.log("55555555555555555555555",orderPriceSystem)
+    return dispatch => {
+        E.doAdd("manager/orderPriceSystem", orderPriceSystem);
+
+        E.addOneTimeEventListener("orderPriceSystem", function (e) {
+
+            console.log("555555555555555555555556666666")
+            if(e.data.returnCode == "200") {
+                console.log("5555555555555555555555577777777")
+                E.dispatchEvent("todictionarylist");
+            } else {
+                alert("保存失败")
+            }
+            // dispatch(selectDictionary(e.data));
+            // dispatch(refreshdictionaryList());
+        });
+    };
+}
 
 export function industryAndCategory() {
     return dispatch => {

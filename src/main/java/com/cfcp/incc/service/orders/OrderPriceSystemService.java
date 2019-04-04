@@ -16,4 +16,5 @@ public interface OrderPriceSystemService {
     public OrderPriceSystem queryByScjrf();
 
     public int saveOrUpdate(OrderPriceSystem orderPriceSystem);
+    public int saveOrUpdate1(OrderPriceSystem orderPriceSystem);
 }

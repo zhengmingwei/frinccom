@@ -3,7 +3,7 @@ import React from "react";
 import {Form, Input, Upload, Button, Icon, Select, InputNumber,DatePicker} from "antd";
 import {showModalDialog} from "actions/CommonAction";
 import {connect} from 'react-redux';
-import {industryAndCategory, saveDictionary, getDictionary2} from "actions/DictionaryActions";
+import {industryAndCategory, saveOrderPriceSystem, getDictionary2} from "actions/DictionaryActions";
 import SubPage from 'modules/common/SubPage';
 import {objToStrMap} from 'modules/common/CommonUtils';
 import LimitUpload from 'modules/common/LimitUpload';
@@ -53,7 +53,7 @@ class PriceForm extends React.Component {
             if (!err) {
                 let rows = {};
                 Object.assign(rows, this.props.form.getFieldsValue());
-                this.props.dispatch(saveDictionary(rows))
+                this.props.dispatch(saveOrderPriceSystem(rows))
             } else {
                 console.error('validate failed');
             }
