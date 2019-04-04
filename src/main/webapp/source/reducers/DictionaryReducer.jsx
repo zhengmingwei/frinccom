@@ -67,9 +67,8 @@ export function selectedDictionary(state = {id:"",name:"",value: "", orgCode: ""
 
 //=========================价格体系修改=========================
 
-export function selectPriceSystem(state = { name:"",describe:"",price:"",total:"",createTime:"",endTime:""}, action) {
+export function selectPriceSystem(state = { id:"",name:"",describe:"",price:"",total:"",createTime:"",endTime:""}, action) {
     console.log("reducer  =================价格体系修改=========================selectPriceSystem");
-
     switch (action.type){
         case SELECT_PRICESYSTEM:
             return action.data;

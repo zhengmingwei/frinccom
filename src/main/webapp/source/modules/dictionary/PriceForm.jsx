@@ -7,6 +7,11 @@ import {industryAndCategory, saveDictionary, getDictionary2} from "actions/Dicti
 import SubPage from 'modules/common/SubPage';
 import {objToStrMap} from 'modules/common/CommonUtils';
 import LimitUpload from 'modules/common/LimitUpload';
+
+import moment from 'moment';
+
+
+
 const FormItem = Form.Item;
 const createForm = Form.create;
 const Option = Select.Option;
@@ -31,7 +36,9 @@ class PriceForm extends React.Component {
             return false;
         }
         return true;
+
     }
+
     reset() {
         this.props.form.resetFields();
         //this.props.dispatch(userCriteriaChanged());
@@ -60,15 +67,15 @@ class PriceForm extends React.Component {
     render() {
         const {getFieldDecorator} = this.props.form;
         console.log(getFieldDecorator)
-        const {selectPriceSystem:{num="",name="",describe="",price="",total="",createTime="",endTime=""}} = this.props;
+        const {selectPriceSystem:{id="",name="",describe="",price="",total="",createTime="",endTime=""}} = this.props;
         //console.log("type", type, value, weight,parentId)
-        const {industryAndCategory} = this.props;
+       /* const {industryAndCategory} = this.props;
         const industryAndCategoryMap = objToStrMap(industryAndCategory);
         let industryOptions = [];
         industryOptions.push(<Option key="null" value="">--</Option>)
         if(industryAndCategoryMap)industryAndCategoryMap.forEach((optionValue, optionKey) => {
             industryOptions.push(<Option key={optionKey} value={optionKey}>{optionValue.value}</Option>);
-        })
+        })*/
 
         const formItemLayout = {
             labelCol: {
@@ -105,7 +112,16 @@ class PriceForm extends React.Component {
         return (
             <SubPage breadcrumb="/首页/后台管理/价格体系管理">
 			<Form>
-
+                <FormItem
+                    {...formItemLayout}
+                    label="序号"
+                >
+                    {getFieldDecorator('id', {
+                        initialValue: id,
+                    })(
+                        <Input readOnly placeholder="自动生成"/>
+                    )}
+                </FormItem>
 				<FormItem
                     {...formItemLayout}
 					label="名称"
@@ -157,9 +173,9 @@ class PriceForm extends React.Component {
                             required: true,
                             message: "请输入营业期限自",
                         }],
-                        initialValue: createTime,
+                        initialValue: moment(createTime),
                     })(
-                        <DatePicker />
+                        <DatePicker showTime format="YYYY-MM-DD"/>
                     )}
                 </FormItem>
                 <FormItem
@@ -173,9 +189,9 @@ class PriceForm extends React.Component {
                             required: true,
                             message: "请输入营业期限自",
                         }],
-                        initialValue: endTime,
+                        initialValue: moment(endTime),
                     })(
-                        <DatePicker />
+                        <DatePicker showTime format="YYYY-MM-DD"/>
                     )}
                 </FormItem>
                 <FormItem {...tailFormItemLayout}>

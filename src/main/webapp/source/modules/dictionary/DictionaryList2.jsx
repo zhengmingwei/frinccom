@@ -32,7 +32,7 @@ export default class DictionaryList2 extends React.Component {
     render() {
 
         const columns = [
-            {title: '产品编号', dataIndex: '', key: 'num', render: (text, record, index) => (
+            {title: '产品编号', dataIndex: '', key: 'id', render: (text, record, index) => (
 
                 <span>
                     {index + 1}

@@ -1,3 +1,8 @@
+
+
+import moment from 'moment';
+
+
 export const RECEIVE_DICTIONARY_LIST = 'RECEIVE_DICTIONARY_LIST';
 export const SELECT_DICTIONARY = 'SELECT_DICTIONARY';
 export const SELECT_PRICESYSTEM = 'SELECT_PRICESYSTEM';
@@ -68,9 +73,12 @@ export function refreshDictionaryList2(criteria={}) {
     return dispatch => {
         E.doFind("manager/orderPriceSystem/query2", Object.assign({}, criteria));
         E.addOneTimeEventListener("orderPriceSystemList", function (e) {
-            dispatch(receiveDictionaryList2(e.data));
+
+            dispatch(receiveDictionaryList2(e.data))
         });
+
     };
+
 }
 //==============价格体系完==========================
 export function saveDictionary(dictionary) {
@@ -148,7 +156,7 @@ export function getDictionary2(id) {
     } else {
         return dispatch => {
             //const dictionary = {value: "", type: "", weight:"", parentId:""}
-            const dictionaryPrice = {   name:"",describe:"",price:"",total:"",createTime:"",endTime:""}
+            const dictionaryPrice = {  id:"", name:"",describe:"",price:"",total:"",createTime:"",endTime:""}
             dispatch(selectPriceSystem(dictionaryPrice));
         }
     }
