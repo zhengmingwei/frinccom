@@ -68,6 +68,10 @@ class PriceForm extends React.Component {
         const {getFieldDecorator} = this.props.form;
         console.log(getFieldDecorator)
         const {selectPriceSystem:{id="",name="",describe="",price="",total="",createTime="",endTime=""}} = this.props;
+
+        let cBusinessBegin = createTime?moment(createTime):moment();
+        let cBusinessEnd = endTime?moment(endTime):moment();
+
         //console.log("type", type, value, weight,parentId)
        /* const {industryAndCategory} = this.props;
         const industryAndCategoryMap = objToStrMap(industryAndCategory);
@@ -149,7 +153,7 @@ class PriceForm extends React.Component {
                     {getFieldDecorator('price', {
                         initialValue: price,
                     })(
-                        <InputNumber placeholder="厂商价格" min={1} max={10} />
+                        <InputNumber placeholder="价格" min={1} max={999999999} />
                     )}
                 </FormItem>
                 <FormItem
@@ -159,39 +163,39 @@ class PriceForm extends React.Component {
                     {getFieldDecorator('total', {
                         initialValue: total,
                     })(
-                        <InputNumber placeholder="数量" min={1} max={10} />
+                        <InputNumber placeholder="数量" min={0} max={999999999} />
                     )}
                 </FormItem>
                 <FormItem
                     {...doubleFormItemLayout}
-                    label="营业期限自"
+                    label="期限自"
                     hasFeedback
                 >
                     {getFieldDecorator('createTime', {
                         validateTrigger: ['onChange', 'onBlur'],
                         rules: [{
                             required: true,
-                            message: "请输入营业期限自",
+                            message: "请输入期限自",
                         }],
-                        initialValue: moment(createTime),
+                        initialValue: moment(cBusinessBegin),
                     })(
-                        <DatePicker showTime format="YYYY-MM-DD"/>
+                        <DatePicker  showTime format="YYYY-MM-DD"/>
                     )}
                 </FormItem>
                 <FormItem
                     {...doubleFormItemLayout}
-                    label="营业期限至"
+                    label="期限至"
                     hasFeedback
                 >
                     {getFieldDecorator('endTime', {
                         validateTrigger: ['onChange', 'onBlur'],
                         rules: [{
                             required: true,
-                            message: "请输入营业期限自",
+                            message: "请输入期限至",
                         }],
-                        initialValue: moment(endTime),
+                        initialValue: moment(cBusinessEnd) ,
                     })(
-                        <DatePicker showTime format="YYYY-MM-DD"/>
+                        <DatePicker  showTime format="YYYY-MM-DD"/>
                     )}
                 </FormItem>
                 <FormItem {...tailFormItemLayout}>

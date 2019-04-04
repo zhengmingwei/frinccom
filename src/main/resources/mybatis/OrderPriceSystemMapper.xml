@@ -23,11 +23,31 @@
           f.ID, f.NAME, f.DESCRIBE, f.PRICE, f.DELET, f.SORT, f.TOTAL, f.STATUS,DATE_FORMAT(f.CREATE_TIME, '%Y-%m-%d %h:%i:%s' ) as CREATE_TIME ,DATE_FORMAT(f.END_TIME, '%Y-%m-%d %h:%i:%s' ) as END_TIME ,DATE_FORMAT(f.UPDATE_TIME, '%Y-%m-%d %h:%i:%s' ) as UPDATE_TIME
     </sql>
 
+    <sql id="Base_Column_List_1">
+          f.ID, f.NAME, f.DESCRIBE, f.PRICE, f.DELET, f.SORT, f.TOTAL, f.STATUS,DATE_FORMAT(f.CREATE_TIME, '%Y-%m-%d %h:%m:%s' ) as CREATE_TIME ,DATE_FORMAT(f.END_TIME, '%Y-%m-%d %h:%m:%s' ) as END_TIME ,DATE_FORMAT(f.UPDATE_TIME, '%Y-%m-%d %h:%m:%s' ) as UPDATE_TIME
+    </sql>
     <select id="queryAll" resultMap="BaseResultMap">
 		select
         <include refid="Base_Column_List" />
         from ORDER_PRICE_SYSTEM f WHERE f.DELET = '0' and f.END_TIME>=  DATE_FORMAT(SYSDATE(),'%Y-%m-%d 00:00:00')
 	</select>
+
+    <select id="queryAll1" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List_1" />
+        from ORDER_PRICE_SYSTEM f WHERE f.DELET = '0' and f.END_TIME>=  DATE_FORMAT(SYSDATE(),'%Y-%m-%d 00:00:00')
+    </select>
+
+    <select id="queryAll1" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List_1" />
+        from ORDER_PRICE_SYSTEM f
+        WHERE
+        <if test="name!=null and name!=''">
+            AND TYPE = #{name}
+        </if>
+        f.DELET = '0' and f.END_TIME>=  DATE_FORMAT(SYSDATE(),'%Y-%m-%d 00:00:00')
+    </select>
 
     <select id="queryAll01" resultMap="BaseResultMap">
         select
@@ -55,7 +75,7 @@
     CREATE_TIME,END_TIME,UPDATE_TIME
       )
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},#{describe,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE},
-    #{total,jdbcType=INTEGER}, #{delet,jdbcType=VARCHAR},#{sort,jdbcType=INTEGER}, 1,
+    #{total,jdbcType=INTEGER}, 0,#{sort,jdbcType=INTEGER}, 1,
     #{createTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP},SYSDATE()
       )
   </insert>
