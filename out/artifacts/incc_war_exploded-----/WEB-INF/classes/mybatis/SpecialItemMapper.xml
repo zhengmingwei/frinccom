@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cfcp.incc.dao.SpecialItemDao">
+  <resultMap id="BaseResultMap" type="com.cfcp.incc.entity.SpecialItem">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="EXPIRY_DATE" jdbcType="DATE" property="expiryDate" />
+    <result column="AUDIT_ORG" jdbcType="VARCHAR" property="auditOrg" />
+    <result column="FILE" jdbcType="VARCHAR" property="file" />
+    <result column="COMMODITY_ID" jdbcType="VARCHAR" property="commodityId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, CODE, EXPIRY_DATE, AUDIT_ORG, FILE, COMMODITY_ID, CREATE_TIME, CREATOR
+  </sql>
+  <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SPECIAL_ITEM
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="getByCommodityId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM SPECIAL_ITEM
+    WHERE COMMODITY_ID = #{commodityId,jdbcType=VARCHAR} AND STATUS = 1 ORDER BY CREATE_TIME
+  </select>
+  <update id="delete" parameterType="java.lang.String">
+    UPDATE SPECIAL_ITEM
+    SET STATUS = 0
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <insert id="insert" parameterType="com.cfcp.incc.entity.SpecialItem">
+    insert into SPECIAL_ITEM (ID, NAME, CODE, 
+      EXPIRY_DATE, AUDIT_ORG, FILE, 
+      COMMODITY_ID,CREATE_TIME, CREATOR, STATUS)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{expiryDate,jdbcType=DATE}, #{auditOrg,jdbcType=VARCHAR}, #{file,jdbcType=VARCHAR}, 
+      #{commodityId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 1)
+  </insert>
+  <insert id="insertSelective" parameterType="com.cfcp.incc.entity.SpecialItem">
+    insert into SPECIAL_ITEM
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="expiryDate != null">
+        EXPIRY_DATE,
+      </if>
+      <if test="auditOrg != null">
+        AUDIT_ORG,
+      </if>
+      <if test="file != null">
+        FILE,
+      </if>
+      <if test="commodityId != null">
+        COMMODITY_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="expiryDate != null">
+        #{expiryDate,jdbcType=DATE},
+      </if>
+      <if test="auditOrg != null">
+        #{auditOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="file != null">
+        #{file,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityId != null">
+        #{commodityId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateSelective" parameterType="com.cfcp.incc.entity.SpecialItem">
+    update SPECIAL_ITEM
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="expiryDate != null">
+        EXPIRY_DATE = #{expiryDate,jdbcType=DATE},
+      </if>
+      <if test="auditOrg != null">
+        AUDIT_ORG = #{auditOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="file != null">
+        FILE = #{file,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityId != null">
+        COMMODITY_ID = #{commodityId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateCommodityId" parameterType="com.cfcp.incc.entity.SpecialItem">
+    update SPECIAL_ITEM
+    SET
+        COMMODITY_ID = #{commodityId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="update" parameterType="com.cfcp.incc.entity.SpecialItem">
+    update SPECIAL_ITEM
+    set NAME = #{name,jdbcType=VARCHAR},
+      CODE = #{code,jdbcType=VARCHAR},
+      EXPIRY_DATE = #{expiryDate,jdbcType=DATE},
+      AUDIT_ORG = #{auditOrg,jdbcType=VARCHAR},
+      FILE = #{file,jdbcType=VARCHAR},
+      COMMODITY_ID = #{commodityId,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

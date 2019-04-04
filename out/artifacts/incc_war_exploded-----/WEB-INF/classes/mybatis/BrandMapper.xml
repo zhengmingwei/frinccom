@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cfcp.incc.dao.BrandDao">
+  <resultMap id="BaseResultMap" type="com.cfcp.incc.entity.Brand">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="OWNER" jdbcType="VARCHAR" property="owner" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="BRAND_STATUS" property="brandStatus" />
+    <result column="REGISTRATION_CERTIFICATE" jdbcType="VARCHAR" property="registrationCertificate" />
+    <result column="NOTIFICATION" jdbcType="VARCHAR" property="notification" />
+    <result column="AUTHORIZATION" jdbcType="VARCHAR" property="authorization" />
+    <result column="DISTRIBUTOR_ID" jdbcType="VARCHAR" property="distributorId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, OWNER, CODE, BRAND_STATUS, REGISTRATION_CERTIFICATE, NOTIFICATION, AUTHORIZATION, 
+    DISTRIBUTOR_ID, CREATE_TIME, CREATOR
+  </sql>
+  <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BRAND
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="getByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from BRAND
+    where NAME = #{name,jdbcType=VARCHAR} and DISTRIBUTOR_ID = #{distributorId,jdbcType=VARCHAR}
+  </select>
+  <select id="getBrandsByDistributor" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from BRAND
+    where DISTRIBUTOR_ID = #{distributorId,jdbcType=VARCHAR}
+  </select>
+  <select id="getByCommodityId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    b.ID, b.NAME, b.OWNER, b.CODE, b.BRAND_STATUS, b.REGISTRATION_CERTIFICATE, b.NOTIFICATION, b.AUTHORIZATION, b.
+    DISTRIBUTOR_ID, b.CREATE_TIME, b.CREATOR
+    from BRAND b, COMMODITY c
+    where  b.id = c.brand_id and c.id = #{commodityId,jdbcType=VARCHAR}
+  </select>
+  <update id="delete" parameterType="java.lang.String">
+    UPDATE BRAND
+    SET status=0
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <insert id="insert" parameterType="com.cfcp.incc.entity.Brand">
+    insert into BRAND (ID, NAME, OWNER, 
+      CODE, BRAND_STATUS, REGISTRATION_CERTIFICATE, 
+      NOTIFICATION, AUTHORIZATION, DISTRIBUTOR_ID, 
+      CREATE_TIME, CREATOR, STATUS
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{owner,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{brandStatus,jdbcType=INTEGER}, #{registrationCertificate,jdbcType=VARCHAR}, 
+      #{notification,jdbcType=VARCHAR}, #{authorization,jdbcType=VARCHAR}, #{distributorId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 1)
+  </insert>
+  <insert id="insertSelective" parameterType="com.cfcp.incc.entity.Brand">
+    insert into BRAND
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="owner != null">
+        OWNER,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="brandStatus != null">
+        BRAND_STATUS,
+      </if>
+      <if test="registrationCertificate != null">
+        REGISTRATION_CERTIFICATE,
+      </if>
+      <if test="notification != null">
+        NOTIFICATION,
+      </if>
+      <if test="authorization != null">
+        AUTHORIZATION,
+      </if>
+      <if test="distributorId != null">
+        DISTRIBUTOR_ID,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null">
+        #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="brandStatus != null">
+        #{brandStatus,jdbcType=INTEGER},
+      </if>
+      <if test="registrationCertificate != null">
+        #{registrationCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="notification != null">
+        #{notification,jdbcType=VARCHAR},
+      </if>
+      <if test="authorization != null">
+        #{authorization,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorId != null">
+        #{distributorId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateSelective" parameterType="com.cfcp.incc.entity.Brand">
+    update BRAND
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null">
+        OWNER = #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="brandStatus != null">
+        BRAND_STATUS = #{brandStatus,jdbcType=INTEGER},
+      </if>
+      <if test="registrationCertificate != null">
+        REGISTRATION_CERTIFICATE = #{registrationCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="notification != null">
+        NOTIFICATION = #{notification,jdbcType=VARCHAR},
+      </if>
+      <if test="authorization != null">
+        AUTHORIZATION = #{authorization,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorId != null">
+        DISTRIBUTOR_ID = #{distributorId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="update" parameterType="com.cfcp.incc.entity.Brand">
+    update BRAND
+    set NAME = #{name,jdbcType=VARCHAR},
+      OWNER = #{owner,jdbcType=VARCHAR},
+      CODE = #{code,jdbcType=VARCHAR},
+      BRAND_STATUS = #{brandStatus,jdbcType=INTEGER},
+      REGISTRATION_CERTIFICATE = #{registrationCertificate,jdbcType=VARCHAR},
+      NOTIFICATION = #{notification,jdbcType=VARCHAR},
+      AUTHORIZATION = #{authorization,jdbcType=VARCHAR},
+      DISTRIBUTOR_ID = #{distributorId,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

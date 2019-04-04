@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cfcp.incc.dao.AuditDao">
+  <resultMap id="BaseResultMap" type="com.cfcp.incc.entity.Audit">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="RESULT" jdbcType="INTEGER" property="result" />
+    <result column="STEP" jdbcType="INTEGER" property="step" />
+    <result column="FEE" jdbcType="DOUBLE" property="fee" />
+    <result column="REASON" jdbcType="VARCHAR" property="reason" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="AUDIT_DATE" jdbcType="DATE" property="auditDate" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="BEGIN_DATE" jdbcType="DATE" property="beginDate" />
+    <result column="EXPIRE_DATE" jdbcType="DATE" property="expireDate" />
+    <result column="COMMODITY_ID" jdbcType="VARCHAR" property="commodityId" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <association property="creatorPo" column="CREATOR" javaType="com.cfcp.incc.entity.User">
+      <id column="CREATOR" jdbcType="VARCHAR" property="id" />
+      <result column="USER_NAME" property="name"/>
+      <result column="PHONE" property="phone"/>
+      <association property="distributor" column="DISTRIBUTOR_ID" javaType="com.cfcp.incc.entity.Distributor">
+        <id column="DISTRIBUTOR_ID" jdbcType="VARCHAR" property="id" />
+        <result column="DISTRIBUTOR_NAME" property="name"/>
+      </association>
+    </association>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, RESULT, REASON, CREATE_TIME, CREATOR, BEGIN_DATE, EXPIRE_DATE, COMMODITY_ID, AUDIT_DATE, STEP, FEE
+  </sql>
+  <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from AUDIT
+    where ID = #{id,jdbcType=VARCHAR} AND STATUS=1
+  </select>
+  <select id="findByCommodityId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT t.*, u.NAME AS USER_NAME, u.PHONE, u.DISTRIBUTOR_ID,d.NAME AS DISTRIBUTOR_NAME FROM AUDIT t
+    LEFT JOIN USER u ON u.ID = t.CREATOR
+    LEFT JOIN DISTRIBUTOR d ON u.DISTRIBUTOR_ID = d.ID
+    where COMMODITY_ID = #{commodityId,jdbcType=VARCHAR} AND t.STATUS=1
+    order by step;
+  </select>
+  <select id="findByCommodityIdAndStep" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from AUDIT
+    where COMMODITY_ID = #{commodityId} AND STEP = #{step} AND STATUS=1
+  </select>
+  <select id="getLast" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from AUDIT
+    where COMMODITY_ID = #{id,jdbcType=VARCHAR} AND STATUS=1
+    ORDER BY STEP DESC LIMIT 0,1
+  </select>
+  <delete id="delete" parameterType="java.lang.String">
+    delete from AUDIT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <update id="deleteByCommodityIdAndStep">
+    UPDATE AUDIT SET STATUS = 0
+    where COMMODITY_ID = #{commodityId,jdbcType=VARCHAR}  AND STEP = #{step}
+  </update>
+  <insert id="insert" parameterType="com.cfcp.incc.entity.Audit">
+    insert into AUDIT (ID, RESULT, REASON, 
+      CREATE_TIME, CREATOR, BEGIN_DATE,
+      EXPIRE_DATE, COMMODITY_ID, AUDIT_DATE, STEP, FEE, STATUS)
+    values (#{id,jdbcType=VARCHAR}, #{result,jdbcType=INTEGER}, #{reason,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{beginDate,jdbcType=DATE},
+      #{expireDate,jdbcType=DATE}, #{commodityId,jdbcType=VARCHAR}, #{auditDate}, #{step}, #{fee}, 1)
+  </insert>
+  <insert id="insertSelective" parameterType="com.cfcp.incc.entity.Audit">
+    insert into AUDIT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="result != null">
+        RESULT,
+      </if>
+      <if test="reason != null">
+        REASON,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+      <if test="beginDate != null">
+        BEGIN_DATE,
+      </if>
+      <if test="expireDate != null">
+        EXPIRE_DATE,
+      </if>
+      <if test="commodityId != null">
+        COMMODITY_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null">
+        #{beginDate,jdbcType=DATE},
+      </if>
+      <if test="expireDate != null">
+        #{expireDate,jdbcType=DATE},
+      </if>
+      <if test="commodityId != null">
+        #{commodityId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateSelective" parameterType="com.cfcp.incc.entity.Audit">
+    update AUDIT
+    <set>
+      <if test="result != null">
+        RESULT = #{result,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null">
+        REASON = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null">
+        BEGIN_DATE = #{beginDate,jdbcType=DATE},
+      </if>
+      <if test="expireDate != null">
+        EXPIRE_DATE = #{expireDate,jdbcType=DATE},
+      </if>
+      <if test="commodityId != null">
+        COMMODITY_ID = #{commodityId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="update" parameterType="com.cfcp.incc.entity.Audit">
+    update AUDIT
+    set RESULT = #{result,jdbcType=INTEGER},
+      REASON = #{reason,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      BEGIN_DATE = #{beginDate,jdbcType=DATE},
+      EXPIRE_DATE = #{expireDate,jdbcType=DATE},
+      COMMODITY_ID = #{commodityId,jdbcType=VARCHAR},
+      AUDIT_DATE = #{auditDate},
+      STEP = #{step},
+      FEE = #{fee}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

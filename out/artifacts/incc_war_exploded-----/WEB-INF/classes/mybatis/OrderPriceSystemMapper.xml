@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cfcp.incc.dao.OrderPriceSystemDao" >
+    <resultMap id="BaseResultMap" type="com.cfcp.incc.entity.OrderPriceSystem" >
+        <id column="ID" property="id" jdbcType="VARCHAR" />
+        <result column="NAME" property="name" jdbcType="VARCHAR" />
+        <result column="DESCRIBE" property="describe" jdbcType="VARCHAR" />
+        <result column="PRICE" property="price" jdbcType="DOUBLE" />
+        <result column="DELET" property="delet" jdbcType="VARCHAR" />
+        <result column="SORT" property="sort" jdbcType="INTEGER" />
+        <result column="TOTAL" property="total" jdbcType="INTEGER" />
+        <result column="STATUS" property="status" jdbcType="INTEGER" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+         f.ID, f.NAME, f.DESCRIBE, f.PRICE, f.DELET, f.SORT, f.TOTAL, f.STATUS, f.CREATE_TIME,f.END_TIME, f.UPDATE_TIME
+    </sql>
+
+    <sql id="Base_Column_List_rq">
+          f.ID, f.NAME, f.DESCRIBE, f.PRICE, f.DELET, f.SORT, f.TOTAL, f.STATUS,DATE_FORMAT(f.CREATE_TIME, '%Y-%m-%d %h:%i:%s' ) as CREATE_TIME ,DATE_FORMAT(f.END_TIME, '%Y-%m-%d %h:%i:%s' ) as END_TIME ,DATE_FORMAT(f.UPDATE_TIME, '%Y-%m-%d %h:%i:%s' ) as UPDATE_TIME
+    </sql>
+
+    <select id="queryAll" resultMap="BaseResultMap">
+		select
+        <include refid="Base_Column_List" />
+        from ORDER_PRICE_SYSTEM f WHERE f.DELET = '0' and f.END_TIME>=  DATE_FORMAT(SYSDATE(),'%Y-%m-%d 00:00:00')
+	</select>
+
+    <select id="queryAll01" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List_rq" />
+        from ORDER_PRICE_SYSTEM f WHERE f.DELET = '0'
+    </select>
+
+    <select id="findOrderPriceSystemById" parameterType="java.lang.String" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List"/>
+        from ORDER_PRICE_SYSTEM f
+        where f.ID = #{id}
+    </select>
+    <select id="queryByScjrf" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List"/>
+        from ORDER_PRICE_SYSTEM f
+        where f.NAME = '首次加入费'
+    </select>
+
+
+    <insert id="insert" parameterType="com.cfcp.incc.entity.OrderPriceSystem" >
+    insert into ORDER_PRICE_SYSTEM (ID, `NAME`, `DESCRIBE`,PRICE,
+    TOTAL,DELET,SORT,STATUS,
+    CREATE_TIME,END_TIME,UPDATE_TIME
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},#{describe,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE},
+    #{total,jdbcType=INTEGER}, #{delet,jdbcType=VARCHAR},#{sort,jdbcType=INTEGER}, 1,
+    #{createTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP},SYSDATE()
+      )
+  </insert>
+    <update id="update" parameterType="com.cfcp.incc.entity.OrderPriceSystem" >
+    update ORDER_PRICE_SYSTEM
+    set `NAME` = #{name,jdbcType=VARCHAR},
+      `DESCRIBE` = #{describe,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=DOUBLE},
+      TOTAL = #{total,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = SYSDATE()
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

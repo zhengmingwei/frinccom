@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+    <title>中国合规商品资质验证管理中心</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <link rel="stylesheet" href="../css/all-bg.css" type="text/css">
+    <link rel="stylesheet" href="../css/home.css" type="text/css">
+    <link rel="stylesheet" href="../css/list.css" type="text/css">
+    <script src="../js/jquery.min.js"></script>
+    <style type="text/css">
+        <!--
+        body {
+            background-color: #EFEFEF;
+        }
+
+        -->
+
+        a:link,a:visited{
+            text-decoration:none;  /*超链接无下划线*/
+        }
+    </style>
+</head>
+<body>
+<table width="100%" height="88" border="0" align="center" cellpadding="0" cellspacing="0" class="top_box">
+    <tr>
+        <td align="center" bgcolor="#FFFFFF">
+            <table width="100%" height="88" border="0" align="center" cellpadding="0" cellspacing="0"
+                   background="../images/topbg.png">
+                <tr>
+                    <td width="524" align="left" class="nav_topfont"><a href="" class="A_blue"></a><img
+                            src="../images/logo-banner.png" height="59" border="0"></td>
+                    <td width="436" align="right" class="nav_topfont"><p>&nbsp;</p>
+                        <p>中国保护消费者基金会 &nbsp;&nbsp;</p>
+                        <a href="http://www.cfcpincc.com"  target="_blank"><span style="font-size:12px">网站首页&nbsp;&nbsp;</span></a>
+                        <a href="http://icon.cfcpincc.com/incc/register/cfcpincc_Register.html"  target="_blank"><span style="font-size:12px">用户注册&nbsp;&nbsp;</span></a>
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<table width="600" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+        <td width="178" height="50" align="center" class="dh_title"><img src="../images/icon-002.png" width="32"
+                                                                         height="24" align="absmiddle">&nbsp;用户登录
+        </td>
+        <td width="422" class="dh_line_gray">&nbsp;</td>
+    </tr>
+</table>
+<table width="960" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+</table>
+<form action="/incc/login" method="post" id="loginForm">
+    <table width="600" border="0" align="center" cellpadding="0" cellspacing="0" class="tybox">
+        <tr>
+            <td valign="top" bgcolor="#FFFFFF">
+                <table width="100%" height="120" border="0" cellpadding="0" cellspacing="0" bgcolor="#F3F3F3">
+                    <tr>
+                        <td align="center" valign="top" bgcolor="#f5f5f5"><p>&nbsp;</p>
+                            <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
+
+                                <tr>
+                                    <td height="60" class="login_font" align="center">用户名：</td>
+                                    <td height="60" class="songgraybold14" align="left"><input name="username"
+                                                                                               type="text"
+                                                                                               class="inputall"
+                                                                                               size="38"/></td>
+                                </tr>
+                                <tr>
+                                    <td width="32%" height="60" align="center" class="login_font">密　码：</td>
+                                    <td width="68%" height="60" align="left" class="songgraybold14"><input
+                                            name="password" type="password" class="inputall" size="38"/></td>
+                                </tr>
+                                <tr>
+                                    <td height="60" class="login_font" align="center">验证码：</td>
+                                    <td height="60" class="songgraybold14" align="left" styl="vertical-align:middle"><input name="PIC_CAPTCHA" id="captcha"
+                                                                                               type="text"
+                                                                                               class="inputall"
+                                                                                               size="22"/>
+                                        &nbsp;<img id="pic" src="" onclick="getPicCode()" style="vertical-align:middle"/></td>
+                                </tr>
+                                <tr>
+                                    <td height="70" class="main_title001" align="center">&nbsp;</td>
+                                    <td height="70" align="left" class="songhuibold12"><input name="button"
+                                                                                              type="button"
+                                                                                              class="button_login yuan"
+                                                                                              value="登录"
+                                                                                              style="width:120px"
+                                                                                              onClick="login()">
+                                        &nbsp;
+                                        <input name="button2" type="reset" class="button_login yuan" value="重写"
+                                               style="width:120px" onClick="reset()"><span id="loginErr"></span></td>
+                                </tr>
+                            </table>
+                            <p>&nbsp;</p></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</form>
+<br>
+<p>&nbsp;</p>
+<table width="100%" height="40" border="0" cellpadding="0" cellspacing="0" class="lg_bottom">
+    <tr>
+        <td align="center" valign="top" class="songgray12">Copyright © 2017-2019 中国合规商品资质验证中心 版权所有 备案号：京ICP备18047684号-1 商验（北京）认证服务有限公司提供技术和运营服务</td>
+    </tr>
+</table>
+</body>
+<script>
+    var loginForm = document.getElementById("loginForm");
+    function login() {
+        loginForm.submit();
+    }
+    function reset() {
+        loginForm.reset();
+    }
+
+    function chackErr() {
+        var myErr = GetQueryString("err");
+        if (myErr != null  && myErr.toString().length > 0) {
+            //alert(myErr.toString());
+            if(myErr == "1"){
+                var errText = "<span style=\"color: red\">用户名或密码错误！</span>";
+            } else {
+                var errText = "<span style=\"color: red\">验证码错误！</span>";
+            }
+            document.getElementById("loginErr").innerHTML = errText;
+        }
+    }
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)return unescape(r[2]);
+        return null;
+    }
+
+    $("#captcha").keydown(function (e) {
+        if (e.keyCode == 13) {
+            login();
+        }
+    });
+    chackErr();
+    function getPicCode() {
+        url = "picCheckCode?" + Math.random();
+        //alert(url);
+        $("#pic").attr("src", url);
+    }
+    getPicCode();
+</script>
+</html>

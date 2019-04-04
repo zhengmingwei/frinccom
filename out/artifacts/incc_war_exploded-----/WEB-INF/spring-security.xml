@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd      http://www.springframework.org/schema/security      http://www.springframework.org/schema/security/spring-security-4.0.xsd ">
+
+	<http use-expressions="true" auto-config="false"  entry-point-ref="loginUrlAuthenticationEntryPoint" >
+		<intercept-url pattern="/view/login.html" access="permitAll"/>
+		<intercept-url pattern="/view/picCheckCode**" access="permitAll"/>
+		<intercept-url pattern="/view/picCheckCode/getString**" access="permitAll"/>
+		<intercept-url pattern="/view/picCheckCode/getString**" access="permitAll"/>
+		<intercept-url pattern="/manager/distributor/options**" access="permitAll"/>
+		<intercept-url pattern="/manager/distributor/options_rg**" access="permitAll"/>
+		<intercept-url pattern="/manager/user/saveUser_rig**" access="permitAll"/>
+		<intercept-url pattern="/manager/user/saveUser_rici**" access="permitAll"/>
+		<intercept-url pattern="/file/upload/1/1**" access="permitAll"/>
+		<intercept-url pattern="/file/upload_r/1/1**" access="permitAll"/>
+		<intercept-url pattern="/file/upload_sp/1/1**" access="permitAll"/>
+		<intercept-url pattern="/manager/user/getUserByName**" access="permitAll"/>
+
+		<!-- 支付开放  页面-->
+<!--
+		<intercept-url pattern="/alipay/goPay**" access="permitAll"/>
+-->
+		<intercept-url pattern="/alipay/goAlipay**" access="permitAll"/>
+
+		<intercept-url pattern="/register/cfcpincc_Register.html" access="permitAll"/>
+		<intercept-url pattern="/register/agreement.html" access="permitAll"/>
+		<intercept-url pattern="/register/cfcpincc_Register_.html" access="permitAll"/>
+		<intercept-url pattern="/register/userinfo**" access="permitAll"/>
+		<intercept-url pattern="/search/**" access="permitAll"/>
+		<intercept-url pattern="/manager/commodity/query_/**" access="permitAll"/>
+
+
+		<!--<intercept-url pattern="/view/index.html" access="hasRole('ROLE_ADMIN')"/>-->
+		<intercept-url pattern="/assets/**" access="permitAll" method="GET"/>
+		<intercept-url pattern="/css/**" access="permitAll" method="GET"/>
+		<intercept-url pattern="/images/**" access="permitAll" method="GET"/>
+		<intercept-url pattern="/js/**" access="permitAll" method="GET"/>
+		<intercept-url pattern="/commodity/**" access="permitAll"/>
+		<intercept-url pattern="/file/get/**" access="permitAll"/>
+		<intercept-url pattern="/certification/**" access="permitAll"/>
+		<intercept-url pattern="/**" access="isAuthenticated()"/>
+
+		<!--<intercept-url pattern="/user/**" access="hasRole('ROLE_ADMIN', 'ROLE_OPERATE', 'ROLE_CUSTOMER_SERVICE')"/>-->
+		<!--<intercept-url pattern="/guide/guidePhoto/**" access="hasRole('ROLE_ADMIN', 'ROLE_OPERATE', 'ROLE_CUSTOMER_SERVICE')"/>-->
+		<!--<intercept-url pattern="/guide/**" access="hasRole('ROLE_ADMIN', 'ROLE_OPERATE')"/>-->
+		<!--<intercept-url pattern="/order/**" access="hasRole('ROLE_ADMIN', 'ROLE_OPERATE', 'ROLE_CUSTOMER_SERVICE', 'ROLE_FINANCE')"/>-->
+		<!--<intercept-url pattern="/arbitration/**" access="hasRole('ROLE_ADMIN', 'ROLE_OPERATE', 'ROLE_CUSTOMER_SERVICE')"/>-->
+		<!--<intercept-url pattern="/account/**" access="hasRole('ROLE_ADMIN', 'ROLE_FINANCE')"/>-->
+		<!--<intercept-url pattern="/cashout/**" access="hasRole('ROLE_ADMIN', 'ROLE_OPERATE')"/>-->
+		<!--<intercept-url pattern="/feedback/**" access="hasRole('ROLE_ADMIN', 'ROLE_OPERATE', 'ROLE_CUSTOMER_SERVICE')"/>-->
+		<!--<intercept-url pattern="/travelsOutline/**" access="hasRole('ROLE_ADMIN', 'ROLE_OPERATE')"/>-->
+		<!--<intercept-url pattern="/activity/**" access="hasRole('ROLE_ADMIN', 'ROLE_OPERATE')"/>-->
+
+		<logout invalidate-session="true" logout-url="/logout"
+			logout-success-url="/view/index.html" />
+		<logout />
+		<remember-me key="kkyy" token-validity-seconds="1209600" remember-me-parameter="remember-me" remember-me-cookie="remember-me" services-alias="rememberService" />
+		<custom-filter ref="loginFilter"  position="FORM_LOGIN_FILTER"/>
+		<!--<custom-filter ref="captchaLoginFilter"  before="FORM_LOGIN_FILTER"/>-->
+
+		<session-management>
+			<concurrency-control max-sessions="1"/>
+		</session-management>
+		<csrf disabled="true"/>
+	</http>
+
+ 	<authentication-manager alias="myAuthenticationManager">
+		<authentication-provider user-service-ref="userService">
+			<password-encoder hash="md5" >
+				<salt-source system-wide="cfcp"/>
+			</password-encoder>
+		</authentication-provider>
+		<!--<authentication-provider ref="captchaAuthenticationProvider">-->
+
+		<!--</authentication-provider>-->
+	</authentication-manager>
+
+	<!--<beans:bean id="captchaAuthenticationProvider" class="com.cfcp.incc.security.CaptchaAuthenticatinoProvider">-->
+		<!--<beans:property name="userService" ref="userService"/>-->
+		<!--&lt;!&ndash;<beans:property name="captchaService" ref="smsCheckCodeService"/>&ndash;&gt;-->
+	<!--</beans:bean>-->
+
+	<beans:bean id="loginUrlAuthenticationEntryPoint"
+				class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+		<beans:constructor-arg value="/view/login.html"/>
+	</beans:bean>
+
+	<beans:bean id="loginFilter" class="com.cfcp.incc.security.DefaultLogonAuthenticationFilter">
+		<beans:property name="authenticationManager" ref="myAuthenticationManager"/>
+		<beans:property name="allowCheckCode" value="true"/>
+		<beans:property name="rememberMeServices" ref="rememberService"/>
+		<beans:property name="authenticationSuccessHandler">
+			<beans:bean class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+				<beans:property name="defaultTargetUrl" value="/view/index.html"/>
+				<beans:property name="alwaysUseDefaultTargetUrl" value="true"/>
+				<!--<beans:property name="defaultTargetUrl" value="/security/default-target"/>-->
+			</beans:bean>
+		</beans:property>
+		<beans:property name="authenticationFailureHandler">
+			<beans:bean class="com.cfcp.incc.security.DynamicAuthenticationFailureHandler">
+				<beans:property name="ajaxFailureUrl" value="/security/authentication-failure"/>
+				<beans:property name="noAjaxFailureUrl" value="/view/login.html"/>
+			</beans:bean>
+		</beans:property>
+	</beans:bean>
+
+	<!--<beans:bean id="captchaLoginFilter" class="com.cfcp.incc.security.CaptchaAuthenticationFilter">-->
+		<!--<beans:constructor-arg name="url" value="/**/authusernameLogin"/>-->
+		<!--<beans:property name="authenticationManager" ref="myAuthenticationManager"/>-->
+		<!--<beans:property name="rememberMeServices" ref="rememberService"/>-->
+		<!--&lt;!&ndash;<beans:property name="captchaService" ref="smsCheckCodeService"/>&ndash;&gt;-->
+		<!--<beans:property name="authenticationSuccessHandler">-->
+			<!--<beans:bean class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">-->
+				<!--&lt;!&ndash;<beans:property name="defaultTargetUrl" value="/security/default-target"/>&ndash;&gt;-->
+				<!--<beans:property name="defaultTargetUrl" value="/view/index.html"/>-->
+			<!--</beans:bean>-->
+		<!--</beans:property>-->
+		<!--<beans:property name="authenticationFailureHandler">-->
+			<!--<beans:bean class="com.cfcp.incc.security.DynamicAuthenticationFailureHandler">-->
+				<!--<beans:property name="ajaxFailureUrl" value="/security/authentication-failure"/>-->
+				<!--<beans:property name="noAjaxFailureUrl" value="/vlogin1.htmlhtml?err=1"/>-->
+			<!--</beans:bean>-->
+		<!--</beans:property>-->
+	<!--</beans:bean>-->
+
+</beans:beans>

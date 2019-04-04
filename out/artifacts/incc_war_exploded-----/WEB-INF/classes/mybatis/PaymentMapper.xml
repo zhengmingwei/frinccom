@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cfcp.incc.dao.PaymentDao">
+  <resultMap id="BaseResultMap" type="com.cfcp.incc.entity.Payment">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="TRANSFER_DATE" jdbcType="TIMESTAMP" property="transferDate" />
+    <result column="PAYER" jdbcType="VARCHAR" property="payer" />
+    <result column="FEE" jdbcType="DOUBLE" property="fee" />
+    <result column="MEMO" jdbcType="VARCHAR" property="memo" />
+    <result column="COMMODITY_ID" jdbcType="VARCHAR" property="commodityId" />
+    <result column="DISTRIBUTOR_ID" jdbcType="VARCHAR" property="distributorId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <association column="DISTRIBUTOR_ID" property="distributor" javaType="com.cfcp.incc.entity.Distributor">
+      <id column="D_ID" jdbcType="VARCHAR" property="id" />
+      <result column="D_NAME" jdbcType="VARCHAR" property="name" />
+    </association>
+    <association column="COMMODITY_ID" property="commodity" javaType="com.cfcp.incc.entity.Commodity">
+      <id column="C_ID" jdbcType="VARCHAR" property="id" />
+      <result column="C_NAME" jdbcType="VARCHAR" property="name" />
+      <result column="C_STATUS" jdbcType="VARCHAR" property="status" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, TRANSFER_DATE, PAYER, FEE, MEMO, COMMODITY_ID, DISTRIBUTOR_ID, CREATE_TIME, CREATOR
+  </sql>
+  <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+       t.*, d.ID AS D_ID, d.NAME AS D_NAME, c.ID AS C_ID, c.NAME AS C_NAME, c.STATUS AS C_STATUS
+    FROM PAYMENT t
+    LEFT JOIN DISTRIBUTOR d ON d.ID = t.DISTRIBUTOR_ID
+	LEFT JOIN COMMODITY c ON c.ID = t.COMMODITY_ID
+    where t.ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT
+       t.*, d.ID AS D_ID, d.NAME AS D_NAME, c.ID AS C_ID, c.NAME AS C_NAME, c.STATUS AS C_STATUS
+    FROM PAYMENT t
+    LEFT JOIN DISTRIBUTOR d ON d.ID = t.DISTRIBUTOR_ID
+	LEFT JOIN COMMODITY c ON c.ID = t.COMMODITY_ID
+    WHERE
+    <trim suffixOverrides="AND|OR">
+      <if test="distributorName !=null and distributorName != ''">
+        d.NAME LIKE CONCAT('%',#{distributorName},'%') AND
+      </if>
+      <if test="commodityName !=null and commodityName != ''">
+        t.MAIL LIKE CONCAT('%',#{commodityName},'%') AND
+      </if>
+      <if test="payer !=null and payer != ''">
+        t.PAYER LIKE CONCAT('%',#{payer},'%') AND
+      </if>
+
+    </trim>
+    t.STATUS=1
+    order by t.create_time desc
+  </select>
+  <update id="delete" parameterType="java.lang.String">
+    UPDATE PAYMENT SET STATUS=0
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <insert id="insert" parameterType="com.cfcp.incc.entity.Payment">
+    insert into PAYMENT (ID, TRANSFER_DATE, PAYER, 
+      FEE, MEMO, COMMODITY_ID,
+      DISTRIBUTOR_ID, CREATE_TIME, CREATOR, STATUS
+      )
+    values (#{id,jdbcType=VARCHAR}, #{transferDate,jdbcType=TIMESTAMP}, #{payer,jdbcType=VARCHAR}, 
+      #{fee,jdbcType=DOUBLE}, #{memo,jdbcType=VARCHAR}, #{commodityId,jdbcType=VARCHAR},
+      #{distributorId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 1
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cfcp.incc.entity.Payment">
+    insert into PAYMENT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="transferDate != null">
+        TRANSFER_DATE,
+      </if>
+      <if test="payer != null">
+        PAYER,
+      </if>
+      <if test="fee != null">
+        FEE,
+      </if>
+      <if test="memo != null">
+        MEMO,
+      </if>
+      <if test="commodityId != null">
+        COMMODITY_ID,
+      </if>
+      <if test="distributorId != null">
+        DISTRIBUTOR_ID,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="transferDate != null">
+        #{transferDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payer != null">
+        #{payer,jdbcType=VARCHAR},
+      </if>
+      <if test="fee != null">
+        #{fee,jdbcType=DOUBLE},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityId != null">
+        #{commodityId,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorId != null">
+        #{distributorId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateSelective" parameterType="com.cfcp.incc.entity.Payment">
+    update PAYMENT
+    <set>
+      <if test="transferDate != null">
+        TRANSFER_DATE = #{transferDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payer != null">
+        PAYER = #{payer,jdbcType=VARCHAR},
+      </if>
+      <if test="fee != null">
+        FEE = #{fee,jdbcType=DOUBLE},
+      </if>
+      <if test="memo != null">
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityId != null">
+        COMMODITY_ID = #{commodityId,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorId != null">
+        DISTRIBUTOR_ID = #{distributorId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="update" parameterType="com.cfcp.incc.entity.Payment">
+    update PAYMENT
+    set TRANSFER_DATE = #{transferDate,jdbcType=TIMESTAMP},
+      PAYER = #{payer,jdbcType=VARCHAR},
+      FEE = #{fee,jdbcType=DOUBLE},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      COMMODITY_ID = #{commodityId,jdbcType=VARCHAR},
+      DISTRIBUTOR_ID = #{distributorId,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

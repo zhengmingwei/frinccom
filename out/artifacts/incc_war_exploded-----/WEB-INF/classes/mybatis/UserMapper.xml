@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cfcp.incc.dao.UserDao">
+    <resultMap id="BaseResultMap" type="com.cfcp.incc.entity.User">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="ID_CARD" jdbcType="VARCHAR" property="idCard" />
+        <result column="NAME" jdbcType="VARCHAR" property="name" />
+        <result column="MAIL" jdbcType="VARCHAR" property="mail" />
+        <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+        <result column="COMPANY_NAME" jdbcType="VARCHAR" property="companyName" />
+        <result column="BUSINESS_LICENSE" jdbcType="VARCHAR" property="businessLicense" />
+        <result column="DISTRIBUTOR_ID" jdbcType="VARCHAR" property="distributorId" />
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+        <result column="STATUS" jdbcType="INTEGER" property="status" />
+        <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+        <result column="SURPLUS_QRCODE_DESC" jdbcType="VARCHAR" property="surplusQRcodeDesc" />
+        <association column="DISTRIBUTOR_ID" property="distributor" javaType="com.cfcp.incc.entity.Distributor">
+            <id column="D_ID" jdbcType="VARCHAR" property="id" />
+            <result column="D_NAME" jdbcType="VARCHAR" property="name" />
+        </association>
+        <collection property="roles" ofType="com.cfcp.incc.entity.Role">
+            <id column="ROLE_ID" jdbcType="VARCHAR" property="id" />
+            <result column="ROLE_NAME" jdbcType="VARCHAR" property="name" />
+
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, ID_CARD, NAME,  PASSWORD, MAIL, PHONE, DISTRIBUTOR_ID, CREATE_TIME, CREATOR, STATUS
+  </sql>
+    <select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT t.*,
+        d.Id as D_ID, d.NAME as D_NAME, r.ROLE_ID, r.ROLE_NAME
+        FROM
+        USER t
+        LEFT JOIN DISTRIBUTOR d ON t.DISTRIBUTOR_ID = d.ID
+        LEFT JOIN USER_ROLE ur ON ur.USER_ID = t.ID
+        LEFT JOIN ROLE r on r.ROLE_ID = ur.ROLE_ID
+        where t.ID = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="getUserByDistributorId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT t.*,
+        d.Id as D_ID, d.NAME as D_NAME, r.ROLE_ID, r.ROLE_NAME
+        FROM
+        USER t
+        LEFT JOIN DISTRIBUTOR d ON t.DISTRIBUTOR_ID = d.ID
+        LEFT JOIN USER_ROLE ur ON ur.USER_ID = t.ID
+        LEFT JOIN ROLE r on r.ROLE_ID = ur.ROLE_ID
+        where t.DISTRIBUTOR_ID = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="getByUserName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from USER
+        where NAME = #{userName} AND STATUS=1
+    </select>
+
+    <select id="getByUserNameNoSTATUS" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from USER
+        where NAME = #{userName}
+    </select>
+    <select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        t.*, d.Id as D_ID, d.NAME as D_NAME, r.ROLE_ID, IFNULL(r.ROLE_NAME,concat('****** 新用户，注册时间：',date_format(t.CREATE_TIME, '%Y-%m-%d %H:%i:%s'))) as ROLE_NAME
+        FROM
+        USER t
+        LEFT JOIN DISTRIBUTOR d ON t.DISTRIBUTOR_ID = d.ID
+        LEFT JOIN USER_ROLE ur ON ur.USER_ID = t.ID
+        LEFT JOIN ROLE r on r.ROLE_ID = ur.ROLE_ID
+        <trim prefix="WHERE" suffixOverrides="AND|OR">
+            <if test="name !=null and name != ''">
+                t.NAME LIKE CONCAT('%',#{name},'%') AND
+            </if>
+            <if test="mail !=null and mail != ''">
+                t.MAIL LIKE CONCAT('%',#{mail},'%') AND
+            </if>
+            <if test="phone !=null and phone != ''">
+                t.PHONE LIKE CONCAT('%',#{code},'%') AND
+            </if>
+            <if test="distributor !=null and distributor.name != null  and distributor.name != ''">
+                d.NAME = #{distributor.name} AND
+            </if>
+            t.STATUS=1
+        </trim>
+        order by t.create_time desc
+    </select>
+    <update id="delete" parameterType="java.lang.String">
+    UPDATE USER SET STATUS=0
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <insert id="insert" parameterType="com.cfcp.incc.entity.User">
+    insert into USER (ID, ID_CARD, NAME, 
+      MAIL, PHONE, COMPANY_NAME,BUSINESS_LICENSE, DISTRIBUTOR_ID,
+      CREATE_TIME, CREATOR, STATUS,PASSWORD,SURPLUS_QRCODE_DESC
+      )
+    values (#{id,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{mail,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{businessLicense,jdbcType=VARCHAR}, #{distributorId,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},#{password}, #{surplusQRcodeDesc,jdbcType=VARCHAR}
+      )
+  </insert>
+
+    <select id="count" resultType="int">
+    select
+    COUNT(*)
+    from USER
+  </select>
+
+
+
+
+    <select id="countUserByCompanyName" resultType="int">
+        select
+        COUNT(*)
+        from USER
+        WHERE COMPANY_NAME=#{company} AND STATUS=1
+    </select>
+
+    <select id="countByUserName" resultType="int">
+    select
+    COUNT(*)
+    from USER
+    WHERE NAME=#{userName} AND STATUS=1
+    <if test="id != null">
+      AND id != #{id}
+    </if>
+  </select>
+
+    <select id="countByCardNo" resultType="int">
+    select
+    COUNT(u.ID)
+    from USER u
+    WHERE ui.ID_CARD=#{cardNo}
+  </select>
+    <update id="updatePwd" parameterType="com.cfcp.incc.entity.User">
+    update USER
+    set PASSWORD=#{password}
+    where NAME = #{name,jdbcType=VARCHAR}
+  </update>
+    <update id="changeStatus" parameterType="com.cfcp.incc.entity.User">
+    update USER
+    set STATUS=#{status}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <update id="updateSurplusQRcodeDescById" parameterType="com.cfcp.incc.entity.User">
+    update USER
+    set SURPLUS_QRCODE_DESC=#{surplusQRcodeDesc,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <select id="fetchUserRole" resultType="com.cfcp.incc.entity.Role">
+        SELECT
+        R.ROLE_ID AS id,
+        R.ROLE_NAME AS name
+        FROM ROLE R, USER_ROLE U
+        WHERE R.ROLE_ID = U.ROLE_ID  AND U.USER_ID = #{value}
+    </select>
+
+    <insert id="insertRole" >
+        INSERT INTO USER_ROLE (
+        USER_ID, ROLE_ID
+        ) VALUES (
+        #{0}, #{1}
+        )
+    </insert>
+    <delete id="cleanRoles">
+        DELETE FROM USER_ROLE
+        WHERE USER_ID = #{0}
+    </delete>
+    <update id="update" parameterType="com.cfcp.incc.entity.User">
+    update USER
+    set ID_CARD = #{idCard,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      MAIL = #{mail,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      COMPANY_NAME = #{companyName,jdbcType=VARCHAR},
+      BUSINESS_LICENSE = #{businessLicense,jdbcType=VARCHAR},
+      DISTRIBUTOR_ID = #{distributorId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

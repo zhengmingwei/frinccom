@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cfcp.incc.dao.NumberCommodityReadingsDao">
+    <resultMap id="BaseResultMap" type="com.cfcp.incc.entity.NumberCommodityReadings">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="COMMODITY_ID" jdbcType="VARCHAR" property="commodityId" />
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="LATELY_TIME" jdbcType="TIMESTAMP" property="latelyTime" />
+        <result column="TOTAL" jdbcType="INTEGER" property="total" />
+        <result column="STATUS" jdbcType="INTEGER" property="status" />
+        <result column="IP" jdbcType="VARCHAR" property="ip" />
+        <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, COMMODITY_ID, CREATE_TIME, LATELY_TIME, TOTAL, STATUS,IP,ADDRESS
+  </sql>
+    <select id="get" parameterType="com.cfcp.incc.entity.NumberCommodityReadings" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from NUMBER_COMMODITY_READINGS
+        where COMMODITY_ID = #{commodityId,jdbcType=VARCHAR} and  IP= #{ip,jdbcType=VARCHAR}
+    </select>
+    <select id="getAll" parameterType="com.cfcp.incc.entity.NumberCommodityReadings" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from NUMBER_COMMODITY_READINGS
+    </select>
+
+    <select id="getByAddressIsNull" parameterType="com.cfcp.incc.entity.NumberCommodityReadings" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from NUMBER_COMMODITY_READINGS where ADDRESS ='' or ADDRESS is NULL
+
+    </select>
+
+    <insert id="insert" parameterType="com.cfcp.incc.entity.NumberCommodityReadings">
+    insert into NUMBER_COMMODITY_READINGS ( ID, COMMODITY_ID, CREATE_TIME, LATELY_TIME, TOTAL, STATUS,IP,ADDRESS)
+    values (#{id,jdbcType=VARCHAR}, #{commodityId,jdbcType=VARCHAR}, SYSDATE() ,
+        SYSDATE()  , 1, 1,#{ip,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR})
+  </insert>
+    <update id="update" parameterType="com.cfcp.incc.entity.NumberCommodityReadings">
+    update NUMBER_COMMODITY_READINGS
+    set
+      LATELY_TIME = SYSDATE()  ,
+      TOTAL = TOTAL+1
+    where COMMODITY_ID = #{commodityId,jdbcType=VARCHAR} and IP= #{ip,jdbcType=VARCHAR}
+  </update>
+
+    <update id="updateAddressByIP" parameterType="com.cfcp.incc.entity.NumberCommodityReadings">
+    update NUMBER_COMMODITY_READINGS
+    set ADDRESS= #{address,jdbcType=VARCHAR}
+    where IP= #{ip,jdbcType=VARCHAR}
+  </update>
+</mapper>
