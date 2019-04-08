@@ -10,6 +10,7 @@ export const ADD_DICTIONARY = 'ADD_DICTIONARY';
 export const CHANGE_DICTIONARY_PIC = 'CHANGE_DICTIONARY_PIC';
 export const INDUSTRYS_CATEGORYS = 'INDUSTRYS_CATEGORYS';
 export const DICTIONARY_CRITERIA_CHANGED = 'DICTIONARY_CRITERIA_CHANGED';
+export const DICTIONARY_CRITERIA_CHANGED1 = 'DICTIONARY_CRITERIA_CHANGED1';
 export const RECEIVE_DICTIONARY_LIST2 = 'RECEIVE_DICTIONARY_LIST2';
 
 
@@ -58,6 +59,13 @@ export function dictionaryCriteriaChanged(data) {
         data: data
     }
 }
+export function dictionaryCriteriaChanged1(data) {
+    return {
+        type: DICTIONARY_CRITERIA_CHANGED1,
+        data: data
+    }
+}
+
 
 export function refreshDictionaryList(criteria={}) {
     return dispatch => {

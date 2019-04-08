@@ -5,7 +5,8 @@ import {refreshDictionaryList2} from 'actions/DictionaryActions';
 import {connect} from 'react-redux';
 import {Icon, Table, Row, Col, Button} from 'antd';
 import DictionaryList2 from './DictionaryList2';
-import DictionarySearch from './DictionarySearch';
+//import DictionarySearch from './DictionarySearch';
+import PriceSearch from './PriceSearch';
 
 /**
  * Dictionary:  YANGHUI
@@ -49,7 +50,7 @@ class DictionaryManager2 extends React.Component {
                 <SubPage breadcrumb="/价格体系管理">
                     <Row gutter={16} className="bottom-space">
                         <Col>
-                            <DictionarySearch {...this.props} onAdd={this.add}/>
+                            <PriceSearch {...this.props} onAdd={this.add}/>
                         </Col>
                     </Row>
                  <Row gutter={16}>

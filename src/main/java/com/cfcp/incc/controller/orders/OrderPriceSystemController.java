@@ -2,6 +2,7 @@ package com.cfcp.incc.controller.orders;
 
 import com.cfcp.incc.dto.CommonDto;
 import com.cfcp.incc.entity.OrderPriceSystem;
+import com.cfcp.incc.entity.OrderPriceSystem1;
 import com.cfcp.incc.service.orders.OrderPriceSystemService;
 import com.cfcp.incc.utils.JsonResult;
 import com.github.pagehelper.PageInfo;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.tigerfacejs.commons.view.DataEvent;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("manager/orderPriceSystem")
@@ -50,7 +52,7 @@ public class OrderPriceSystemController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addDictionary(@RequestBody OrderPriceSystem orderPriceSystem) {
+    public Object addDictionary(@RequestBody OrderPriceSystem1 orderPriceSystem) {
         System.out.println("+++++++++++*****rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrppppppp");
         if(        orderPriceSystem.getCreateTime()!=null && !"".equals(orderPriceSystem.getCreateTime())
                 && orderPriceSystem.getEndTime()!=null    && !"".equals(orderPriceSystem.getEndTime())
@@ -60,7 +62,7 @@ public class OrderPriceSystemController {
                 && orderPriceSystem.getTotal()!=null      && !"".equals(orderPriceSystem.getTotal())
                 && service.saveOrUpdate1(orderPriceSystem) > 0)
         {
-            return DataEvent.wrap("orderPriceSystem", new CommonDto<OrderPriceSystem>(orderPriceSystem));
+            return DataEvent.wrap("orderPriceSystem", new CommonDto<OrderPriceSystem1>(orderPriceSystem));
         } else {
             return DataEvent.wrap("orderPriceSystem", "保存失败");
         }
@@ -80,8 +82,8 @@ public class OrderPriceSystemController {
     }
 
     @RequestMapping(value = "query2")
-    public Object query2() {
-        List<OrderPriceSystem> pageInfo= (List<OrderPriceSystem>) service.queryAll();
+    public Object query2(@RequestParam(required = false) Map<String, String> conditions) {
+        List<OrderPriceSystem1> pageInfo= (List<OrderPriceSystem1>) service.queryAll1(conditions);
         //pageInfo.getList().forEach(item->item.setIndustryPo(dictionaryService.findDictionaryById(item.getIndustry())));
         return DataEvent.wrap("orderPriceSystemList", pageInfo);
     }

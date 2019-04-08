@@ -3,6 +3,7 @@ import {
     RECEIVE_DICTIONARY_LIST,
     DICTIONARY_STATUS_CHANGED,
     DICTIONARY_CRITERIA_CHANGED,
+    DICTIONARY_CRITERIA_CHANGED1,
     INDUSTRYS_CATEGORYS,
     SELECT_PRICESYSTEM,
     RECEIVE_DICTIONARY_LIST2,
@@ -37,6 +38,15 @@ export function  dictionaryCriteria(state = [], action){
     }
 }
 
+//==================价格体系完==================
+export function  dictionaryCriteria1(state = [], action){
+    switch(action.type){
+        case DICTIONARY_CRITERIA_CHANGED1:
+            return action.data;
+        default:
+            return state;
+    }
+}
 export function  dictionaryStatus(state = [], action){
     switch(action.type){
         case DICTIONARY_STATUS_CHANGED:
