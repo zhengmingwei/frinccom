@@ -64,4 +64,25 @@ public class OrderPriceSystemServiceImpl implements OrderPriceSystemService {
         }
         return 0;
     }
+    @Override
+    public int saveOrUpdate1(OrderPriceSystem op) {
+
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(op!=null && op.getEndTime()!=null && op.getCreateTime()!=null){
+            try {
+                Date d = (Date) op.getEndTime();
+                Date cd = (Date) op.getCreateTime();
+                op.setEndTime(d);
+                op.setCreateTime(cd);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if("自动生成".equals(op.getId())){
+            op.setId(GeneratorComparator.getGenerator(GeneratorComparator.GENERATOR_NUM).generate().toString());
+            return dao.insert(op);
+        }else{
+            return dao.update(op);
+        }
+    }
 }

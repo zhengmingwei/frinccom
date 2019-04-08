@@ -2,34 +2,37 @@ import React from "react";
 
 import axios from 'axios';
 
+import { InputNumber } from 'antd';
 
-import ReactDOM from 'react-dom';
+
 import {connect} from "react-redux";
-
 import {Button, Col, DatePicker, Form, Input, Row, Select} from "antd";
 import {showModalDialog} from "actions/CommonAction";
-import {saveCommodity_1,saveCommodity_2,saveCommodity, getCommodity, selectCommodity} from "actions/CommodityActions";
+import {saveCommodity, getCommodity, selectCommodity} from "actions/CommodityActions";
 import {industryAndCategory} from "actions/DictionaryActions";
 import {receiveOtherQualificationList} from "actions/OtherQualificationActions";
 import {receiveSpecialItemList} from "actions/SpecialItemActions";
 import SubPage from "modules/common/SubPage";
 import ImgUpload from "modules/common/ImgUpload";
-import VideoUpload from "modules/common/VideoUpload"
+
+
+
+import VideoUpload from "modules/common/VideoUpload";
+
+
+
 import SpecialItemList from "modules/commodity/SpecialItemList";
 import OtherQualificationList from "modules/commodity/OtherQualificationList";
-// import {BrandForm} from "modules/commodity/BrandForm";
+// import {BrandForm} from "modules/commodity/BrandForm"
 import moment from 'moment';
 import {objToStrMap, errorMessages} from 'modules/common/CommonUtils';
 const FormItem = Form.Item;
 const createForm = Form.create;
 const Option = Select.Option;
 
-class CommodityForm extends React.Component {
 
-    state = {
-    	 list:"",
-         company:{name:'',idCode:''},
-  	};
+class CommodityForm extends React.Component {
+  	
     constructor(props) {
         super(props);
     }
@@ -39,7 +42,7 @@ class CommodityForm extends React.Component {
         this.props.dispatch(industryAndCategory());
         console.log("form will mount")
         if(!this.props.params.id) {
-            this.props.dispatch(selectCommodity({name: "", category: "", industry:"", pic:"",sp_video:"", company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}));
+            this.props.dispatch(selectCommodity({name: "", category: "", industry:"", pic:"", video:"",company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}));
             this.props.dispatch(receiveOtherQualificationList([]));
             this.props.dispatch(receiveSpecialItemList([]));
         }
@@ -52,7 +55,7 @@ class CommodityForm extends React.Component {
         if (statusId != oldStatusId){
             console.log("nextPropsnextProps+++++",nextProps)
             // this.props.dispatch(getCommodity(statusId));
-            this.props.dispatch(selectCommodity({name: "", category: "", industry:"", pic:"",sp_video:"", company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}));
+            this.props.dispatch(selectCommodity({name: "", category: "", industry:"", pic:"", video:"",company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}));
             this.props.dispatch(receiveOtherQualificationList([]));
             this.props.dispatch(receiveSpecialItemList([]));
             return false;
@@ -65,66 +68,93 @@ class CommodityForm extends React.Component {
         //this.props.dispatch(userCriteriaChanged());
     }
 //---------------------------------------------
-    handleSubmit_1 = ()=>{
-        let rows = this.props.form.getFieldsValue(); 
-        const {company} = rows; 
-        var url = "http://47.105.123.55:9999/company/base/"+company.name1;
-         axios.get(url).then(res=>{
-         		 const posts = res.data.data;
-                 console.log(company);
-                 console.log(posts);
-                 console.log(posts.createTimes);
-
-                 // businessTime "2018-08-14 至 2048-08-13"
-                 let businessTime = posts.businessTime;
-                 let endTime = null;
-                 let bbTime = businessTime.split(' 至 ')[1];
+   // 经营企业
+   handleSubmit_1 (){
+            let rows = this.props.form.getFieldsValue(); 
+            const {company} = rows; 
+            var url = "http://47.105.123.55:9999/company/base/"+company.name1;
+            axios.get(url).then(res=>{
+      		    const posts = res.data.data;
+      		     
+      		    console.log(posts);
+      		   
+      		   if(posts === undefined || posts.name === undefined || posts.name === '' ||posts.name === 'undefined'){
+      		    alert('输入有误,请重新输入')
+                 
+      		   }else{
+      		    
+      		      let endTime = null;
+                 let bbTime = posts.businessTime.split(' 至 ')[1];
                  if(bbTime=='无固定期限'){
                      endTime=moment().add('days',36500).format('YYYY-MM-DD');
                  }else{
                      endTime=posts.businessTime.split(' 至 ')[1]
                  }
+      		   
+      		   		this.props.form.setFieldsValue({
+                      company:{
+                         name: posts.name,
+                         idCode:posts.regCode,
+                         legalPerson:posts.legalPerson,
+                         regAddr:posts.checkInAddr,
+                         businessScope:posts.scope,
+                         companyType:posts.type,
+                         name1:posts.name,
+                         businessBegin:moment(posts.createTime),
+                         businessEnd:moment(endTime),
 
-                 this.props.form.setFieldsValue(
-                     {
-                         company:{
-                                 name: posts.name,
-                                 idCode:posts.regCode,
-                                 legalPerson:posts.legalPerson,
-                                 mail:posts.legalPerson,
-                                 mphone:posts.legalPerson,
-                                 phone:posts.tel,
-                                 regAddr:posts.checkInAddr,
-                                 businessScope:posts.scope,
-                                // businessBegin:new Date(),
-                                 businessBegin:moment(posts.createTime),
-                                 businessEnd:moment(endTime),
-                         }
-                     });
-         });
+                      },
+                  });
+      		   }
+
+           });
+           //console.log(rows.name)
     }
-    
+    //生产企业
+     handleSubmit_2 (){
+            let rows = this.props.form.getFieldsValue(); 
+            const {factory} = rows; 
+            var url = "http://47.105.123.55:9999/company/base/"+factory.name1;
+            axios.get(url).then(res=>{
+      		    const lpp = res.data.data;
+      		    console.log('生产企业'+lpp);
+              if(lpp === undefined || lpp.name === undefined || lpp.name === '' ||lpp.name === 'undefined'){
+      		    alert('输入有误,请重新输入')
+                 
+      		   }else{
+             
+                 let endTime = null;
+                 let bbTime = lpp.businessTime.split(' 至 ')[1];
+                 if(bbTime=='无固定期限'){
+                     endTime=moment().add('days',36500).format('YYYY-MM-DD');
+                 }else{
+                     endTime=lpp.businessTime.split(' 至 ')[1]
+                 }
+               this.props.form.setFieldsValue({
+                  factory:{
+                       name: lpp.name,
+                       idCode:lpp.regCode,
+                       legalPerson:lpp.legalPerson,
+                       addr:lpp.checkInAddr,
+                       businessScope:lpp.scope, 
+                       companyType:lpp.type,
+                       //businessBegin:lpp.createTime,
+                       name1:lpp.name,
+                       businessBegin:moment(lpp.createTime),
+                       businessEnd:moment(endTime),
+                       }
+                  });
+               
+           }
+     });
+          
+    }
+//===================厂商价格============================
+     onChange(value) {
+	  console.log('changed', value);
+	}
+//====================厂商价格完===================================
 //---------------------------------------------
-//---------------------------------------------************************************************
-    handleSubmit_2 = ()=>{
-        E.addOneTimeEventListener("tocommoditylist",  (e) => {
-            this.props.history.push('/manager/commodity/list/1');
-        })
-        this.props.form.validateFields((err, values) => {
-
-                let rows = {};
-                Object.assign(rows, this.props.form.getFieldsValue());
-                const {specialItemList} = this.props;
-                rows.specialItems = specialItemList;
-                const {otherQualificationList} = this.props;
-                rows.otherQualifications = otherQualificationList;
-                this.props.dispatch(saveCommodity_2(rows))
-
-        })
-
-    }
-
-//---------------------------------------------************************************************
     handleSubmit() {
         E.addOneTimeEventListener("tocommoditylist",  (e) => {
             this.props.history.push('/manager/commodity/list/1');
@@ -179,12 +209,31 @@ class CommodityForm extends React.Component {
     	var styles={
     		position:'absolute'
     	}
-   
+    	var tupian = {
+    	   marginLeft:'114'
+        }
+        var shipin = {
+    	    marginRight:'294'
+        }
+        var pri = {
+        	marginLeft:'42'
+        }
+        var tian = {
+        	marginLeft:'64'
+        }
+//==================视频上传按钮=====================
+       
+//=====================上传按钮结束====================	        
+        
+        
+        
+        
+        
        
     
          const list = this.props.list;
         const {getFieldDecorator} = this.props.form;
-        const {selectedCommodity:{id, name, category, industry, pic,sp_video, company, factory, brand}} = this.props;
+        const {selectedCommodity:{id, name, category, industry, pic, company, factory, brand}} = this.props;
         let cBusinessBegin = company?moment(company.businessBegin):moment();
         let cBusinessEnd = company?moment(company.businessEnd):moment();
         let fBusinessBegin = factory?moment(factory.businessBegin):moment();
@@ -303,48 +352,64 @@ class CommodityForm extends React.Component {
                                 <Input placeholder="商品名称"/>
                             )}
                         </FormItem>
-                        <FormItem
-                            {...formItemLayout}
-                            label={"所属类别"}
-                            hasFeedback
-                        >
-                            {getFieldDecorator('category', {
-                                rules: [
-                                    {required: true, message: '请输入所属类别!'},
-                                ],
-                                initialValue: category,
-                            })(
-                                <Select placeholder="请选择所属类别">
-                                    {categoryMap.get(currentIndustry)}
-                                </Select>
-                            )}
-                        </FormItem>
+                            <FormItem
+                                {...formItemLayout}
+                                label={"所属类别"}
+                                hasFeedback
+                            >
+                                {getFieldDecorator('category', {
+                                    rules: [
+                                        {required: true, message: '请输入所属类别!'},
+                                    ],
+                                    initialValue: category,
+                                })(
+                                    <Select placeholder="请选择所属类别">
+                                        {categoryMap.get(currentIndustry)}
+                                    </Select>
+                                )}
+                            </FormItem>
+                            <FormItem
+                                {...formItemLayout}
+                                label={"厂商价格（元）"}
+                                style={pri}
+                            >
+                                   <InputNumber placeholder="厂商价格" min={1} max={10}  onChange={this.onChange} />
+                            </FormItem>
+						<Row><Col span={12}>
                         <FormItem
                             {...formItemLayout}
                             label="商品图片"
+                            style={tupian}
                         >
                             {getFieldDecorator('pic', {
                                 valuePropName: 'fileList',
                                 getValueFromEvent: this.normFile,
                             })(
-                                <ImgUpload name="uploadFile" action="/incc/file/upload/1/1" initialValue={pic}>
+                                <ImgUpload name="uploadFile" action="/incc/file/upload/1/1" initialValue={pic} >
+
                                 </ImgUpload>
-
-
                             )}
                         </FormItem>
-                        <FormItem
+                         </Col><Col span={12}>
+                         <FormItem
                             {...formItemLayout}
-                            label="商品图片2"
+                            label="商品视频"
+                            style={shipin}
                         >
-                            {getFieldDecorator('sp_video', {
+                            {getFieldDecorator('video', {
                                 valuePropName: 'fileList',
                                 getValueFromEvent: this.normFile,
                             })(
-                                <VideoUpload name="uploadFile" action="/incc/file/upload/1/1" initialValue={sp_video}>
+                                <VideoUpload  name="uploadFile"  action="/incc/file/upload/1/1" initialValue={pic} >
+	                
                                 </VideoUpload>
                             )}
                         </FormItem>
+                        </Col>
+                         </Row>
+                        
+                        
+                        
                         <Row gutter={40} style={{marginBottom: "12px"}}><Col span={24}>
                         <SpecialItemList {...this.props} editAble={true}/>
                         </Col></Row>
@@ -507,7 +572,9 @@ class CommodityForm extends React.Component {
                      <FormItem 
                         {...formItemLayout}
                         label="企业名称或企业信用代码"
+                        style={tian}
                         hasFeedback
+                        
                     >
                         {getFieldDecorator('company.name1', {
                             validateTrigger: ['onChange', 'onBlur'],
@@ -522,7 +589,7 @@ class CommodityForm extends React.Component {
                         )}
                       
                     	 <Button type="primary" htmlType="button" size="large" style={styles}
-                                onClick={() => this.handleSubmit_1()} >一键填充****</Button>
+                                onClick={() => this.handleSubmit_1()} >一键填充1</Button>
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
@@ -543,27 +610,7 @@ class CommodityForm extends React.Component {
                        
                     </FormItem>
                     <Row><Col span={12}>
-                        <FormItem
-                            {...doubleFormItemLayout}
-                            label="企业身份代码"
-                            hasFeedback
-                        >
-                            {getFieldDecorator('company.idType', {
-                                validateTrigger: ['onChange', 'onBlur'],
-                                rules: [{
-                                    required: true,
-                                    whitespace: false,
-                                    message: "请输入企业身份代码.",
-                                }],
-                                initialValue: company.idType,
-                            })(
-                                <Select placeholder="请选择企业身份代码">
-                                    <Option value="138">组织机构代码</Option>
-                                    <Option value="139">社会统一信用代码</Option>
-                                </Select>
-                            )}
-                        </FormItem>
-                    </Col><Col span={12}>
+                        
                         <FormItem
                             {...doubleFormItemLayout}
                             label="输入身份代码"
@@ -578,7 +625,7 @@ class CommodityForm extends React.Component {
                                 }],
                                 initialValue: company.idCode,
                             })(
-                                <Input placeholder="输入身份代码" />
+                                <Input placeholder="输入身份代码"/>
                             )}
                         </FormItem>
                     </Col><Col span={12}>
@@ -596,10 +643,7 @@ class CommodityForm extends React.Component {
                                 }],
                                 initialValue: company.companyType,
                             })(
-                                <Select placeholder="请选择企业类型">
-                                    <Option value="140">有限责任公司</Option>
-                                    <Option value="141">股份有限公司</Option>
-                                </Select>
+                                <Input placeholder="请输入企业类型"/>
                             )}
                         </FormItem>
                     </Col><Col span={12}>
@@ -635,26 +679,10 @@ class CommodityForm extends React.Component {
                             }],
                             initialValue: company.regAddr,
                         })(
-                            <Input placeholder="企业名称"/>
+                            <Input placeholder="企业注册地址"/>
                         )}
                     </FormItem>
-                    <FormItem
-                        {...formItemLayout}
-                        label="企业经营地址"
-                        hasFeedback
-                    >
-                        {getFieldDecorator('company.businessAddr', {
-                            validateTrigger: ['onChange', 'onBlur'],
-                            rules: [{
-                                required: true,
-                                whitespace: false,
-                                message: "请输入企业经营地址.",
-                            }],
-                            initialValue: company.businessAddr,
-                        })(
-                            <Input placeholder="企业名称"/>
-                        )}
-                    </FormItem>
+                    
                     <Row><Col span={12}>
                         <FormItem
                             {...doubleFormItemLayout}
@@ -665,7 +693,7 @@ class CommodityForm extends React.Component {
                                 validateTrigger: ['onChange', 'onBlur'],
                                 rules: [{
                                     required: true,
-                                    message: "请输入营业期限自.",
+                                    message: "请输入营业期限自",
                                 }],
                                  initialValue: cBusinessBegin,
                             })(
@@ -764,21 +792,22 @@ class CommodityForm extends React.Component {
                     </Col></Row>
                     <FormItem
                         {...formItemLayout}
-                        label={"经营范围"}
+                        label="企业经营地址"
                         hasFeedback
                     >
-                        {getFieldDecorator('company.businessScope', {
+                        {getFieldDecorator('company.businessAddr', {
                             validateTrigger: ['onChange', 'onBlur'],
                             rules: [{
                                 required: true,
                                 whitespace: false,
-                                message: "请输入经营范围.",
+                                message: "请输入企业经营地址",
                             }],
-                            initialValue: company.businessScope,
+                            initialValue: company.businessAddr,
                         })(
-                            <Input placeholder="经营范围"/>
+                            <Input placeholder="企业经营地址"/>
                         )}
                     </FormItem>
+                    
                     <FormItem
                         {...formItemLayout}
                         label="营业执照副本扫描件"
@@ -843,7 +872,9 @@ class CommodityForm extends React.Component {
                      <FormItem 
                         {...formItemLayout}
                         label="企业名称或企业信用代码"
+                        style={tian}
                         hasFeedback
+                        
                     >
                         {getFieldDecorator('factory.name1', {
                             validateTrigger: ['onChange', 'onBlur'],
@@ -852,13 +883,13 @@ class CommodityForm extends React.Component {
                                 whitespace: false,
                                 message: "请输入企业名称或企业信用代码",
                             }],
-                            initialValue: factory.name,
+                            initialValue: factory.name1,
                         })(
                             <Input placeholder="企业名称或企业信用代码"/>
                         )}
                       
                     	 <Button type="primary" htmlType="button" size="large" style={styles}
-                                onClick={() => this.handleSubmit_1()}>一键填充++++</Button>
+                                onClick={() => this.handleSubmit_2()}>一键填充2</Button>
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
@@ -870,7 +901,7 @@ class CommodityForm extends React.Component {
                             rules: [{
                                 required: true,
                                 whitespace: false,
-                                message: "请输入企业名称.",
+                                message: "请输入企业名称",
                             }],
                             initialValue: factory.name,
                         })(
@@ -889,7 +920,7 @@ class CommodityForm extends React.Component {
                                 rules: [{
                                     required: true,
                                     whitespace: false,
-                                    message: "请输入身份代码.",
+                                    message: "请输入身份代码",
                                 }],
                                 initialValue: factory.idCode,
                             })(
@@ -907,14 +938,11 @@ class CommodityForm extends React.Component {
                                 rules: [{
                                     required: true,
                                     whitespace: false,
-                                    message: "请输入企业类型.",
+                                    message: "请输入企业类型",
                                 }],
                                 initialValue: factory.companyType,
                             })(
-                                <Select placeholder="请选择企业类型">
-                                    <Option value="140">有限责任公司</Option>
-                                    <Option value="141">股份有限公司</Option>
-                                </Select>
+                               <Input placeholder="企业类型"/>
                             )}
                         </FormItem>
                     </Col><Col span={12}>
@@ -946,14 +974,30 @@ class CommodityForm extends React.Component {
                             rules: [{
                                 required: true,
                                 whitespace: false,
-                                message: "请输入企业住所.",
+                                message: "请输入企业住所",
                             }],
                             initialValue: factory.addr,
                         })(
                             <Input placeholder="企业住所"/>
                         )}
                     </FormItem>
-
+					<FormItem
+                        {...formItemLayout}
+                        label={"经营范围"}
+                        hasFeedback
+                    >
+                        {getFieldDecorator('factory.businessScope', {
+                            validateTrigger: ['onChange', 'onBlur'],
+                            rules: [{
+                                required: true,
+                                whitespace: false,
+                                message: "请输入经营范围",
+                            }],
+                            initialValue: factory.businessScope,
+                        })(
+                            <Input placeholder="经营范围"/>
+                        )}
+                    </FormItem>
                     <Row><Col span={12}>
                         <FormItem
                             {...doubleFormItemLayout}
@@ -964,7 +1008,7 @@ class CommodityForm extends React.Component {
                                 validateTrigger: ['onChange', 'onBlur'],
                                 rules: [{
                                     required: true,
-                                    message: "请输入营业期限自.",
+                                    message: "请输入营业期限自",
                                 }],
                                 initialValue: fBusinessBegin,
                             })(
@@ -981,7 +1025,7 @@ class CommodityForm extends React.Component {
                                 validateTrigger: ['onChange', 'onBlur'],
                                 rules: [{
                                     required: true,
-                                    message: "请选择经营期限至.",
+                                    message: "请选择经营期限至",
                                 }],
                                 initialValue: fBusinessEnd,
                             })(
@@ -1061,23 +1105,7 @@ class CommodityForm extends React.Component {
                             )}
                         </FormItem>
                     </Col></Row>
-                    <FormItem
-                        {...formItemLayout}
-                        label={"经营范围"}
-                        hasFeedback
-                    >
-                        {getFieldDecorator('factory.businessScope', {
-                            validateTrigger: ['onChange', 'onBlur'],
-                            rules: [{
-                                required: true,
-                                whitespace: false,
-                                message: "请输入经营范围.",
-                            }],
-                            initialValue: factory.businessScope,
-                        })(
-                            <Input placeholder="经营范围"/>
-                        )}
-                    </FormItem>
+                  
                     <FormItem
                         {...formItemLayout}
                         label="营业执照副本扫描件"
@@ -1147,9 +1175,9 @@ class CommodityForm extends React.Component {
 CommodityForm = createForm()(CommodityForm);
 export default connect(
     state => {
-        let {selectedCommodity, specialItemList, otherQualificationList, industryAndCategory,company} = state;
+        let {selectedCommodity, specialItemList, otherQualificationList, industryAndCategory} = state;
         return {
-            selectedCommodity, specialItemList, otherQualificationList, industryAndCategory,company
+            selectedCommodity, specialItemList, otherQualificationList, industryAndCategory
         }
     }
 )(CommodityForm);

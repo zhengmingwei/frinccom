@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
-public class OrderPriceSystem extends BaseEntity {
+public class OrderPriceSystem{
+    //public class OrderPriceSystem extends BaseEntity {
     /*
    `ID`                   varchar(32) not null,
    `NAME`                 varchar(32) default NULL comment '名称',
@@ -29,22 +30,22 @@ public class OrderPriceSystem extends BaseEntity {
     private Integer status;
 
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    //@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createTime;
     private String createTimes;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    //@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date endTime;
     private String endTimes;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    //@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updateTime;
     private String updateTimes;
 
-    @Override
+
     public String getId() {
         return id;
     }
 
-    @Override
+
     public void setId(String id) {
         this.id = id;
     }

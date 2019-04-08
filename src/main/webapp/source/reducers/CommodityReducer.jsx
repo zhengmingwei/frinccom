@@ -4,7 +4,8 @@ import {
     COMMODITY_STATUS_CHANGED,
     COMMODITY_CRITERIA_CHANGED,
     ALL_COMMODITY_OPTIONS,
-    SELECT_COMMODITY
+    SELECT_COMMODITY,
+    NEW_A
 } from 'actions/CommodityActions';
 
 export function  commodityList(state = [], action){
@@ -43,7 +44,7 @@ export function  commodityOptions(state = [], action){
     }
 }
 
-export function selectedCommodity(state = {name:"", category:"", industry:"1", pic:"",sp_video:"", company:[], factory:[], brand:{}}, action) {
+export function selectedCommodity(state = {name:"", category:"", industry:"1", pic:"",video:"",company:[], factory:[], brand:{}}, action) {
     switch (action.type){
         case SELECT_COMMODITY:
             return action.data;
@@ -52,3 +53,5 @@ export function selectedCommodity(state = {name:"", category:"", industry:"1", p
     }
 
 }
+
+

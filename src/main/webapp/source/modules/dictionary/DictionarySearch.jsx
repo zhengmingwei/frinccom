@@ -24,6 +24,7 @@ class DictionarySearch extends React.Component {
 
     search(){
         let rows =this.props.form.getFieldsValue();
+        console.log(rows)
         this.props.dispatch( refreshDictionaryList(rows));
         this.props.dispatch(dictionaryCriteriaChanged(rows));
     }
@@ -37,9 +38,9 @@ class DictionarySearch extends React.Component {
     add(){
         this.props.onAdd();
         let rows =this.props.form.getFieldsValue();
-        // console.log("***********");
-        // console.log(rows);
-        // console.log("***********");
+        console.log("***********");
+         console.log("88888888888888",rows);
+        console.log("***********");
     }
 
     //新增用户end

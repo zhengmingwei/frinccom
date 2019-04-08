@@ -10,18 +10,11 @@ function getBase64(img, callback) {
 }
 
 function beforeUpload(file) {
-    //alert(file.type);
-    const isJPG =  file.type === 'video/mp4' ;
+    const isJPG = file.type === 'video/mp4' || file.type === 'video/avi' || file.type === 'video/flv' ;
     if (!isJPG) {
-        alert('只能传 video/mp4 文件!');
+        alert('只能传 mp4/avi/flv 文件!');
     }
-    const isLt3M = file.size / 1024 / 1024 < 30;
-
-    //alert(isLt3M);
-    if (!isLt3M) {
-        alert('视频不能大于 30MB!');
-    }
-    return isJPG && isLt3M;
+    return isJPG;
 }
 //noinspection JSAnnotator
 class VideoUpload extends React.Component {
@@ -29,18 +22,15 @@ class VideoUpload extends React.Component {
     constructor(){
         super();
         this.state = {
-            imageUrl:null
+            VideoUrl:null
         }
-    // const value = this.props.value || {};
-
     };
-    handleChange1 = (info) => {
-        console.log(info);
+    handleChange = (info) => {
         if (info.file.status === 'done') {
-            this.state = {
-                imageUrl:null
-            }
-            getBase64(info.file.originFileObj, imageUrl => this.setState({ imageUrl }));
+        	 this.state = {
+                 VideoUrl:null
+             }
+            getBase64(info.file.originFileObj, VideoUrl => this.setState({ VideoUrl}));
             this.triggerChange(info);
         }
         };
@@ -54,7 +44,7 @@ class VideoUpload extends React.Component {
         }
     };
     handleRemove = (file) =>{
-        this.setState({imageUrl:null});
+        this.setState({VideoUrl:null});
     };
 
     _setIntiValue = () =>{
@@ -63,51 +53,36 @@ class VideoUpload extends React.Component {
             const initObj = eval("("+initialValue+")");
             this.fileList = [{"uid": initObj.uid, "name":"", "status": "done", "response":{"status": "success", "result":initObj}} ];
             if (initObj){
-                this.state.imageUrl = initObj.url ;
+                this.state.VideoUrl = initObj.url ;
                 // console.log("_setIntiValue", this.fileList);
                  this.triggerChange({file:this.fileList[0]})
             }
         } else {
-            // this.fileList =[];
-            // this.state.imageUrl = null;
+          
         }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-//         const nextInit = nextProps.initialValue;
-//         const init = this.props.initialValue;
-//         if(nextInit != init){
-//
-//             console.log("nextProps", nextProps)
-//             console.log("init", nextProps)
-//             this._setIntiValue();
-//             return true;        }
-//             console.log(nextProps);
-// return false;
+
         return true;
     }
     componentDidMount() {
-// console.log("ImgUpload componentDidMount")
+
         this._setIntiValue();
     }
 
     render() {
-        // if (this.state.imageUrl == null){
-        //    this._setIntiValue();
-        //     console.log("this.state.imageUrl ", this.state.imageUrl );
-        //     console.log("this.fileLIst", this.fileList);
-        // }
-        const imageUrl = this.state.imageUrl;
+       
+        const VideoUrl = this.state.VideoUrl;
         return (
             <Upload name="uploadFile" action={this.props.action}  beforeUpload={beforeUpload}
-                    onChange={this.handleChange1} className="avatar-uploader" showUploadList={false} >
+                    onChange={this.handleChange} className="avatar-uploader" showUploadList={false} >
                 {
-                    imageUrl ?
-                        <video width="148" height="150" controls="controls">
-                           {/* <source src="movie.ogg" type="video/ogg" />*/}
-                            <source src={imageUrl} type="video/mp4"></source>
-                        </video> :
-                        <Icon type="plus" className="avatar-uploader-trigger" />
+                    VideoUrl ?
+                       <video width="148" height="150" controls="controls">
+                            <source src={VideoUrl} type="video/mp4"/>
+                        </video>
+                        :<Icon type="plus" className="avatar-uploader-trigger" />
                 }
             </Upload>
         );

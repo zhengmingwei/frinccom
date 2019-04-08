@@ -11,6 +11,6 @@ public interface OrderPriceSystemDao {
     List<OrderPriceSystem> queryAll01();
     OrderPriceSystem findOrderPriceSystemById(String id);
     OrderPriceSystem queryByScjrf();
-    void insert(OrderPriceSystem op);
-    void update(OrderPriceSystem op);
+    int insert(OrderPriceSystem op);
+    int update(OrderPriceSystem op);
 }
