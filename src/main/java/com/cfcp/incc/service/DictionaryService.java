@@ -2,8 +2,6 @@ package com.cfcp.incc.service;
 
 import com.cfcp.incc.dao.DictionaryDao;
 import com.cfcp.incc.entity.Dictionary;
-import com.cfcp.incc.utils.DateUtils;
-import com.cfcp.incc.utils.generator.GeneratorComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -100,8 +98,13 @@ public class DictionaryService extends BaseService {
 		Map<String, Dictionary> map = new LinkedHashMap();
 		list.forEach(dictionary ->{if("INDUSTRY".equals(dictionary.getType()))map.put(dictionary.getId().toString(), dictionary);});
 		list.forEach(dictionary ->{if("CATEGORY".equals(dictionary.getType())){
-			Dictionary parent = map.get(dictionary.getParentId().toString());
-			parent.addChild(dictionary);
+
+			if(dictionary.getParentId()!=null || !"".equals(dictionary.getParentId()) ){
+				if(map.get(String.valueOf(dictionary.getParentId()))!=null){
+					Dictionary parent = map.get(String.valueOf(dictionary.getParentId()));
+					parent.addChild(dictionary);
+				}
+			}
 		} });
 		return map;
 	}
