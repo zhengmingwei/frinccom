@@ -13,7 +13,6 @@ import org.tigerfacejs.commons.view.DataEvent;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * Created by zhyj on 2017/7/8.
  */
@@ -23,8 +22,6 @@ public class AuditController extends BaseController {
 
     @Autowired
     AuditService auditService;
-
-
     @RequestMapping(value = "/firstAccept", method = RequestMethod.POST)
     public Object addFirstAccept(@RequestBody Audit audit){
         if (auditService.firstAccept(audit) > 0 ){
