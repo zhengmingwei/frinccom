@@ -122,7 +122,7 @@ create table COMPANY
    BUSINESS_BEGIN       date default NULL comment '营业期限自',
    BUSINESS_END         date default NULL comment '营业期限至',
    CONTACTER            varchar(60) default NULL comment '联系人',
-   PHONE                varchar(20) default NULL comment '联系电话',
+   PHONE                varchar(20) default NULL comment '固定电话',
    MAIL                 varchar(255) default NULL comment '电子邮箱',
    MPHONE               varchar(20) default NULL comment '移动电话',
    BUSINESS_SCOPE       varchar(3000) default NULL comment '经营范围',
@@ -206,7 +206,7 @@ create table USER
    ID_CARD              varchar(18) default NULL comment '身份证',
    NAME                 varchar(60) default NULL comment '姓名',
    MAIL                 varchar(255) default NULL comment '邮箱',
-   PHONE                varchar(20) default NULL comment '联系电话',
+   PHONE                varchar(20) default NULL comment '固定电话',
    DISTRIBUTOR_ID       varchar(32) default NULL comment '所属分销商',
    COMPANY_NAME         varchar(255) default NULL comment '企业名称',           /*=====20180927 添加字段=====*/
    BUSINESS_LICENSE     varchar(1000) default NULL comment '营业执照副本扫描件',/*=====20180927 添加字段=====*/

@@ -598,7 +598,7 @@ class CommodityForm extends React.Component {
                     </Col><Col span={12}>
                         <FormItem
                             {...doubleFormItemLayout}
-                            label={"联系电话"}
+                            label={"固定电话"}
                             hasFeedback
                         >
                             {getFieldDecorator('company.phone', {
@@ -606,11 +606,11 @@ class CommodityForm extends React.Component {
                                 rules: [{
                                     required: true,
                                     whitespace: false,
-                                    message: "请输入联系电话.",
+                                    message: "请输入固定电话.",
                                 }],
                                 initialValue: company.phone,
                             })(
-                                <Input placeholder="联系电话"/>
+                                <Input placeholder="固定电话"/>
                             )}
                         </FormItem>
                     </Col><Col span={12}>
@@ -897,7 +897,7 @@ class CommodityForm extends React.Component {
                     </Col><Col span={12}>
                         <FormItem
                             {...doubleFormItemLayout}
-                            label={"联系电话"}
+                            label={"固定电话"}
                             hasFeedback
                         >
                             {getFieldDecorator('factory.phone', {
@@ -905,11 +905,11 @@ class CommodityForm extends React.Component {
                                 rules: [{
                                     required: true,
                                     whitespace: false,
-                                    message: "请输入联系电话.",
+                                    message: "请输入固定电话.",
                                 }],
                                 initialValue: factory.phone,
                             })(
-                                <Input placeholder="联系电话"/>
+                                <Input placeholder="固定电话"/>
                             )}
                         </FormItem>
                     </Col><Col span={12}>

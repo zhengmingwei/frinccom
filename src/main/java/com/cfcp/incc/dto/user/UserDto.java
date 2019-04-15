@@ -46,8 +46,8 @@ public class UserDto extends CommonDto{
         ICCARD_ISNULL("身份证为空", "215"),
         COMPANYNAME_ISNULL("企业名称为空", "214"),
         COMPANYNAME_ISUSED("企业名称已被其他用户注册使用", "213"),
-        PHONE_ERR("联系电话验证失败", "212"),
-        PHONE_ISNULL("联系电话为空", "298"),
+        PHONE_ERR("固定电话验证失败", "212"),
+        PHONE_ISNULL("固定电话为空", "298"),
         MAIL_ERR("邮箱验证失败", "211"),
         MAIL_ISNULL("邮箱为空", "299"),
         PASSWORD_ATYPISM("两次密码不一致", "210");

@@ -79,7 +79,7 @@ class UserAdd extends React.Component {
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
-                        label="联系电话"
+                        label="固定电话"
                     >
                         {phone}
                     </FormItem>

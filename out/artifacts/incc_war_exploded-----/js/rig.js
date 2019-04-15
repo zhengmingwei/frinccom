@@ -117,7 +117,7 @@ function cloneEmail() {
     document.getElementById('msgEmail').innerHTML='';
 }
 
-//验证联系电话
+//验证固定电话
 function checkMobile(str) {
     str =  document.getElementById("phone").value;
     var rl = "";
@@ -134,7 +134,7 @@ function checkMobile(str) {
                 //alert("座机正确");
                 rl = "";
             }else{
-                rl = '联系电话验证不通过';
+                rl = '固定电话验证不通过';
             }
         }
         if(rl.length>0){

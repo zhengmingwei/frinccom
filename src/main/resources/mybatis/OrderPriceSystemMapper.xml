@@ -27,18 +27,12 @@
           f.ID, f.NAME, f.DESCRIBE, f.PRICE, f.DELET, f.SORT, f.TOTAL, f.STATUS,DATE_FORMAT(f.CREATE_TIME, '%Y-%m-%d %h:%m:%s' ) as CREATE_TIME ,DATE_FORMAT(f.END_TIME, '%Y-%m-%d %h:%m:%s' ) as END_TIME ,DATE_FORMAT(f.UPDATE_TIME, '%Y-%m-%d %h:%m:%s' ) as UPDATE_TIME
     </sql>
     <select id="queryAll" resultMap="BaseResultMap">
-		select
-        <include refid="Base_Column_List" />
-        from ORDER_PRICE_SYSTEM f WHERE f.DELET = '0' and f.END_TIME>=  DATE_FORMAT(SYSDATE(),'%Y-%m-%d 00:00:00')
-	</select>
-
-    <select id="queryAll1" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List_1" />
+        <include refid="Base_Column_List" />
         from ORDER_PRICE_SYSTEM f WHERE f.DELET = '0' and f.END_TIME>=  DATE_FORMAT(SYSDATE(),'%Y-%m-%d 00:00:00')
     </select>
 
-    <select id="queryAll1" resultMap="BaseResultMap">
+    <select id="queryAll2" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List_1" />
         from ORDER_PRICE_SYSTEM f

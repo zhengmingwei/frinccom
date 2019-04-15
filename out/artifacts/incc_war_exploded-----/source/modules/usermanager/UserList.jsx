@@ -64,7 +64,7 @@ export default class UserList extends React.Component {
             {title: '姓名', dataIndex: 'name', key: 'name'},
             {title: '邮箱', dataIndex: 'mail', key: 'mail'},
             {title: '所属分销商', dataIndex: 'distributor.name', key: 'distributorname'},
-            {title: '联系电话', dataIndex: 'phone', key: 'phone'},
+            {title: '固定电话', dataIndex: 'phone', key: 'phone'},
             {title: '角色', dataIndex: 'roles', key: 'roles', render:(text, roles, index) =>(
 
                       text? text.reduce(function(prev, current, index, array){

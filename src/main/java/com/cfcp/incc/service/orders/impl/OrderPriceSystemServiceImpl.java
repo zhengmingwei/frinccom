@@ -1,5 +1,6 @@
 package com.cfcp.incc.service.orders.impl;
 
+import com.cfcp.incc.dao.OrderPriceSystem1Dao;
 import com.cfcp.incc.dao.OrderPriceSystemDao;
 import com.cfcp.incc.entity.OrderPriceSystem;
 import com.cfcp.incc.entity.OrderPriceSystem1;
@@ -18,6 +19,8 @@ import java.util.Map;
 public class OrderPriceSystemServiceImpl implements OrderPriceSystemService {
     @Autowired
     private OrderPriceSystemDao dao;
+    @Autowired
+    private OrderPriceSystem1Dao dao1;
 
     @Override
     public List<OrderPriceSystem> queryAll01() {
@@ -31,17 +34,16 @@ public class OrderPriceSystemServiceImpl implements OrderPriceSystemService {
 
     @Override
     public List<OrderPriceSystem1> queryAll1(Map conditions) {
-        return dao.queryAll1_1(conditions);
+        return dao1.queryAll1_1(conditions);
     }
     @Override
     public List<OrderPriceSystem1> queryAll1() {
-        return dao.queryAll1();
+        return dao1.queryAll1();
     }
     @Override
     public OrderPriceSystem findOrderPriceSystemById(String id) {
         return dao.findOrderPriceSystemById(id);
     }
-
     @Override
     public OrderPriceSystem queryById(String productId) {
         return dao.findOrderPriceSystemById(productId);
@@ -90,9 +92,9 @@ public class OrderPriceSystemServiceImpl implements OrderPriceSystemService {
         }
         if("自动生成".equals(op.getId()) || "".equals(op.getId())){
             op.setId(GeneratorComparator.getGenerator(GeneratorComparator.GENERATOR_NUM).generate().toString());
-            return dao.insert(op);
+            return dao1.insert(op);
         }else{
-            return dao.update(op);
+            return dao1.update(op);
         }
     }
 }

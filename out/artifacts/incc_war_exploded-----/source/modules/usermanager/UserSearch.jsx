@@ -164,10 +164,10 @@ class UserSearch extends React.Component {
                     <Col span={8}>
                         <FormItem
                             {...formItemLayout}
-                            label="联系电话"
+                            label="固定电话"
                         >
                             {getFieldDecorator('phone', {})(
-                                <Input placeholder="联系电话       " />
+                                <Input placeholder="固定电话       " />
                             )}
                         </FormItem>
                     </Col>

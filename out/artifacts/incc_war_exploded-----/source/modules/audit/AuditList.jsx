@@ -27,7 +27,7 @@ class AuditList extends React.Component {
                                     <Timeline.Item key={index}>
                                         <Row><Col span={24}><b>申请提交成功</b></Col></Row>
                                         <Row><Col span={12}>标识申请代理人:{item.creatorPo.name}</Col><Col span={12}>申请时间:{moment(item.auditDate).format('ll')}</Col></Row>
-                                        <Row><Col span={12}>联系电话:{item.creatorPo.phone}</Col><Col span={12}>标识申请机构名称:{item.creatorPo.distributor.name}</Col></Row>
+                                        <Row><Col span={12}>固定电话:{item.creatorPo.phone}</Col><Col span={12}>标识申请机构名称:{item.creatorPo.distributor.name}</Col></Row>
                                         {item.result==0 ?<Row><Col span={24} style={redspan}>审核不通过原因:{item.reason}</Col></Row>:""}
                                     </Timeline.Item>
                                 );
@@ -37,7 +37,7 @@ class AuditList extends React.Component {
                                     <Timeline.Item key={index}>
                                         <Row><Col span={24}><b>审核{item.result==0 ? "未":""}通过</b></Col></Row>
                                         <Row><Col span={12}>审核人:{item.creatorPo.name}</Col><Col span={12}>审核时间:{moment(item.auditDate).format('ll')}</Col></Row>
-                                        <Row><Col span={12}>联系电话:{item.creatorPo.phone}</Col><Col span={12}>审核机构名称:{item.creatorPo.distributor.name}</Col></Row>
+                                        <Row><Col span={12}>固定电话:{item.creatorPo.phone}</Col><Col span={12}>审核机构名称:{item.creatorPo.distributor.name}</Col></Row>
                                         {item.result==0 ?<Row><Col span={24} style={redspan}>审核不通过原因:{item.reason}</Col></Row>:""}
                                     </Timeline.Item>
                                 );
@@ -47,7 +47,7 @@ class AuditList extends React.Component {
                                     <Timeline.Item key={index}>
                                         <Row><Col span={24}><b>财务审核{item.result==0 ? "未":""}通过</b></Col></Row>
                                         <Row><Col span={12}>财务审核人:{item.creatorPo.name}</Col><Col span={12}>收费时间:{moment(item.auditDate).format('ll')}</Col></Row>
-                                        <Row><Col span={12}>联系电话:{item.creatorPo.phone}</Col><Col span={12}>已收取标识费用:{item.fee}</Col></Row>
+                                        <Row><Col span={12}>固定电话:{item.creatorPo.phone}</Col><Col span={12}>已收取标识费用:{item.fee}</Col></Row>
                                         {item.result==0 ?<Row><Col span={24} style={redspan}>审核不通过原因:{item.reason}</Col></Row>:""}
                                     </Timeline.Item>
                                 );
@@ -57,7 +57,7 @@ class AuditList extends React.Component {
                                     <Timeline.Item key={index}>
                                         <Row><Col span={24}><b>复核{item.result==0 ? "未":""}通过</b></Col></Row>
                                         <Row><Col span={12}>复核人:{item.creatorPo.name}</Col><Col span={12}>复核时间:{moment(item.auditDate).format('ll')}</Col></Row>
-                                        <Row><Col span={12}>联系电话:{item.creatorPo.phone}</Col><Col span={12}>审核机构名称:{item.creatorPo.distributor.name}</Col></Row>
+                                        <Row><Col span={12}>固定电话:{item.creatorPo.phone}</Col><Col span={12}>审核机构名称:{item.creatorPo.distributor.name}</Col></Row>
                                         {item.result==0 ?<Row><Col span={24} style={redspan}>审核不通过原因:{item.reason}</Col></Row>:""}
                                     </Timeline.Item>
                                 );
@@ -67,7 +67,7 @@ class AuditList extends React.Component {
                                     <Timeline.Item key={index}>
                                         <Row><Col span={24}><b>终审{item.result==0 ? "未":""}通过</b></Col></Row>
                                         <Row><Col span={12}>终审人:{item.creatorPo.name}</Col><Col span={12}>终审时间:{moment(item.auditDate).format('ll')}</Col></Row>
-                                        <Row><Col span={12}>联系电话:{item.creatorPo.phone}</Col><Col span={12}>审核机构名称:{item.creatorPo.distributor.name}</Col></Row>
+                                        <Row><Col span={12}>固定电话:{item.creatorPo.phone}</Col><Col span={12}>审核机构名称:{item.creatorPo.distributor.name}</Col></Row>
                                         {item.result==0 ?<Row><Col span={24} style={redspan}>审核不通过原因:{item.reason}</Col></Row>:""}
                                     </Timeline.Item>
                                 );

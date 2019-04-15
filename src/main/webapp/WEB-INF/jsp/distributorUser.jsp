@@ -366,7 +366,7 @@
 				<td class="ttd"> 所属分销商 </td>
         		<td class="ttd"> 用户名 </td>
         		<td class="ttd"> 邮箱 </td>
-        		<td class="ttd"> 联系电话 </td>
+        		<td class="ttd"> 固定电话 </td>
 				<td class="ttd"> 角色 </td>
 				<td class="ttd" colspan="2"> 注册时间 </td>
 

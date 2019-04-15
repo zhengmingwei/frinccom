@@ -265,7 +265,7 @@ class CommodityForm extends React.Component {
                     </Col><Col span={12}>
                         <FormItem
                             {...doubleFormItemLayout}
-                            label={"联系电话"}
+                            label={"固定电话"}
                         >
                             {company ? company.phone: ""}
                         </FormItem>
@@ -392,7 +392,7 @@ class CommodityForm extends React.Component {
                     </Col><Col span={12}>
                         <FormItem
                             {...doubleFormItemLayout}
-                            label={"联系电话"}
+                            label={"固定电话"}
                         >
                             {factory ? factory.phone: ""}
                         </FormItem>

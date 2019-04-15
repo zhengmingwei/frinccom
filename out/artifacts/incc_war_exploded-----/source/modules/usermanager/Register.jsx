@@ -146,10 +146,10 @@ class UserAdd extends React.Component {
 				</FormItem>
 				<FormItem
                     {...formItemLayout}
-					label="联系电话"
+					label="固定电话"
 				>
                     {getFieldDecorator('phone', {initialValue: phone,})(
-						<Input placeholder="联系电话"/>
+						<Input placeholder="固定电话"/>
                     )}
 				</FormItem>
 				<FormItem
