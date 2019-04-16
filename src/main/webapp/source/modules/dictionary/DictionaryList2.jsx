@@ -81,7 +81,7 @@ export default class DictionaryList2 extends React.Component {
                         className="table"
                     />
                 </div>
-                <b style={color:red}>☺温馨提示：若截至日期若超过当前日期后的列表项目将不会再显示此列表中。</b>
+                <b>☺温馨提示：若截至日期若超过当前日期后的列表项目将不会再显示此列表中。</b>
             </div>
         )
     }
