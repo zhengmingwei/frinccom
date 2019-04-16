@@ -62,7 +62,7 @@ class PriceSearch extends React.Component {
                             {...formItemLayout}
                             label="名称："
                         >
-                            {getFieldDecorator('value', {initialValue: dictionaryCriteria.value,})(
+                            {getFieldDecorator('name', {initialValue: dictionaryCriteria.value,})(
                                 <Input placeholder="名称        " />
                             )}
                         </FormItem>

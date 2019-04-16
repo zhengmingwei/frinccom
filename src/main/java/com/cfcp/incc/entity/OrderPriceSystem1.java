@@ -20,6 +20,7 @@ public class OrderPriceSystem1 {
 
     private String id;
     private String name;
+    private String value;
     private String describe;
     private Double price;
     private String delet;
@@ -159,4 +160,5 @@ public class OrderPriceSystem1 {
     public void setUpdateTimes(String updateTimes) {
         this.updateTimes = updateTimes;
     }
+
 }

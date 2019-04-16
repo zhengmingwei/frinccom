@@ -13,6 +13,7 @@ public interface OrderPriceSystemService {
     public List<OrderPriceSystem> queryAll();
     public List<OrderPriceSystem1> queryAll1();
     public List<OrderPriceSystem1> queryAll1(Map conditions);
+    public List<OrderPriceSystem1> queryByName(Map conditions);
     public OrderPriceSystem findOrderPriceSystemById(String id);
 
     public OrderPriceSystem queryById(String productId);

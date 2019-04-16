@@ -37,6 +37,11 @@ public class OrderPriceSystemServiceImpl implements OrderPriceSystemService {
         return dao1.queryAll1_1(conditions);
     }
     @Override
+    public List<OrderPriceSystem1> queryByName(Map conditions) {
+        return dao1.queryByName(conditions);
+    }
+
+    @Override
     public List<OrderPriceSystem1> queryAll1() {
         return dao1.queryAll1();
     }

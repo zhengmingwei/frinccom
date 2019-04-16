@@ -51,7 +51,7 @@ export default class DictionaryList2 extends React.Component {
                 <span>
                     {/*<a onClick={()=>this.view(record.id)} style={{color:'#2db7f5',cursor:'pointer'}}> 查看</a>*/}
                     <a onClick={()=>this.edit(record.id)} style={{color:'#2db7f5',cursor:'pointer'}}> 修改</a>
-                    <DelConfirm onOk = {()=>this.delete(record.id, dictionaryCriteria, dictionaryList2.pageNum)}/>
+                   {/* <DelConfirm onOk = {()=>this.delete(record.id, dictionaryCriteria, dictionaryList2.pageNum)}/>*/}
                 </span>
 
             ),
@@ -69,13 +69,19 @@ export default class DictionaryList2 extends React.Component {
         console.log(industrys);
 
         return (
+
             <div>
-                <Table
-                    columns={columns}
-                    bordered
-                    dataSource={dictionaryList2}
-                    className="table"
-                />
+
+                <div>
+
+                    <Table
+                        columns={columns}
+                        bordered
+                        dataSource={dictionaryList2}
+                        className="table"
+                    />
+                </div>
+                <b style={color:red}>☺温馨提示：若截至日期若超过当前日期后的列表项目将不会再显示此列表中。</b>
             </div>
         )
     }

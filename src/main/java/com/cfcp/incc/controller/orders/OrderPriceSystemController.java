@@ -83,7 +83,8 @@ public class OrderPriceSystemController {
 
     @RequestMapping(value = "query2")
     public Object query2(@RequestParam(required = false) Map<String, String> conditions) {
-        List<OrderPriceSystem1> pageInfo= (List<OrderPriceSystem1>) service.queryAll1(conditions);
+        List<OrderPriceSystem1> pageInfo= (List<OrderPriceSystem1>) service.queryByName(conditions);
+
         //pageInfo.getList().forEach(item->item.setIndustryPo(dictionaryService.findDictionaryById(item.getIndustry())));
         return DataEvent.wrap("orderPriceSystemList", pageInfo);
     }
