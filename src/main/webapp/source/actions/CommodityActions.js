@@ -126,6 +126,9 @@ export function getCommodity_new(id) {
             E.addOneTimeEventListener("commodity", function (e) {
                 if(e.data.returnCode == "200") {
                     const commodity = e.data.result;
+
+                    console.log("/manager/commodity/new/************返回的数据！");
+                    console.log(commodity);
                     dispatch(selectCommodity(commodity));
                     const {specialItems} = commodity;
                     const {otherQualifications} = commodity;

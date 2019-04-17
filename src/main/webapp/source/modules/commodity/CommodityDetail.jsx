@@ -9,6 +9,7 @@ import PicView from "modules/common/PicView";
 import SpecialItemList from "modules/commodity/SpecialItemList";
 import OtherQualificationList from "modules/commodity/OtherQualificationList";
 import AuditList from "modules/audit/AuditList";
+import VideoView from "modules/common/VideoView";
 const FormItem = Form.Item;
 class CommodityForm extends React.Component {
 
@@ -26,7 +27,7 @@ class CommodityForm extends React.Component {
     }
 
     render() {
-        const {selectedCommodity:{name, categoryPo, industryPo, pic, company, factory, brand}} = this.props;
+        const {selectedCommodity:{name, categoryPo, industryPo, pic,sp_video,mg_price, company, factory, brand}} = this.props;
         const formItemLayout = {
             labelCol: {
                 xs: {span: 24},
@@ -104,11 +105,28 @@ class CommodityForm extends React.Component {
                             {categoryPo ?  categoryPo.value: ""}
                         </FormItem>
                         <FormItem
+                        {...formItemLayout}
+                        label="厂商价格（元）"
+                        >
+                        {mg_price}
+                        </FormItem>
+                        <Row><Col span={12}>
+                        <FormItem
                             {...formItemLayout}
                             label="商品图片"
                         >
                             <PicView fileInfo={pic}/>
                         </FormItem>
+                        </Col><Col span={12}>
+                        <FormItem
+                            {...formItemLayout}
+                            label="商品视频"
+                        >
+                            <VideoView fileInfo={sp_video}/>
+
+                        </FormItem>
+                        </Col>
+                        </Row>
                         <Row gutter={40} style={{marginBottom: "12px"}}><Col span={24}>
                         <SpecialItemList {...this.props} editAble={false}/>
                         </Col></Row>

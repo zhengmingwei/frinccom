@@ -233,15 +233,14 @@ class CommodityForm extends React.Component {
     
          const list = this.props.list;
         const {getFieldDecorator} = this.props.form;
-        const {selectedCommodity:{id, name, category, industry, pic, company, factory, brand}} = this.props;
+        const {selectedCommodity:{id, name, category, industry, pic,sp_video,mg_price, company, factory, brand}} = this.props;
         let cBusinessBegin = company?moment(company.businessBegin):moment();
         let cBusinessEnd = company?moment(company.businessEnd):moment();
         let fBusinessBegin = factory?moment(factory.businessBegin):moment();
         let fBusinessEnd = factory?moment(factory.businessEnd):moment();
         
         let cname = company?moment(company.name):moment();
-        
-        
+
         const currentIndustry = this.props.form.getFieldValue("industry");
         const commodityKey = this.props.params.id || 'defaultCommodityKey';
         console.log("picpidpic",pic)
@@ -379,16 +378,19 @@ class CommodityForm extends React.Component {
                                    <InputNumber placeholder="厂商价格" min={1} max={10}  onChange={this.onChange} />
                             </FormItem>
 */}
+
+
                         <FormItem
                             {...formItemLayout}
                             label="厂商价格（元）"
+                            hasFeedback
                         >
-                            {getFieldDecorator('mg_price')(
+                            {getFieldDecorator('mg_price', {
+                                initialValue: mg_price,
+                            })(
                                 <InputNumber placeholder="厂商价格"/>
                             )}
                         </FormItem>
-
-
 
 						<Row><Col span={12}>
                         <FormItem
@@ -415,7 +417,7 @@ class CommodityForm extends React.Component {
                                 valuePropName: 'fileList',
                                 getValueFromEvent: this.normFile,
                             })(
-                                <VideoUpload  name="uploadFile"  action="/incc/file/upload/1/1" initialValue={pic} >
+                                <VideoUpload  name="uploadFile"  action="/incc/file/upload/1/1" initialValue={sp_video} >
 	                
                                 </VideoUpload>
                             )}
