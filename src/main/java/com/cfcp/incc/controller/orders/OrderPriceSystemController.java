@@ -10,6 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.tigerfacejs.commons.view.DataEvent;
 
+import java.text.DateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -84,8 +89,23 @@ public class OrderPriceSystemController {
     @RequestMapping(value = "query2")
     public Object query2(@RequestParam(required = false) Map<String, String> conditions) {
         List<OrderPriceSystem1> pageInfo= (List<OrderPriceSystem1>) service.queryByName(conditions);
-
+        List ls = new ArrayList();
+        //java8版本
+       // pageInfo.forEach(item->{
+            for(int i = 0; i < pageInfo.size(); i++){
+                OrderPriceSystem1 item = pageInfo.get(i);
+              Date createTime = item.getCreateTime();
+              String createTimes =(new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(createTime); // dtf.format((TemporalAccessor) createTime);
+              item.setCreateTimes(createTimes);
+              Date endTime = item.getEndTime();
+              String endTimes = (new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(endTime); ;
+              item.setEndTimes(endTimes);
+            ls.add(item);
+                System.out.println(createTimes +"  ;   "+endTimes);
+            }
+       // });
         //pageInfo.getList().forEach(item->item.setIndustryPo(dictionaryService.findDictionaryById(item.getIndustry())));
-        return DataEvent.wrap("orderPriceSystemList", pageInfo);
+        System.out.println();
+        return DataEvent.wrap("orderPriceSystemList", ls);
     }
 }

@@ -23,6 +23,11 @@
     </sql>
 
     <sql id="Base_Column_List_1">
+       /*   f.ID, f.NAME, f.DESCRIBE, f.PRICE, f.DELET, f.SORT, f.TOTAL, f.STATUS,f.CREATE_TIME,f.END_TIME, f.UPDATE_TIME
+   */    f.ID, f.NAME, f.DESCRIBE, f.PRICE, f.DELET, f.SORT, f.TOTAL, f.STATUS,DATE_FORMAT(f.CREATE_TIME, '%Y-%m-%d %h:%m:%s' ) as CREATE_TIME ,DATE_FORMAT(f.END_TIME, '%Y-%m-%d %h:%m:%s' ) as END_TIME ,DATE_FORMAT(f.UPDATE_TIME, '%Y-%m-%d %h:%m:%s' ) as UPDATE_TIME
+ </sql>
+
+    <sql id="Base_Column_List_1_test_bak">
           f.ID, f.NAME, f.DESCRIBE, f.PRICE, f.DELET, f.SORT, f.TOTAL, f.STATUS,DATE_FORMAT(f.CREATE_TIME, '%Y-%m-%d %h:%m:%s' ) as CREATE_TIME ,DATE_FORMAT(f.END_TIME, '%Y-%m-%d %h:%m:%s' ) as END_TIME ,DATE_FORMAT(f.UPDATE_TIME, '%Y-%m-%d %h:%m:%s' ) as UPDATE_TIME
     </sql>
 

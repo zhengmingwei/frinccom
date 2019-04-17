@@ -47,7 +47,30 @@ public class CommodityService extends BaseService {
         commodity.setBrandId(brand.getId());
 
         Company company = commodity.getCompany();
+
         if (company != null){
+
+            company.setCompanyTypeStr(company.getCompanyType());
+            String i = company.getCompanyTypeValue();
+            if(company.getCompanyTypeValue()!=null){
+                switch(i){
+                    case "有限责任公司":
+                            company.setCompanyType("140");
+                        break;
+                    case "股份有限公司":
+                            company.setCompanyType("141");
+                        break;
+                    default:
+                        company.setCompanyType("000");
+                        break;
+                }
+            }
+
+
+
+            /*
+                                    <Option value="140">有限责任公司</Option>
+                                    <Option value="141">股份有限公司</Option>*/
             company.setDescriminator(1);// 类型（1经营企业2生产企业）
             companyService.saveOrUpdate(company);
             commodity.setCompanyId(company.getId());
@@ -55,6 +78,23 @@ public class CommodityService extends BaseService {
 
         Company factory = commodity.getFactory();
         if (factory != null){
+            factory.setCompanyTypeStr(factory.getCompanyType());
+                String i = factory.getCompanyTypeValue();
+                if(factory.getCompanyTypeValue()!=null) {
+                    switch (i) {
+                        case "有限责任公司":
+                            factory.setCompanyType("140");
+                            break;
+                        case "股份有限公司":
+                            factory.setCompanyType("141");
+                            break;
+                        default:
+                            company.setCompanyType("000");
+                            break;
+                    }
+                }
+
+
             factory.setDescriminator(2);// 类型（1经营企业2生产企业）
             companyService.saveOrUpdate(factory);
             commodity.setFactoryId(factory.getId());
@@ -99,6 +139,10 @@ public class CommodityService extends BaseService {
 
     public Commodity get(String commodityId){
         return commodityDao.get(commodityId);
+    }
+
+    public Commodity get_new(String commodityId){
+        return commodityDao.get_new(commodityId);
     }
 
     public int updateIsPayIs(String commodityId){

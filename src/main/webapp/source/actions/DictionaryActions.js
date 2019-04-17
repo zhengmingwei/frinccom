@@ -81,7 +81,6 @@ export function refreshDictionaryList2(criteria={}) {
     return dispatch => {
         E.doFind("manager/orderPriceSystem/query2", Object.assign({}, criteria));
         E.addOneTimeEventListener("orderPriceSystemList", function (e) {
-
             dispatch(receiveDictionaryList2(e.data))
         });
 

@@ -17,6 +17,8 @@ public interface CompanyDao {
 
     Company get(String id);
 
+    Company get_new(String id);
+
     int updateSelective(Company record);
 
     int update(Company record);

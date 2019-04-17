@@ -58,11 +58,15 @@ export default class DictionaryList2 extends React.Component {
             },
         ];
          
-        	 const {dictionaryList2} = this.props;
+        const {dictionaryList2} = this.props;
         const {dictionaryCriteria} = this.props;
       
 
         let industrys = new Map();
+
+        console.log("**********************+++++");
+        console.log(dictionaryList2);
+        console.log("**********************+++++~~~~~~~~~");
         dictionaryList2.forEach((item)=>{
             industrys.set(item.id, item.describe);
         })

@@ -57,7 +57,7 @@ export function saveCommodity(commodity) {
 
         E.addOneTimeEventListener("commodity", function (e) {
             if(e.data.returnCode == "200"){
-                const commodity = {name: "", category: "", industry:"", pic:"",video:"", company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}
+                const commodity = {name: "", category: "", industry:"", pic:"",sp_video:"",mg_price:0, company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}
                 dispatch(selectCommodity(commodity));
                 E.dispatchEvent("tocommoditylist");
             } else {
@@ -107,7 +107,39 @@ export function getCommodity(id) {
         }
     } else {
         return dispatch => {
-            const commodity = {name: "", category: "", industry:"", pic:"",video:"", company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}
+            const commodity = {name: "", category: "", industry:"", pic:"",sp_video:"",mg_price:0, company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}
+            dispatch(selectCommodity(commodity));
+            const {specialItems} = commodity;
+            dispatch(receiveSpecialItemList(specialItems));
+            const {otherQualifications} = commodity;
+            dispatch(receiveOtherQualificationList(otherQualifications));
+        }
+    }
+}
+
+export function getCommodity_new(id) {
+    console.log(id)
+    if(id){
+        console.log("getcommodity",id)
+        return dispatch => {
+            E.doFind("/manager/commodity/new/"+id);
+            E.addOneTimeEventListener("commodity", function (e) {
+                if(e.data.returnCode == "200") {
+                    const commodity = e.data.result;
+                    dispatch(selectCommodity(commodity));
+                    const {specialItems} = commodity;
+                    const {otherQualifications} = commodity;
+                    dispatch(receiveSpecialItemList(specialItems));
+                    dispatch(receiveOtherQualificationList(otherQualifications));
+                    E.dispatchEvent("toCommodity");
+                } else {
+                    console.log("查询失败")
+                }
+            });
+        }
+    } else {
+        return dispatch => {
+            const commodity = {name: "", category: "", industry:"", pic:"",sp_video:"",mg_price:0, company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}
             dispatch(selectCommodity(commodity));
             const {specialItems} = commodity;
             dispatch(receiveSpecialItemList(specialItems));

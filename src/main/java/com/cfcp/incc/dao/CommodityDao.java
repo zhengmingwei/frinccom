@@ -16,6 +16,8 @@ public interface CommodityDao{
 
     Commodity get(String id);
 
+    Commodity get_new(String id);
+
     int updateSelective(Commodity record);
 
     int updateIsPayIs(String id);

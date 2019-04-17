@@ -20,6 +20,7 @@ public class Company extends BaseEntity {
     private String idCode;
 
     private String companyType;
+    private String companyTypeStr;
     private String companyTypeValue;
 
     private String legalPerson;
@@ -119,6 +120,14 @@ public class Company extends BaseEntity {
 
     public void setLegalPerson(String legalPerson) {
         this.legalPerson = legalPerson == null ? null : legalPerson.trim();
+    }
+
+    public String getCompanyTypeStr() {
+        return companyTypeStr;
+    }
+
+    public void setCompanyTypeStr(String companyTypeStr) {
+        this.companyTypeStr = companyTypeStr;
     }
 
     public Date getBusinessBegin() {

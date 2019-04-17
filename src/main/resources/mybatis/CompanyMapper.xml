@@ -7,6 +7,7 @@
     <result column="ID_TYPE" property="idType" />
     <result column="ID_CODE" jdbcType="VARCHAR" property="idCode" />
     <result column="COMPANY_TYPE" property="companyType" />
+    <result column="COMPANY_TYPE_STR" jdbcType="VARCHAR"  property="companyTypeStr" />
     <result column="LEGAL_PERSON" jdbcType="VARCHAR" property="legalPerson" />
     <result column="REG_ADDR" jdbcType="VARCHAR" property="regAddr" />
     <result column="BUSINESS_ADDR" jdbcType="VARCHAR" property="businessAddr" />
@@ -28,13 +29,29 @@
     <result column="STATUS" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, NAME, ID_TYPE, ID_CODE, COMPANY_TYPE, LEGAL_PERSON, REG_ADDR, BUSINESS_ADDR,
+    ID, NAME, ID_TYPE, ID_CODE,
+    COMPANY_TYPE,
+    COMPANY_TYPE_STR, LEGAL_PERSON, REG_ADDR, BUSINESS_ADDR,
     BUSINESS_BEGIN, BUSINESS_END, CONTACTER, PHONE, MAIL, MPHONE, BUSINESS_SCOPE, BUSINESS_LICENSE, 
+    QESE, QESE_CODE, QESE_FILE, DESCRIMINATOR, CREATE_TIME, CREATOR, STATUS
+  </sql>
+  <sql id="Base_Column_List_New">
+    ID, NAME, ID_TYPE, ID_CODE,
+    /*case COMPANY_TYPE  when '140' then '有限责任公司'  when '141' then '股份有限公司' else COMPANY_TYPE_STR end COMPANY_TYPE,*/
+    COMPANY_TYPE_STR COMPANY_TYPE,
+    COMPANY_TYPE_STR, LEGAL_PERSON, REG_ADDR, BUSINESS_ADDR,
+    BUSINESS_BEGIN, BUSINESS_END, CONTACTER, PHONE, MAIL, MPHONE, BUSINESS_SCOPE, BUSINESS_LICENSE,
     QESE, QESE_CODE, QESE_FILE, DESCRIMINATOR, CREATE_TIME, CREATOR, STATUS
   </sql>
   <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
+    from COMPANY
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="get_new" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List_New" />
     from COMPANY
     where ID = #{id,jdbcType=VARCHAR}
   </select>
@@ -44,7 +61,7 @@
   </delete>
   <insert id="insert" parameterType="com.cfcp.incc.entity.Company">
     insert into COMPANY (ID, NAME, ID_TYPE, 
-      ID_CODE, COMPANY_TYPE, LEGAL_PERSON,
+      ID_CODE, COMPANY_TYPE,COMPANY_TYPE_STR, LEGAL_PERSON,
       REG_ADDR, BUSINESS_ADDR, ADDR, BUSINESS_BEGIN,
       BUSINESS_END, CONTACTER, PHONE, 
       MAIL, MPHONE, BUSINESS_SCOPE, 
@@ -52,7 +69,7 @@
       DESCRIMINATOR, CREATE_TIME, CREATOR, 
       STATUS)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{idType,jdbcType=INTEGER}, 
-      #{idCode,jdbcType=VARCHAR}, #{companyType,jdbcType=INTEGER}, #{legalPerson,jdbcType=VARCHAR}, 
+      #{idCode,jdbcType=VARCHAR}, #{companyType,jdbcType=INTEGER},#{companyTypeStr,jdbcType=VARCHAR}, #{legalPerson,jdbcType=VARCHAR},
       #{regAddr,jdbcType=VARCHAR}, #{businessAddr,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, #{businessBegin,jdbcType=DATE},
       #{businessEnd,jdbcType=DATE}, #{contacter,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{mail,jdbcType=VARCHAR}, #{mphone,jdbcType=VARCHAR}, #{businessScope,jdbcType=VARCHAR}, 
@@ -77,6 +94,9 @@
       </if>
       <if test="companyType != null">
         COMPANY_TYPE,
+      </if>
+      <if test="companyTypeStr != null">
+        COMPANY_TYPE_STR,
       </if>
       <if test="legalPerson != null">
         LEGAL_PERSON,
@@ -149,6 +169,9 @@
       <if test="companyType != null">
         #{companyType,jdbcType=INTEGER},
       </if>
+      <if test="companyTypeStr != null">
+        #{companyTypeStr,jdbcType=VARCHAR},
+      </if>
       <if test="legalPerson != null">
         #{legalPerson,jdbcType=VARCHAR},
       </if>
@@ -220,6 +243,12 @@
       <if test="companyType != null">
         COMPANY_TYPE = #{companyType,jdbcType=INTEGER},
       </if>
+      <if test="companyTypeStr != null">
+        COMPANY_TYPE_STR = #{companyTypeStr,jdbcType=VARCHAR},
+      </if>
+
+
+
       <if test="legalPerson != null">
         LEGAL_PERSON = #{legalPerson,jdbcType=VARCHAR},
       </if>
@@ -283,6 +312,7 @@
       ID_TYPE = #{idType,jdbcType=INTEGER},
       ID_CODE = #{idCode,jdbcType=VARCHAR},
       COMPANY_TYPE = #{companyType,jdbcType=INTEGER},
+      COMPANY_TYPE_STR = #{companyTypeStr,jdbcType=VARCHAR},
       LEGAL_PERSON = #{legalPerson,jdbcType=VARCHAR},
       REG_ADDR = #{regAddr,jdbcType=VARCHAR},
       BUSINESS_ADDR = #{businessAddr,jdbcType=VARCHAR},

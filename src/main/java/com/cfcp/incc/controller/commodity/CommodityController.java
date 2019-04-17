@@ -232,6 +232,16 @@ public class CommodityController extends BaseController {
         return DataEvent.wrap("commodity", new CommonDto<Commodity>(commodity));
     }
 
+    @RequestMapping(value = "/new/{id}",method = RequestMethod.GET)
+    public Object get_new(@PathVariable String id){
+        Commodity commodity = commodityService.get_new(id);
+        if(commodity==null) return DataEvent.wrap("commodity", new CommonDto(CommonDto.CommonResult.FAILED));
+        commodity.setSpecialItems(specialItemService.getByCommodityId(commodity.getId()));
+        commodity.setOtherQualifications(otherQualificationService.getByCommodityId(commodity.getId()));
+        this.populateDic(commodity);
+        return DataEvent.wrap("commodity", new CommonDto<Commodity>(commodity));
+    }
+
     private void populateDic(Commodity commodity){
         commodity.setCategoryPo(dictionaryService.findDictionaryById(commodity.getCategory()));
         commodity.setIndustryPo(dictionaryService.findDictionaryById(commodity.getIndustry()));

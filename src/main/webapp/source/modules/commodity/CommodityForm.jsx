@@ -42,7 +42,7 @@ class CommodityForm extends React.Component {
         this.props.dispatch(industryAndCategory());
         console.log("form will mount")
         if(!this.props.params.id) {
-            this.props.dispatch(selectCommodity({name: "", category: "", industry:"", pic:"", video:"",company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}));
+            this.props.dispatch(selectCommodity({name: "", category: "", industry:"", pic:"",sp_video:"",mg_price:0,company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}));
             this.props.dispatch(receiveOtherQualificationList([]));
             this.props.dispatch(receiveSpecialItemList([]));
         }
@@ -55,7 +55,7 @@ class CommodityForm extends React.Component {
         if (statusId != oldStatusId){
             console.log("nextPropsnextProps+++++",nextProps)
             // this.props.dispatch(getCommodity(statusId));
-            this.props.dispatch(selectCommodity({name: "", category: "", industry:"", pic:"", video:"",company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}));
+            this.props.dispatch(selectCommodity({name: "", category: "", industry:"", pic:"",sp_video:"",mg_price:0,company:{}, factory:{}, brand:"",otherQualifications:[],specialItems:[]}));
             this.props.dispatch(receiveOtherQualificationList([]));
             this.props.dispatch(receiveSpecialItemList([]));
             return false;
@@ -368,13 +368,28 @@ class CommodityForm extends React.Component {
                                     </Select>
                                 )}
                             </FormItem>
-                            <FormItem
+                         {/*  <FormItem
                                 {...formItemLayout}
                                 label={"厂商价格（元）"}
                                 style={pri}
                             >
+
+                                   <InputNumber placeholder="厂商价格"  />
+
                                    <InputNumber placeholder="厂商价格" min={1} max={10}  onChange={this.onChange} />
                             </FormItem>
+*/}
+                        <FormItem
+                            {...formItemLayout}
+                            label="厂商价格（元）"
+                        >
+                            {getFieldDecorator('mg_price')(
+                                <InputNumber placeholder="厂商价格"/>
+                            )}
+                        </FormItem>
+
+
+
 						<Row><Col span={12}>
                         <FormItem
                             {...formItemLayout}
@@ -396,7 +411,7 @@ class CommodityForm extends React.Component {
                             label="商品视频"
                             style={shipin}
                         >
-                            {getFieldDecorator('video', {
+                            {getFieldDecorator('sp_video', {
                                 valuePropName: 'fileList',
                                 getValueFromEvent: this.normFile,
                             })(
@@ -577,19 +592,13 @@ class CommodityForm extends React.Component {
                         
                     >
                         {getFieldDecorator('company.name1', {
-                            validateTrigger: ['onChange', 'onBlur'],
-                            rules: [{
-                                required: true,
-                                whitespace: false,
-                                message: "请输入企业名称或企业信用代码",
-                            }],
-                            initialValue: company.name1,
+                            initialValue: company.name,
                         })(
                             <Input placeholder="企业名称或企业信用代码" />
                         )}
                       
                     	 <Button type="primary" htmlType="button" size="large" style={styles}
-                                onClick={() => this.handleSubmit_1()} >一键填充1</Button>
+                                onClick={() => this.handleSubmit_1()} >一键填充 1 经营企业</Button>
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
@@ -877,19 +886,13 @@ class CommodityForm extends React.Component {
                         
                     >
                         {getFieldDecorator('factory.name1', {
-                            validateTrigger: ['onChange', 'onBlur'],
-                            rules: [{
-                                required: true,
-                                whitespace: false,
-                                message: "请输入企业名称或企业信用代码",
-                            }],
-                            initialValue: factory.name1,
+                            initialValue: factory.name,
                         })(
                             <Input placeholder="企业名称或企业信用代码"/>
                         )}
                       
                     	 <Button type="primary" htmlType="button" size="large" style={styles}
-                                onClick={() => this.handleSubmit_2()}>一键填充2</Button>
+                                onClick={() => this.handleSubmit_2()}>一键填充 2 生产企业</Button>
                     </FormItem>
                     <FormItem
                         {...formItemLayout}

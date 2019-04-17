@@ -1,6 +1,6 @@
 import React from 'react';
 import {Icon, Table, Modal, Row, Col} from 'antd';
-import {refreshCommodityList, changeCommodityStatus,delCommodity, getCommodity} from 'actions/CommodityActions';
+import {refreshCommodityList, changeCommodityStatus,delCommodity, getCommodity,getCommodity_new} from 'actions/CommodityActions';
 import {showModalDialog} from 'actions/CommonAction';
 import DelConfirm from '../common/DelConfirm';
 const confirm = Modal.confirm;
@@ -21,7 +21,8 @@ export default class CommodityList extends React.Component {
     edit(id){
          // this.props.onEdit(id);
 
-        this.props.dispatch(getCommodity(id));
+        //this.props.dispatch(getCommodity(id));
+        this.props.dispatch(getCommodity_new(id));
         const _that = this;
         E.addOneTimeEventListener("toCommodity", function (e) {
             _that.props.history.push('/manager/commodity/form/'+ id);

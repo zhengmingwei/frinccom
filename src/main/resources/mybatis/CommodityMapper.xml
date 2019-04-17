@@ -158,6 +158,78 @@
     LEFT JOIN COMPANY f ON t.FACTORY_ID = f.ID
     where t.ID = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="get_new" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+      t.*, c.ID As C_ID,
+      c.NAME As C_NAME,
+      c.ID_TYPE As C_ID_TYPE,
+      c.ID_CODE As C_ID_CODE,
+      /*c.COMPANY_TYPE As C_COMPANY_TYPE, case c.COMPANY_TYPE  when '140' then '有限责任公司'  when '141' then '股份有限公司'  else c.COMPANY_TYPE_STR end C_COMPANY_TYPE,*/
+      c.COMPANY_TYPE_STR As C_COMPANY_TYPE,
+      c.LEGAL_PERSON As C_LEGAL_PERSON,
+      c.REG_ADDR As C_REG_ADDR,
+      c.BUSINESS_ADDR As C_BUSINESS_ADDR,
+      c.ADDR As C_ADDR,
+      c.BUSINESS_BEGIN As C_BUSINESS_BEGIN,
+      c.BUSINESS_END As C_BUSINESS_END,
+      c.CONTACTER As C_CONTACTER,
+      c.PHONE As C_PHONE,
+      c.MAIL As C_MAIL,
+      c.MPHONE As C_MPHONE,
+      c.BUSINESS_SCOPE As C_BUSINESS_SCOPE,
+      c.BUSINESS_LICENSE As C_BUSINESS_LICENSE,
+      c.QESE As C_QESE,
+      c.QESE_CODE As C_QESE_CODE,
+      c.QESE_FILE As C_QESE_FILE,
+      c.DESCRIMINATOR As C_DESCRIMINATOR,
+      c.CREATE_TIME As C_CREATE_TIME,
+      c.CREATOR As C_CREATOR,
+      c.STATUS As C_STATUS,
+
+
+      f.ID As F_ID,
+      f.NAME As F_NAME,
+      f.ID_TYPE As F_ID_TYPE,
+      f.ID_CODE As F_ID_CODE,
+      /*f.COMPANY_TYPE As F_COMPANY_TYPE,   case f.COMPANY_TYPE when '140' then '有限责任公司'  when '141' then '股份有限公司'  else f.COMPANY_TYPE_STR end F_COMPANY_TYPE,*/
+      f.COMPANY_TYPE_STR As F_COMPANY_TYPE,
+      f.LEGAL_PERSON As F_LEGAL_PERSON,
+      f.REG_ADDR As F_REG_ADDR,
+      f.BUSINESS_ADDR As F_BUSINESS_ADDR,
+      f.ADDR As F_ADDR,
+      f.BUSINESS_BEGIN As F_BUSINESS_BEGIN,
+      f.BUSINESS_END As F_BUSINESS_END,
+      f.CONTACTER As F_CONTACTER,
+      f.PHONE As F_PHONE,
+      f.MAIL As F_MAIL,
+      f.MPHONE As F_MPHONE,
+      f.BUSINESS_SCOPE As F_BUSINESS_SCOPE,
+      f.BUSINESS_LICENSE As F_BUSINESS_LICENSE,
+      f.QESE As F_QESE,
+      f.QESE_CODE As F_QESE_CODE,
+      f.QESE_FILE As F_QESE_FILE,
+      f.DESCRIMINATOR As F_DESCRIMINATOR,
+      f.CREATE_TIME As F_CREATE_TIME,
+      f.CREATOR As F_CREATOR,
+      f.STATUS As F_STATUS,
+
+      b.ID As B_ID,
+      b.NAME As B_NAME,
+      b.OWNER As B_OWNER,
+      b.CODE As B_CODE,
+      b.BRAND_STATUS As B_BRAND_STATUS,
+      b.REGISTRATION_CERTIFICATE As B_REGISTRATION_CERTIFICATE,
+      b.NOTIFICATION As B_NOTIFICATION,
+      b.AUTHORIZATION As B_AUTHORIZATION,
+      b.DISTRIBUTOR_ID As B_DISTRIBUTOR_ID,
+      b.CREATE_TIME As B_CREATE_TIME,
+      b.CREATOR As B_CREATOR
+    from COMMODITY t
+    LEFT JOIN BRAND b ON t.BRAND_ID = b.ID
+    LEFT JOIN COMPANY c ON t.COMPANY_ID = c.ID
+    LEFT JOIN COMPANY f ON t.FACTORY_ID = f.ID
+    where t.ID = #{id,jdbcType=VARCHAR}
+  </select>
   <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
     select
       t.*, c.ID As C_ID,

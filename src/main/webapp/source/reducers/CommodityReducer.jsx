@@ -44,7 +44,7 @@ export function  commodityOptions(state = [], action){
     }
 }
 
-export function selectedCommodity(state = {name:"", category:"", industry:"1", pic:"",video:"",company:[], factory:[], brand:{}}, action) {
+export function selectedCommodity(state = {name:"", category:"", industry:"1", pic:"",sp_video:"",mg_price:0,company:[], factory:[], brand:{}}, action) {
     switch (action.type){
         case SELECT_COMMODITY:
             return action.data;
