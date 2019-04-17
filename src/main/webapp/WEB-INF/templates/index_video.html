@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, minimum-scale=0.3, maximum-scale=2.0, user-scalable=yes" />
+    <meta content="no" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection" />
+    <link rel="stylesheet" type="text/css" href="../css/all.css"/>
+    <title>CFCPINCC</title>
+    <style type="text/css">
+        <!--
+        body {
+            margin-left: 0px;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+
+        }
+
+        -->
+    </style>
+
+</head>
+<body>
+<div id="pagewrap">
+    <div id="top">
+        <img src="../images/logo.png" class="logo">
+    </div>
+    <div class="clear"></div>
+    <div id="header">
+        <h2 align="center">中国保护消费者基金会</h2>
+        <h1 align="center"><span class="incc_big">CFCPINCC</span> 合规商品资质识别信息 </h1>
+        <p>　　经过CFCPINCC验证，该商品资质齐备，商品资质符合国家监管部门对此类型
+            商品上市流通的法规要求和规范。<br />
+            　　特授予此商品 <b>合规资质CFCPINCC标识</b> 。 </p>
+    </div>
+    <div class="clear"></div>
+    <div id="info" th:object="${commodity}">
+        <p><strong>商品信息总览：</strong><br />
+            商品名称： <b th:text="*{name}"></b><br />
+            商品类型： <b th:text="*{categoryPo != null}?*{categoryPo.value}"></b>	    <br />
+            出品机构： <b  th:text="${company != null}?${company.name}"></b>	    <br />
+            品牌名称： <b th:text="${brand.name}"></b><br />
+        <div id="info_mg_price" style="display: block">
+            厂商价格： <b style="font-weight: normal;padding-bottom: 2px;border-bottom: 1px solid #000;" th:text="*{mg_price}+(元)"></b><br />
+        </div>
+        标识效期： <b style="font-weight: normal;padding-bottom: 2px;border-bottom: 1px solid #000;" th:text="${audit != null&&audit.beginDate!=null}?${#calendars.format(audit.beginDate,' yyyy年 MM月 dd日')} + '至' + ${#calendars.format(audit.expireDate,' yyyy年 MM月 dd日')}:''"> </b> <br />
+        </p>
+    </div>
+    <div class="clear"></div>
+
+
+    <div id="info" th:object="${commodity}">
+
+        <div id="commodityVideo_" style="display: none">
+            <p><strong>商品视频：</strong><br /></p>
+        </div>
+        <div id="commodityVideo">
+
+
+            <video id="vv_video"
+                   controls="controls"
+                   loop="loop"
+                   autoplay="autoplay"
+                   webkit-playsinline playsinline
+                   x5-video-player-type=”h5” x5-video-orientation="landscape"
+                   style="background-color: rgb(0, 0, 0); width: 100%; display: block;"
+                   src="http://icon.cfcpincc.com:81/1/1/VID_20190411_171417.mp4">
+            </video>
+
+           <script th:inline="javascript">
+               // var fileInfo = JSON.parse([[*{sp_video}]]);
+                var sp_video = JSON.parse([[*{sp_video}]]);
+                var sr = sp_video.url;
+                sr = "http://icon.cfcpincc.com:81"+sr.split('get')[1];
+                var ele = document.getElementById("vv_video");
+                ele.src= sr;
+            </script>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="info">
+        <p><strong>行政审批许可信息</strong></p>
+
+        <table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" class="box01" th:each="specialItem : ${specialItems}">
+            <tr>
+                <td width="32%" height="38" class="td_gray01">审批项目</td>
+                <td width="55%" height="38" class="td_gray01" th:text="${specialItem.name}"> </td>
+                <td width="13%" height="38" class="td_gray01">-</td>
+            </tr>
+            <tr>
+                <td height="38" class="td_gray01">凭证号码</td>
+                <td height="38" class="td_gray01" th:text="${specialItem.code}"></td>
+                <td height="38" class="td_gray01">-</td>
+            </tr>
+            <tr>
+                <td height="38" class="td_gray01">有效时间</td>
+                <td height="38" class="td_gray01"  th:text="${specialItem.expiryDate != null}?${#calendars.format(specialItem.expiryDate,' yyyy-MM-dd')}"></td>
+                <td height="38" class="td_gray01">-</td>
+            </tr>
+            <tr>
+                <td height="38" class="td_gray01">审批机构</td>
+                <td height="38" class="td_gray01" th:text="${specialItem.auditOrg}"></td>
+                <td height="38" class="td_gray01">-</td>
+            </tr>
+        </table>
+        </p>
+    </div> 
+    <div id="info">
+        <p><strong>商品检测信息</strong></p>
+
+        <table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" class="box01">
+            <tr th:each="otherQualification : ${otherQualifications}">
+                <td width="32%" height="38" class="td_gray01" th:text="${otherQualification.reportTypePo != null&&otherQualification.reportTypePo.id!=67}?${otherQualification.reportTypePo.value}:${otherQualification.name}"></td>
+                <td width="55%" height="38" class="td_gray01" th:text="${otherQualification.detectionOrg}"> </td>
+                <td width="13%" height="38" class="td_gray01">合格</td>
+            </tr>
+        </table>
+
+        </p>
+    </div>
+    <div id="info" th:object="${company}">
+        <p><strong>经营主体</strong></p>
+
+        <table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" class="box01">
+            <tr>
+                <td width="32%" height="38" class="td_gray01">经营主体名称</td>
+                <td width="55%" height="38" class="td_gray01" th:text="${company != null}?*{name}"></td>
+                <td width="13%" height="38" class="td_gray01">--</td>
+            </tr>
+            <tr>
+                <td height="38" class="td_gray01">社会统一信用代码</td>
+                <td height="38" class="td_gray01" th:text="${company != null } ? *{idCode}:''">--</td>
+                <td height="38" class="td_gray01">--</td>
+            </tr>
+            <tr>
+                <td height="38" class="td_gray01">营业期限</td>
+                <td height="38" class="td_gray01" th:text="${company != null} ?${#calendars.format(company.businessBegin,' yyyy年 MM月 dd日')} + '至' + ${#calendars.format(company.businessEnd,' yyyy年 MM月 dd日')}">--</td>
+                <td height="38" class="td_gray01">--</td>
+            </tr>
+            <tr>
+                <td height="38" class="td_gray01" th:text="${company != null}?*{qese}"> </td>
+                <td height="38" class="td_gray01" th:text="${company != null}?*{qeseCode}">--</td>
+                <td height="38" class="td_gray01">--</td>
+            </tr>
+        </table>
+
+        </p>
+    </div>
+    <div id="info" th:object="${brand}">
+        <p><strong>品牌信息</strong></p>
+
+        <table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" class="box01">
+            <tr>
+                <td height="38" class="td_gray01">品牌名称</td>
+                <td height="38" class="td_gray01" th:text="*{name}">铂世铃／Palingenesis</td>
+                <td height="38" class="td_gray01">有效</td>
+            </tr>
+            <tr>
+                <td height="38" class="td_gray01">品牌状态</td>
+                <td height="38" class="td_gray01" th:text="*{brandStatusValue}">TM</td>
+                <td height="38" class="td_gray01">有效</td>
+            </tr>
+            <tr>
+                <td height="38" class="td_gray01">品牌注册证号</td>
+                <td height="38" class="td_gray01" th:text="*{code}">TMZC19＊＊＊＊78ZCSL01</td>
+                <td height="38" class="td_gray01">有效</td>
+            </tr>
+            <tr>
+                <td width="32%" height="38" class="td_gray01">品牌权利人</td>
+                <td width="55%" height="38" class="td_gray01" th:text="*{owner}">博悦洋行（北京）贸易有限公司</td>
+                <td width="13%" height="38" class="td_gray01">有效</td>
+            </tr>
+        </table>
+
+        </p>
+    </div>
+    <div id="info" th:object="${factory}">
+        <p><strong>生产主体</strong></p>
+
+        <table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" class="box01">
+            <tr>
+                <td width="32%" height="38" class="td_gray01">生产主体名称</td>
+                <td width="55%" height="38" class="td_gray01" th:text="${factory != null}?*{name}"></td>
+                <td width="13%" height="38" class="td_gray01">--</td>
+            </tr>
+            <tr>
+                <td height="38" class="td_gray01">社会统一信用代码</td>
+                <td height="38" class="td_gray01" th:text="${factory != null } ? *{idCode}:''">--</td>
+                <td height="38" class="td_gray01">--</td>
+            </tr>
+            <tr>
+                <td height="38" class="td_gray01">营业期限</td>
+                <td height="38" class="td_gray01" th:text="${factory != null} ?${#calendars.format(factory.businessBegin,' yyyy年 MM月 dd日')} + '至' + ${#calendars.format(factory.businessEnd,' yyyy年 MM月 dd日')}">--</td>
+                <td height="38" class="td_gray01">--</td>
+            </tr>
+            <tr>
+                <td height="38" class="td_gray01" th:text="${factory != null}?*{qese}"> </td>
+                <td height="38" class="td_gray01" th:text="${factory != null}?*{qeseCode}">--</td>
+                <td height="38" class="td_gray01">--</td>
+            </tr>
+        </table>
+
+        </p>
+    </div>
+    <!--<div id="info">-->
+    <!--<p><strong>行政审批许可信息</strong></p>-->
+
+    <!--<table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" class="box01">-->
+    <!--<tr>-->
+    <!--<td height="38" class="td_gray01">行政许可审批机构</td>-->
+    <!--<td height="38" class="td_gray01">国家食品药品监督管理总局</td>-->
+    <!--<td height="38" class="td_gray01">&#45;&#45;</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td width="32%" height="38" class="td_gray01">备案时间</td>-->
+    <!--<td width="55%" height="38" class="td_gray01">2017-1-18</td>-->
+    <!--<td width="13%" height="38" class="td_gray01">有效</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td height="38" class="td_gray01">备案凭证号</td>-->
+    <!--<td height="38" class="td_gray01">京G妆网备字20＊＊＊＊＊＊39</td>-->
+    <!--<td height="38" class="td_gray01">有效</td>-->
+    <!--</tr>-->
+    <!--</table>-->
+
+    <!--</p>-->
+    <!--</div>-->
+    <!--<div id="info">-->
+    <!--<p><strong>商品检测信息</strong></p>-->
+
+    <!--<table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" class="box01">-->
+    <!--<tr th:each="item : ${otherQualifications}">-->
+    <!--<td height="38" class="td_gray01" th:text="${item.reportTypePo!=null}?${item.reportTypePo.value}">铅</td>-->
+    <!--<td height="38" class="td_gray01" th:text="${item.detectionOrg}">广州微生物检测中心</td>-->
+    <!--<td height="38" class="td_gray01">合格</td>-->
+    <!--</tr>-->
+
+    <!--</table>-->
+
+    <!--</p>-->
+    <!--</div>-->
+    <div id="info">
+        <p>注： <br />
+            <ul>
+                <li> 本页所列商品资质信息不可用于非法目的。</li>
+                <li> CFCPINCC不对本页所列商品的品质、上市流通资格以及商品经营、生产主体的资格担保或承诺，也不对因上述识别信息而生产的交易纠纷、调处结果及赔付承担任何责任。</li>
+                <li> CFCPINCC仅对本页所列商品的符合国家行政监督管理部门强制要求的检测、认可、许可、备案信息和凭证进行查询、收集、核实与展示。</li>
+                <li>CFCPINCC对本活动拥有最终解释权。 </li>
+        <p align="right"><strong>中国保护消费者基金会 <br />
+            合规商品资质验证中心 <br />
+            <span th:text="${audit != null&&audit.auditDate!=null}?${#calendars.format(audit.auditDate,' yyyy年 MM月 dd日')}"></span>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+        </strong></ul>
+
+        </p>
+    </div>
+    <div id="info">
+        <div id="left" style="font-size:1.2rem"><br />
+
+            点击 <span class="incc_red">关注CFCPINCC</span> 或扫描右侧二维码关注CFCPINCC微信公众号<a href="http://www.cfcpincc.com/a/jigougaikuang/lianxiwomen/"><span class="incc_red">联系我们</span></a>
+            获得更多合规商品讯息和合规商品免费试用机会。</div>
+        <div id="right">
+            <div align="right"><img src="../images/ewm.png" width="165" height="163" align="absmiddle" /></div>
+        </div>
+
+
+        </p>
+    </div>
+    <div id="info">&nbsp;</div>
+</div>
+<!--<script type="text/javascript" src="../js/moment.min.js"/>-->
+<div style="display:none"><script src="https://s22.cnzz.com/z_stat.php?id=1264324546&web_id=1264324546" language="JavaScript"></script></div>
+
+</body>
+</html>
