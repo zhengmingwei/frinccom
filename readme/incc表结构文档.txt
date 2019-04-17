@@ -140,6 +140,7 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 alter table COMPANY comment '企业表';
 
+-- 添加 字段
 alter table COMPANY add COMPANY_TYPE_STR varchar(180) default NULL comment '企业类型 字符串 ';
 
 
