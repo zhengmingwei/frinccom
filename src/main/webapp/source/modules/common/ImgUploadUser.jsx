@@ -21,14 +21,13 @@ function beforeUpload(file) {
     return isJPG && isLt3M;
 }
 //noinspection JSAnnotator
-class ImgUpload extends React.Component {
+class ImgUploadUser extends React.Component {
 
     constructor(){
         super();
         this.state = {
             imageUrl:null
         }
-    
     };
     handleChange = (info) => {
 
@@ -57,12 +56,9 @@ class ImgUpload extends React.Component {
             const initObj = eval("("+initialValue+")");
             this.fileList = [{"uid": initObj.uid, "name":"", "status": "done", "response":{"status": "success", "result":initObj}} ];
             if (initObj){
-                console.log("this.state.imageUrl前: ", this.state.imageUrl);
+                console.log("this.state.imageUrl   前: ", this.state.imageUrl);
                 this.state.imageUrl = "";
                 this.state.imageUrl = initObj.url ;
-                console.log("_setIntiValue:", this.fileList);
-                console.log("this.state.imageUrl后: ", initObj.url);
-                console.log("file:this.fileList[0]: ", this.fileList[0]);
                  this.triggerChange({file:this.fileList[0]})
             }
         } else {
@@ -95,6 +91,7 @@ class ImgUpload extends React.Component {
         //     console.log("this.state.imageUrl ", this.state.imageUrl );
         //     console.log("this.fileLIst", this.fileList);
         // }
+
         const imageUrl = this.state.imageUrl;
         console.log("imageUrl：~~~~~ ", imageUrl);
         return (
@@ -109,5 +106,5 @@ class ImgUpload extends React.Component {
         );
     }
 }
-ImgUpload = createForm()(ImgUpload);
-export default ImgUpload;
+ImgUploadUser = createForm()(ImgUploadUser);
+export default ImgUploadUser;

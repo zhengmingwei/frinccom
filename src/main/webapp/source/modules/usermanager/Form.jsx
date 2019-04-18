@@ -6,6 +6,7 @@ import SubPage from 'modules/common/SubPage';
 import {Form, Input, Checkbox, Select, Button} from "antd";
 import {showModalDialog} from "actions/CommonAction";
 import ImgUpload from "modules/common/ImgUpload";
+import moment from "../commodity/CommodityForm";
 
 
 const FormItem = Form.Item;
@@ -40,10 +41,14 @@ class UserAdd extends React.Component {
     }
 
     saveUser() {
+        let rows1 = this.props.form.getFieldsValue();
+        console.log("~~~~~~~~~~~~~~~~~~~~~~saveUser *******************11112222")
+        console.log(rows)
         E.addOneTimeEventListener("touserlist",  (e) => {
             this.props.history.push('/manager/user/list');
         })
         let rows = this.props.form.getFieldsValue();
+        console.log(rows)
         const {roleIds} = rows;
         let roles = [];
         roleIds.map((roleId)=>{ let role = {}; role.id = roleId; roles.push(role) });
@@ -53,7 +58,17 @@ class UserAdd extends React.Component {
 
     render() {
         const {getFieldDecorator} = this.props.form;
-        const {selectedUser:{id, name= "", password="",idCard="", mail="",pic="", phone="", distributorId="", roles=[]}} = this.props;
+
+        console.log("~~~~~~~~~~~~~~~~~~~~~~render *******************88888888888"+businessLicense)
+        let fbusinessLicense = "aa";
+
+        console.log("~~~~~~~~~~~~~~~~~~~~~~render ********** aa *******88888888888"+fbusinessLicense)
+        console.log("~~~~~~~~~~~~~~~~~~~~~~render *******************88888888888"+businessLicense)
+        console.log(this.props.form)
+        const {selectedUser:{id, name= "", password="",idCard="", mail="",businessLicense="", phone="", distributorId="", roles=[]}} = this.props;
+        fbusinessLicense = businessLicense;
+        console.log("~~~~~~~~~~~~~~~~~~~~~~render **************businessLicense**fbusinessLicense***88888888888"+fbusinessLicense)
+
         let roleIds = [];
         roles.forEach((item) => roleIds.push(item.id));
         const formItemLayout = {
@@ -87,6 +102,14 @@ class UserAdd extends React.Component {
             { label: '复核管理员', value: 'ROLE_REAUDITOR' },
         ];
         const {distributorOptions} = this.props;
+
+        console.log("~~~~~~~~~~~~~~~~~~~~~~render ******this.props*************88888888888"+this.props)
+
+        console.log("~~~~~~~~~~~~~~~~~~~~~~render ******this.props.form*************88888888888"+this.props.form)
+        const {form1} = this.props.form;
+        console.log("~~~~~~~~~~~~~~~~~~~~~~render ******form1*************88888888888"+form1)
+        console.log("~~~~~~~~~~~~~~~~~~~ 1234 businessLicense    "+businessLicense)
+        console.log("~~~~~~~~~~~~~~~~~~~ 5678 fbusinessLicense   "+fbusinessLicense)
         let distributorOptionsObj = [];
         distributorOptionsObj = distributorOptions.map((item) => {
 
@@ -156,11 +179,11 @@ class UserAdd extends React.Component {
                     {...formItemLayout}
                     label="企业资质"
                 >
-                    {getFieldDecorator('pic', {
+                    {getFieldDecorator('businessLicense', {
                         valuePropName: 'fileList',
                         getValueFromEvent: this.normFile,
                     })(
-                        <ImgUpload name="uploadFile" action="/incc/file/upload/1/1" initialValue={pic} >
+                        <ImgUpload name="uploadFile" action="/incc/file/upload/1/1" initialValue={fbusinessLicense} >
 
                         </ImgUpload>
                     )}

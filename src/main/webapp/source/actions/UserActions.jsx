@@ -15,6 +15,8 @@ export function receiveUserList(data) {
 }
 
 export function selectUser(data) {
+
+    console.log("~~~~~~~~~~~~~~~~~~~~~~selectUser(data) *******************11112222"+data)
     return {
         type: SELECT_USER,
         data: data
@@ -56,6 +58,8 @@ export  function userStatusChanged(data){
 
 
 export function saveUser(user) {
+
+    console.log(user)
     return dispatch => {
         E.doAdd("manager/user", user);
 
@@ -86,7 +90,7 @@ export function getUser(id) {
         }
     } else {
         return dispatch => {
-            const use = {name: "", idCard: "", mail:"", phone:"", distributorId:""}
+            const use = {name: "", idCard: "", mail:"",businessLicense:"", phone:"", distributorId:""}
             dispatch(selectUser(use));
         }
     }

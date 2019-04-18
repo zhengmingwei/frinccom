@@ -34,7 +34,7 @@ export function  userStatus(state = [], action){
     }
 }
 
-export function selectedUser(state = {id:"", name: "", idCard: "", mail:"", phone:"", distributorId:""}, action) {
+export function selectedUser(state = {id:"", name: "", idCard: "", mail:"",businessLicense:"", phone:"", distributorId:""}, action) {
     switch (action.type){
         case SELECT_USER:
             return action.data;

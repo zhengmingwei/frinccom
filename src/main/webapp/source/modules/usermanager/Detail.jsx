@@ -5,6 +5,8 @@ import {allDistributorOptions} from "actions/DistributorActions";
 import SubPage from 'modules/common/SubPage';
 import {Form, Input, Checkbox, Select, Button} from "antd";
 import {showModalDialog} from "actions/CommonAction";
+import ImgUploadUser from "modules/common/ImgUploadUser";
+
 const FormItem = Form.Item;
 const CheckboxGroup = Checkbox.Group;
 const createForm = Form.create;
@@ -23,7 +25,10 @@ class UserAdd extends React.Component {
 
     render() {
         const {getFieldDecorator} = this.props.form;
-        const {selectedUser:{ name= "", idCard="", mail="", phone="", distributor={}, roles=[]}} = this.props;
+        const {selectedUser:{ name= "", idCard="", mail="",businessLicense="", phone="", distributor={}, roles=[]}} = this.props;
+        console.log("**** 查看明细：")
+        console.log(businessLicense)
+
         let roleNames = "";
         roles.forEach((item) => roleNames = roleNames +" "+item.name);
         const formItemLayout = {
@@ -89,7 +94,15 @@ class UserAdd extends React.Component {
                     >
                         {roleNames}
                     </FormItem>
-
+                    <FormItem
+                        {...formItemLayout}
+                        label="企业资质"
+                    >
+                        {
+                            <ImgUploadUser name="uploadFile" action="/incc/file/upload/1/1" initialValue={businessLicense} >
+                            </ImgUploadUser>
+                        }
+                    </FormItem>
                 </Form>
             </SubPage>
         )

@@ -62,7 +62,7 @@ class UserAdd extends React.Component {
     }
     render() {
         const {getFieldDecorator} = this.props.form;
-        const {selectedUser:{id, name= "", idCard="", mail="", phone="", distributorId="", roles=[]}} = this.props;
+        const {selectedUser:{id, name= "", idCard="", mail="", businessLicense="",phone="", distributorId="", roles=[]}} = this.props;
         let roleIds = [];
         roles.forEach((item) => roleIds.push(item.id));
         const formItemLayout = {
