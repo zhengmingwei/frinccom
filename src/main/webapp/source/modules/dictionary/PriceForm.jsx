@@ -171,7 +171,7 @@ class PriceForm extends React.Component {
                     label="期限自"
                     hasFeedback
                 >
-                    {getFieldDecorator('createTime', {
+                    {getFieldDecorator('createTimes', {
                         validateTrigger: ['onChange', 'onBlur'],
                         rules: [{
                             required: true,
@@ -187,7 +187,7 @@ class PriceForm extends React.Component {
                     label="期限至"
                     hasFeedback
                 >
-                    {getFieldDecorator('endTime', {
+                    {getFieldDecorator('endTimes', {
                         validateTrigger: ['onChange', 'onBlur'],
                         rules: [{
                             required: true,

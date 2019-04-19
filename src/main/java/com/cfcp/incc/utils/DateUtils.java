@@ -471,6 +471,17 @@ public class DateUtils {
 			return null;
 		}
 	}
+	public static Date parseFormat_DateTime(String str) {
+		if (StringUtils.isEmpty(str)) {
+			return null;
+		}
+		try {
+			return new SimpleDateFormat(Format_DateTime).parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	/**
 	 * 按指定格式解析字符串，并返回相应的java.util.Date对象

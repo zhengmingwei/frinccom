@@ -9,6 +9,16 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
+    <!--
+     	   配置一个基于注解的定制的WebBindingInitializer，解决日期转换问题，方法级别的处理器映射，这段配置最好放在其它配置的前面
+	-->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="cacheSeconds" value="0" />
+        <property name="webBindingInitializer">
+            <bean class="com.cfcp.incc.controller.WebBinding" />
+        </property>
+    </bean>
+
     <!-- 自动扫描 @Controller -->
     <context:component-scan base-package="com.cfcp.incc.controller"
                             use-default-filters="false">

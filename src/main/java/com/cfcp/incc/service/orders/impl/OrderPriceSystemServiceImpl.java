@@ -83,7 +83,7 @@ public class OrderPriceSystemServiceImpl implements OrderPriceSystemService {
     }
     @Override
     public int saveOrUpdate1(OrderPriceSystem1 op) {
-
+        /*
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if(op!=null && op.getEndTime()!=null && op.getCreateTime()!=null){
             try {
@@ -94,7 +94,7 @@ public class OrderPriceSystemServiceImpl implements OrderPriceSystemService {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         if("自动生成".equals(op.getId()) || "".equals(op.getId())){
             op.setId(GeneratorComparator.getGenerator(GeneratorComparator.GENERATOR_NUM).generate().toString());
             return dao1.insert(op);

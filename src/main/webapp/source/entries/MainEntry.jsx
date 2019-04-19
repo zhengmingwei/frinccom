@@ -24,6 +24,7 @@ import Third from 'modules/audit/Third';
 import Final from 'modules/audit/Final';
 import DictionaryManager from 'modules/dictionary/DictionaryManager';
 import PricingStructureManager from 'modules/dictionary/PricingStructureManager';
+import PriceSysBuyManager from 'modules/dictionary/PriceSysBuyManager';
 import DictionaryForm from 'modules/dictionary/Form';
 
 import PriceForm from 'modules/dictionary/PriceForm';
@@ -32,9 +33,10 @@ import precautionaryManager from 'modules/precautionary/precautionaryManager';
 
 import configureStore from 'store/configureStore';
 import DevTools from 'containers/DevTools';
-import {Router, Route, hashHistory, IndexRoute} from 'react-router';
+import {Router, Route, hashHistory, IndexRoute, Link} from 'react-router';
 import {syncHistoryWithStore} from 'react-router-redux';
 import Network from 'tigerfacejs-network';
+import {Menu} from "antd";
 
 
 
@@ -87,7 +89,8 @@ render(
                     <Route path="/manager/dictionary/list" components={DictionaryManager}/>
                     
                     <Route path="/manager/orderPriceSystem/query2" components={PricingStructureManager}/>
-                    
+                    <Route path="/manager/orderPriceSystem/queryBuy" components={PriceSysBuyManager}/>
+
                     <Route path="/manager/dictionary/form" components={DictionaryForm}/>
                     <Route path="/manager/dictionary/form/:id" components={DictionaryForm}/>
                     <Route path="/manager/orderPriceSystem/Priceform" components={PriceForm}/>

@@ -57,12 +57,8 @@ class ImgUpload extends React.Component {
             const initObj = eval("("+initialValue+")");
             this.fileList = [{"uid": initObj.uid, "name":"", "status": "done", "response":{"status": "success", "result":initObj}} ];
             if (initObj){
-                console.log("this.state.imageUrl前: ", this.state.imageUrl);
                 this.state.imageUrl = "";
                 this.state.imageUrl = initObj.url ;
-                console.log("_setIntiValue:", this.fileList);
-                console.log("this.state.imageUrl后: ", initObj.url);
-                console.log("file:this.fileList[0]: ", this.fileList[0]);
                  this.triggerChange({file:this.fileList[0]})
             }
         } else {
