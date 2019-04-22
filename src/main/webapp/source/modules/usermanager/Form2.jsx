@@ -14,7 +14,7 @@ const CheckboxGroup = Checkbox.Group;
 const createForm = Form.create;
 const Option = Select.Option;
 
-class UserAdd extends React.Component {
+class UserAdd2 extends React.Component {
 
     constructor(props) {
         super(props);
@@ -43,7 +43,7 @@ class UserAdd extends React.Component {
     saveUser() {
         let rows1 = this.props.form.getFieldsValue();
         E.addOneTimeEventListener("touserlist",  (e) => {
-            this.props.history.push('/manager/user/list');
+            this.props.history.push('/manager/user/list2');
         })
         let rows = this.props.form.getFieldsValue();
         console.log(rows)
@@ -88,12 +88,8 @@ class UserAdd extends React.Component {
             },
         };
         const options = [
-            { label: '管理员', value: 'ROLE_ADMIN' },
             { label: '审核管理员', value: 'ROLE_AUDITOR' },
             { label: '客服人员', value: 'ROLE_CUSTOMER' },
-            { label: '标识费用审核管理', value: 'ROLE_FEE_AUDITOR' },
-            { label: '终审管理员', value: 'ROLE_FINAL_AUDITOR' },
-            { label: '复核管理员', value: 'ROLE_REAUDITOR' },
         ];
         const {distributorOptions} = this.props;
 
@@ -106,7 +102,7 @@ class UserAdd extends React.Component {
             return <Option key={item.ID}>{item.NAME}</Option>;
         });
         return (
-            <SubPage breadcrumb="/首页/后台管理/用户管理/添加用户">
+            <SubPage breadcrumb="/审核管理中心/分销商用户管理/修改用户">
 			<Form>
                 {getFieldDecorator('id', {
                     initialValue: id,
@@ -200,7 +196,7 @@ class UserAdd extends React.Component {
     }
 }
 ;
-UserAdd = createForm()(UserAdd);
+UserAdd2 = createForm()(UserAdd2);
 export default  connect(
     state => {
         let {distributorOptions, selectedUser} = state;
@@ -208,4 +204,4 @@ export default  connect(
             distributorOptions, selectedUser
         }
     }
-)(UserAdd);
+)(UserAdd2);

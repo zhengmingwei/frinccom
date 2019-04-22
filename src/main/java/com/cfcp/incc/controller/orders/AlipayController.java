@@ -5,6 +5,7 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 
+import com.cfcp.incc.dto.CommonDto;
 import com.cfcp.incc.entity.*;
 import com.cfcp.incc.security.UserContext;
 import com.cfcp.incc.service.commodity.CommodityService;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.tigerfacejs.commons.view.DataEvent;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
@@ -187,6 +189,18 @@ public class AlipayController {
 		return map;
 	}
 
+	/**
+	 * 获取当前用户所有已购套餐（ react 版本）
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/orderPackagesByUserId2")
+	public Object orderPackagesByUserId2() throws Exception {
+		User user = UserContext.getCurrentUser();
+		List<OrderPackage> l = orderPackageService.queryAllByUserId(user.getId());
+		return DataEvent.wrap("orderPackageList", l);
+	}
 	/**
 	 * 进入确认页面
 	 * @param productId

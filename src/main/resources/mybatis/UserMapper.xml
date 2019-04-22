@@ -25,9 +25,42 @@
 
         </collection>
     </resultMap>
-    <sql id="Base_Column_List">
+
+
+  <sql id="Base_Column_List">
     ID, ID_CARD, NAME,  PASSWORD, MAIL, PHONE, DISTRIBUTOR_ID, CREATE_TIME, CREATOR, STATUS
   </sql>
+
+    <!--<resultMap id="ClassResultMap2" type="com.cfcp.incc.entity.User" >
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="ID_CARD" jdbcType="VARCHAR" property="idCard" />
+        <result column="NAME" jdbcType="VARCHAR" property="name" />
+        <result column="MAIL" jdbcType="VARCHAR" property="mail" />
+        <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+        <result column="COMPANY_NAME" jdbcType="VARCHAR" property="companyName" />
+        <result column="BUSINESS_LICENSE" jdbcType="VARCHAR" property="businessLicense" />
+        <result column="DISTRIBUTOR_ID" jdbcType="VARCHAR" property="distributorId" />
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+        <result column="STATUS" jdbcType="INTEGER" property="status" />
+        <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+        <result column="SURPLUS_QRCODE_DESC" jdbcType="VARCHAR" property="surplusQRcodeDesc" />
+        <association property="distributor" column="DISTRIBUTOR_ID" javaType="com.cfcp.incc.entity.Distributor" select="getDistributor2"></association>
+        <collection property="roles" ofType="com.cfcp.incc.entity.Role">
+            <id column="ROLE_ID" jdbcType="VARCHAR" property="id" />
+            <result column="ROLE_NAME" jdbcType="VARCHAR" property="name" />
+        </collection>
+      </resultMap>
+
+       <select id="getUsersByDistributorName2" parameterType="java.lang.String" resultMap="ClassResultMap2">
+          select * from USER where D_ID=#{name}
+       </select>
+    <select id="getDistributor2" parameterType="java.lang.String" resultType="com.cfcp.incc.entity.Distributor">
+        SELECT D_ID id, D_NAME name FROM DISTRIBUTOR WHERE D_ID=#{id}
+    </select>
+-->
+
+
     <select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
         SELECT t.*,
         d.Id as D_ID, d.NAME as D_NAME, r.ROLE_ID, r.ROLE_NAME
@@ -48,6 +81,29 @@
         LEFT JOIN ROLE r on r.ROLE_ID = ur.ROLE_ID
         where t.DISTRIBUTOR_ID = #{id,jdbcType=VARCHAR}
     </select>
+    <select id="getUsersByDistributorName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT t.*,
+        d.Id as D_ID, d.NAME as D_NAME, r.ROLE_ID, r.ROLE_NAME
+        FROM
+        USER t
+        LEFT JOIN DISTRIBUTOR d ON t.DISTRIBUTOR_ID = d.ID
+        LEFT JOIN USER_ROLE ur ON ur.USER_ID = t.ID
+        LEFT JOIN ROLE r on r.ROLE_ID = ur.ROLE_ID
+        where d.NAME LIKE CONCAT('%',#{name},'%')
+    </select>
+
+    <select id="getUsersByDistributorId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT t.*,
+        d.Id as D_ID, d.NAME as D_NAME, r.ROLE_ID, r.ROLE_NAME
+        FROM
+        USER t
+        LEFT JOIN DISTRIBUTOR d ON t.DISTRIBUTOR_ID = d.ID
+        LEFT JOIN USER_ROLE ur ON ur.USER_ID = t.ID
+        LEFT JOIN ROLE r on r.ROLE_ID = ur.ROLE_ID
+        where t.DISTRIBUTOR_ID = #{distributorId}
+    </select>
+
+
     <select id="getByUserName" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
@@ -60,6 +116,29 @@
         <include refid="Base_Column_List"/>
         from USER
         where NAME = #{userName}
+    </select>
+    <select id="query2" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        t.*, d.Id as D_ID, d.NAME as D_NAME, r.ROLE_ID, IFNULL(r.ROLE_NAME,concat('****** 新用户，注册时间：',date_format(t.CREATE_TIME, '%Y-%m-%d %H:%i:%s'))) as ROLE_NAME
+        FROM
+        USER t
+        LEFT JOIN DISTRIBUTOR d ON t.DISTRIBUTOR_ID = d.ID
+        LEFT JOIN USER_ROLE ur ON ur.USER_ID = t.ID
+        LEFT JOIN ROLE r on r.ROLE_ID = ur.ROLE_ID
+        <trim prefix="WHERE" suffixOverrides="AND|OR">
+            <if test="name !=null and name != ''">
+                t.NAME LIKE CONCAT('%',#{name},'%') AND
+            </if>
+            <if test="mail !=null and mail != ''">
+                t.MAIL LIKE CONCAT('%',#{mail},'%') AND
+            </if>
+            <if test="phone !=null and phone != ''">
+                t.PHONE LIKE CONCAT('%',#{code},'%') AND
+            </if>
+            t.DISTRIBUTOR_ID = #{distributorId} AND
+            t.STATUS=1
+        </trim>
+        order by t.create_time desc
     </select>
     <select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
         SELECT
@@ -79,9 +158,15 @@
             <if test="phone !=null and phone != ''">
                 t.PHONE LIKE CONCAT('%',#{code},'%') AND
             </if>
-            <if test="distributor !=null and distributor.name != null  and distributor.name != ''">
-                d.NAME = #{distributor.name} AND
+            <if test="distributor !=null and distributor.name != null and distributor[name] !=null and distributor.name != ''">
+                d.NAME LIKE CONCAT('%',#{distributor[name]},'%') AND
             </if>
+            <if test="distributor !=null and distributor.name != null and distributor.name != ''">
+                d.NAME LIKE CONCAT('%',#{distributor.name},'%') AND
+            </if>
+           <!-- <if test="distributor !=null and distributor.name != null  and distributor.name != ''">
+                d.NAME = #{distributor.name} AND
+            </if>-->
             t.STATUS=1
         </trim>
         order by t.create_time desc

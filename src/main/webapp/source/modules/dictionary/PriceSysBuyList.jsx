@@ -87,7 +87,7 @@ export default class PriceSysBuyList extends React.Component {
 
         console.log('***************************');
         console.log(industrys);
-        console.log('***************************!!!!!!!!!!!!!!!!!!!!!');
+        console.log('*************************** 价格体系 !!!!!!!!!!!!!!!!!!!!!');
         return (
 
             <div>

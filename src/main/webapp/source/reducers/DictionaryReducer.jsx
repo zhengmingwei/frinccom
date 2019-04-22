@@ -4,15 +4,33 @@ import {
     DICTIONARY_STATUS_CHANGED,
     DICTIONARY_CRITERIA_CHANGED,
     DICTIONARY_CRITERIA_CHANGED1,
+    ORDERPACKAGE_CRITERIA_CHANGED,
+    ORDERPACKAGE_CRITERIA_CHANGED1,
     INDUSTRYS_CATEGORYS,
     SELECT_PRICESYSTEM,
     RECEIVE_DICTIONARY_LIST2,
+    RECEIVE_ORDERPACKAGE_LIST2,
+    RECEIVE_ORDERPACKAGE_LIST,
     SELECT_DICTIONARY
 } from 'actions/DictionaryActions';
 
 export function  dictionaryList(state = [], action){
     switch(action.type){
         case RECEIVE_DICTIONARY_LIST:
+            return action.data;
+        default:
+            return state;
+    }
+}
+
+//=================我的套餐====================
+export function  orderPackageList22(state = [], action){
+
+    console.log(" reducer  ===================我的套餐=====================",action)
+    console.log(" reducer  ===================我的套餐===action.type==================",action.type)
+    console.log(" reducer  ===================我的套餐===action.data==================",action.data)
+    switch(action.type){
+        case RECEIVE_ORDERPACKAGE_LIST:
             return action.data;
         default:
             return state;
@@ -28,6 +46,24 @@ export function  dictionaryList2(state = [], action){
     }
 }
 
+//==================订购套餐==================
+export function  orderPackageList2(state = [], action){
+    switch(action.type){
+        case RECEIVE_ORDERPACKAGE_LIST2:
+            return action.data;
+        default:
+            return state;
+    }
+}
+//==================订购套餐==================
+export function  orderPackageCriteria1(state = [], action){
+    switch(action.type){
+        case ORDERPACKAGE_CRITERIA_CHANGED1:
+            return action.data;
+        default:
+            return state;
+    }
+}
 //==================价格体系完==================
 export function  dictionaryCriteria(state = [], action){
     switch(action.type){

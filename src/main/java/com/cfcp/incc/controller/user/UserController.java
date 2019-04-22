@@ -207,6 +207,18 @@ public class UserController extends BaseController{
         return DataEvent.wrap("userList", pageInfo);
     }
 
+    @RequestMapping(value = "query2")
+    public Object query2(@RequestParam(required = false) Map<String, String> conditions) {
+        User user = UserContext.getCurrentUser();
+        if(user!=null){
+            conditions.put("distributorId",user.getDistributorId());
+            Page page = initPage(conditions, BaseController.PageType.DEFAULT);
+            PageInfo<User> pageInfo=  userService.query2(conditions);
+            return DataEvent.wrap("userList", pageInfo);
+        }else{
+            return DataEvent.wrap("userList", null);
+        }
+    }
     @RequestMapping(method = RequestMethod.POST)
     public Object addUser(@RequestBody User user) {
         if (userService.isUserExists(user.getName(), user.getId())){

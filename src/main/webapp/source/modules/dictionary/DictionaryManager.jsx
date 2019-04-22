@@ -41,7 +41,7 @@ class DictionaryManager extends React.Component {
 
         return (
             <div>
-                <SubPage breadcrumb="/行业查询">
+                <SubPage breadcrumb="/系统管理/类别管理">
                     <Row gutter={16} className="bottom-space">
                         <Col>
                             <DictionarySearch {...this.props} onAdd={this.add}/>

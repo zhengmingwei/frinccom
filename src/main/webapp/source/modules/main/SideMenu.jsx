@@ -54,6 +54,9 @@ export default class SideMenu extends React.Component {
                         <Menu.Item key="29">
                             <Link to="/manager/orderPriceSystem/queryBuy">订购套餐</Link>
                         </Menu.Item>
+                        <Menu.Item key="30">
+                            <Link to="/alipay/orderPackagesByUserId2">我的套餐</Link>
+                        </Menu.Item>
                     </SubMenu>:''
                 }
 
@@ -68,6 +71,9 @@ export default class SideMenu extends React.Component {
                         </Menu.Item>
                         <Menu.Item key="9">
                             <Link to="/manager/commodity/list/7">已审核未通过认证信息</Link>
+                        </Menu.Item>
+                        <Menu.Item key="31">
+                            <Link to="/manager/user/list2">分销商用户管理</Link>
                         </Menu.Item>
                     </SubMenu>:''
                 }

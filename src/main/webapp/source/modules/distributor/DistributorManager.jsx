@@ -36,7 +36,7 @@ class DistributorManager extends React.Component {
 
         return (
             <div>
-                <SubPage breadcrumb="/分销商信息查询">
+                <SubPage breadcrumb="/系统管理/分销商企业名录管理">
                     <Row gutter={16} className="bottom-space">
                         <Col>
                             <DistributorSearch {...this.props}/>

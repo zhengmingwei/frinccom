@@ -7,8 +7,10 @@ import App from 'containers/ManagerApp';
 import Welcome from 'modules/main/Welcome';
 import Test01 from 'modules/main/Test01';
 import UserManager from 'modules/usermanager/UserManager';
+import UserManager2 from 'modules/usermanager/UserManager2';
 import UserDetail from 'modules/usermanager/Detail';
 import UserForm from 'modules/usermanager/Form';
+import UserForm2 from 'modules/usermanager/Form2';
 import Password from 'modules/usermanager/Password';
 import DistributorForm from 'modules/distributor/Form';
 import DistributorDetail from 'modules/distributor/Detail';
@@ -25,6 +27,7 @@ import Final from 'modules/audit/Final';
 import DictionaryManager from 'modules/dictionary/DictionaryManager';
 import PricingStructureManager from 'modules/dictionary/PricingStructureManager';
 import PriceSysBuyManager from 'modules/dictionary/PriceSysBuyManager';
+import OrderPackageManager from 'modules/dictionary/OrderPackageManager';
 import DictionaryForm from 'modules/dictionary/Form';
 
 import PriceForm from 'modules/dictionary/PriceForm';
@@ -63,8 +66,11 @@ render(
 
                     <Route path="/manager/user/detail/:id" component={UserDetail}/>
                     <Route path="/manager/user/form" component={UserForm}/>
+                    <Route path="/manager/user/form2" component={UserForm2}/>
                     <Route path="/manager/user/form/:id" component={UserForm}/>
                     <Route path="/manager/user/list" components={UserManager}/>
+                    <Route path="/manager/user/list2" components={UserManager2}/>
+
                     <Route path="/manager/user/password" components={Password}/>
 
                     <Route path="/manager/distributor/detail/:id" component={DistributorDetail}/>
@@ -95,6 +101,8 @@ render(
                     <Route path="/manager/dictionary/form/:id" components={DictionaryForm}/>
                     <Route path="/manager/orderPriceSystem/Priceform" components={PriceForm}/>
                     <Route path="/manager/orderPriceSystem/Priceform/:id" components={PriceForm}/>
+
+                    <Route path="/alipay/orderPackagesByUserId2" components={OrderPackageManager}/>
 
 
 

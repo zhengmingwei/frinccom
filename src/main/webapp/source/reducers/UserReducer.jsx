@@ -1,6 +1,7 @@
        
 import {
     RECEIVE_USER_LIST,
+    RECEIVE_USER_LIST2,
     USER_STATUS_CHANGED,
     USER_CRITERIA_CHANGED,
     SELECT_USER,
@@ -10,6 +11,15 @@ import {
 export function  userList(state = [], action){
     switch(action.type){
         case RECEIVE_USER_LIST:
+            return action.data;
+        default:
+            return state;
+    }
+}
+
+export function  userList2(state = [], action){
+    switch(action.type){
+        case RECEIVE_USER_LIST2:
             return action.data;
         default:
             return state;

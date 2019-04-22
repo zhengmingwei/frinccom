@@ -1,17 +1,17 @@
 import React from 'react';
 import SubPage from 'modules/common/SubPage';
-import {refreshUserList} from 'actions/UserActions';
+import {refreshUserList2} from 'actions/UserActions';
 import {connect} from 'react-redux';
 import {Icon, Table, Row, Col, Button} from 'antd';
-import UserList from './UserList';
-import UserSearch from './UserSearch';
+import UserList2 from './UserList2';
+import UserSearch2 from './UserSearch2';
 
 /**
  * User: zyj
  * Date: 16/7/19.
  * Time: 上午10:26.
  */
-class UserManager extends React.Component {
+class UserManager2 extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -22,26 +22,26 @@ class UserManager extends React.Component {
 
     edit(id){
         console.log("edit user0",id)
-        this.history.push('/manager/user/form/'+ id);
+        this.history.push('/manager/user/form2/'+ id);
     }
 
     componentDidMount() {
-        this.props.dispatch(refreshUserList());
+        this.props.dispatch(refreshUserList2());
     }
 
     render() {
 
         return (
             <div>
-                <SubPage breadcrumb="/系统管理/用户管理">
+                <SubPage breadcrumb="/审核管理中心/用户管理">
                     <Row gutter={16} className="bottom-space">
                         <Col>
-                            <UserSearch {...this.props}/>
+                            <UserSearch2 {...this.props}/>
                         </Col>
                     </Row>
                     <Row gutter={16}>
                         <Col>
-                            <UserList {...this.props} onEdit={this.edit} onView={this.view} />
+                            <UserList2 {...this.props} onEdit={this.edit} onView={this.view} />
                         </Col>
                     </Row>
                 </SubPage>
@@ -52,9 +52,9 @@ class UserManager extends React.Component {
 
 export default connect(
     state => {
-        let {userList, userStatus, userCriteria} = state;
+        let {userList2, userStatus, userCriteria} = state;
         return {
-            userList, userStatus, userCriteria
+            userList2, userStatus, userCriteria
         }
     }
-)(UserManager);
+)(UserManager2);

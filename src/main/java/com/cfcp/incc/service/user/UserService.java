@@ -146,11 +146,23 @@ public class UserService extends BaseService implements UserDetailsService {
     public PageInfo<User> query(Map<String, String> conditions) {
         Page page = this.initPage(conditions);
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<User> list =  userDao.query(conditions);
+        List<User> list = null;
+        if(conditions.get("distributor[name]")!=null && !"".equals(conditions.get("distributor[name]"))){
+            list =  userDao.getUsersByDistributorName(conditions.get("distributor[name]"));
+        }else{
+            list =  userDao.query(conditions);
+        }
         PageInfo<User> pageInfo = new PageInfo(list);
         return pageInfo;
     }
 
+    public PageInfo<User> query2(Map<String, String> conditions) {
+        Page page = this.initPage(conditions);
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<User> list = userDao.query2(conditions);
+        PageInfo<User> pageInfo = new PageInfo(list);
+        return pageInfo;
+    }
     public int saveOrUpdate(User user) {
         if (!StringUtils.hasLength(user.getId())){
             int r =  insert(user);

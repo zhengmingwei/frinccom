@@ -38,7 +38,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-         f.ID,f.ORDER_PRICE_SYSTEM_ID, f.NAME,  f.PRICE, f.DELE, f.TOTAL,f.SURPLUS_QUANTITY,f.QUANTITY_USED, f.STATUS, f.CREATE_TIME, f.UPDATE_TIME
+         f.ID,f.ORDER_PRICE_SYSTEM_ID, f.NAME,  f.PRICE, f.DELE, f.TOTAL,f.SURPLUS_QUANTITY,f.QUANTITY_USED, f.STATUS, f.CREATE_TIME,f.END_TIME, f.UPDATE_TIME
     </sql>
 
     <select id="queryAll" resultMap="BaseResultMap">
@@ -84,9 +84,20 @@
     </select>
 
     <select id="queryAllByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        from ORDER_PACKAGE f WHERE f.STATUS=1 AND f.TOTAL>0 AND f.USER_ID = #{userId} ORDER BY f.CREATE_TIME DESC
+        SELECT
+            f.ID,
+            f.ORDER_PRICE_SYSTEM_ID,
+            f.NAME,
+            f.PRICE,
+            f.DELE,
+            f.TOTAL,
+            f.SURPLUS_QUANTITY,
+            f.QUANTITY_USED,
+            f.STATUS,
+            f.CREATE_TIME,
+            p.END_TIME, f.UPDATE_TIME
+        FROM ORDER_PACKAGE f,ORDER_PRICE_SYSTEM p
+        WHERE f.ORDER_PRICE_SYSTEM_ID = p.ID and  f.STATUS=1 AND f.TOTAL>0 AND f.USER_ID = #{userId} ORDER BY f.CREATE_TIME DESC
     </select>
 
 

@@ -2,6 +2,7 @@
 import Network from 'tigerfacejs-network';
 
 export const RECEIVE_USER_LIST = 'RECEIVE_USER_LIST';
+export const RECEIVE_USER_LIST2 = 'RECEIVE_USER_LIST2';
 export const USER_STATUS_CHANGED = 'USER_STATUS_CHANGED';
 export const USER_CRITERIA_CHANGED = 'USER_CRITERIA_CHANGED';
 export const SELECT_USER = 'SELECT_USER';
@@ -13,10 +14,16 @@ export function receiveUserList(data) {
         data: data
     }
 }
+export function receiveUserList2(data) {
+    return {
+        type: RECEIVE_USER_LIST2,
+        data: data
+    }
+}
+
 
 export function selectUser(data) {
 
-    console.log("~~~~~~~~~~~~~~~~~~~~~~selectUser(data) *******************11112222"+data)
     return {
         type: SELECT_USER,
         data: data
@@ -28,6 +35,15 @@ export function refreshUserList(criteria={}, page={}) {
         E.doFind("manager/user/query",Object.assign({}, criteria, page));
         E.addOneTimeEventListener("userList", function (e) {
             dispatch(receiveUserList(e.data));
+        });
+    };
+};
+
+export function refreshUserList2(criteria={}, page={}) {
+    return dispatch => {
+        E.doFind("manager/user/query2",Object.assign({}, criteria, page));
+        E.addOneTimeEventListener("userList", function (e) {
+            dispatch(receiveUserList2(e.data));
         });
     };
 };

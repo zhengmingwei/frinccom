@@ -80,7 +80,7 @@ class DistributorForm extends React.Component {
             },
         };
         return (
-            <SubPage breadcrumb="/首页/后台管理/普通用户管理">
+            <SubPage breadcrumb="/系统管理/添加分销商">
 			<Form>
                 {getFieldDecorator('id', {
                     initialValue: id,

@@ -36,7 +36,7 @@ class PaymentManager extends React.Component {
 
         return (
             <div>
-                <SubPage breadcrumb="/缴费信息查询">
+                <SubPage breadcrumb="/标识费用审核管理/缴费信息列表查询">
                     <Row gutter={16} className="bottom-space">
                         <Col>
                             <PaymentSearch {...this.props}/>

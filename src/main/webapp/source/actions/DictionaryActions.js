@@ -12,6 +12,9 @@ export const INDUSTRYS_CATEGORYS = 'INDUSTRYS_CATEGORYS';
 export const DICTIONARY_CRITERIA_CHANGED = 'DICTIONARY_CRITERIA_CHANGED';
 export const DICTIONARY_CRITERIA_CHANGED1 = 'DICTIONARY_CRITERIA_CHANGED1';
 export const RECEIVE_DICTIONARY_LIST2 = 'RECEIVE_DICTIONARY_LIST2';
+export const RECEIVE_ORDERPACKAGE_LIST2 = 'RECEIVE_ORDERPACKAGE_LIST2';
+
+
 
 
 
@@ -22,6 +25,13 @@ export function receiveDictionaryList(data) {
     }
 }
 
+//=================价格体系==================
+export function receiveOrderPackageList2(data) {
+    return {
+        type: RECEIVE_ORDERPACKAGE_LIST2,
+        data: data
+    }
+}
 //=================价格体系==================
 export function receiveDictionaryList2(data) {
     return {
@@ -76,6 +86,19 @@ export function refreshDictionaryList(criteria={}) {
         });
     };
 }
+
+//===================我的套餐=====================
+export function refreshPackageList2(criteria={}) {
+    return dispatch => {
+        E.doFind("alipay/orderPackagesByUserId2", Object.assign({}, criteria));
+        E.addOneTimeEventListener("orderPackageList", function (e) {
+            dispatch(receiveOrderPackageList2(e.data))
+        });
+
+    };
+
+}
+
 //===================价格体系=====================
 export function refreshDictionaryList2(criteria={}) {
     return dispatch => {
@@ -87,6 +110,8 @@ export function refreshDictionaryList2(criteria={}) {
     };
 
 }
+
+
 //==============价格体系完==========================
 export function saveDictionary(dictionary) {
     return dispatch => {

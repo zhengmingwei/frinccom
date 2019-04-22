@@ -89,6 +89,14 @@ public interface UserDao extends GenericDao {
 
 	List<User> query(Map conditions);
 
+	List<User> query2(Map conditions);
+
+	List<User> getUsersByDistributorName(String conditions);
+
+	List<User> getUsersByDistributorId(String id);
+
+
+
 	void updateSurplusQRcodeDescById(User user);
 
 
